@@ -6,8 +6,8 @@ int main()
 {
 	//MyVector mv;
 	//MySet ms;
-	Multimap mp;
-
+	//Multimap mp;
+	Patient::test(cout);
 	return 0;
 }
 
