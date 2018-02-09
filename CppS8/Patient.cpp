@@ -1,15 +1,37 @@
 #include "Patient.h"
 
+
 class DisplayPatient
 {
 private:
 	std::ostream& sortie;
+	int dureeConsultation =0;
+	int priorite =0;
+	int nbPatient =0;
 
 public:
 	DisplayPatient(ostream& out) :sortie(out) {}
 	void operator()(Patient patient) {
-		sortie << "Patient :" << patient.getNom().c_str() << endl;
+		sortie << "Patient -> nom: " << patient.getNom().c_str() << " /prenom : "<<patient.getPrenom().c_str() << endl;
+		nbPatient++;
+		priorite += patient.getPriorite();
+		dureeConsultation += patient.getDureeEstime();
 	}
+	int getDureeConsultation() { return dureeConsultation; }
+	int getPrioriteMoy() { return priorite / nbPatient; }
+};
+
+class SortResources
+{
+public:
+	SortResources() {}
+	Patient operator()(Patient patient) {
+				
+		sort(patient.getRessources()->begin(), patient.getRessources()->end());
+
+		return patient;
+	}
+
 };
 
 
@@ -44,17 +66,24 @@ void Patient::test(ostream& sortie)
 {
 
 	vector<Patient> patients;
+	vector<Patient> patientsSorted;
 
-	vector<int> ressources1(4, 100);
-	vector<int> ressources2(4, 200);
+	vector<int> ressources1{ 4, 100, 20, 30 };
+	vector<int> ressources2{ 4, 200, 0, 8 };
 
-	Patient *patient1 = new Patient("patient1", "patient1nom","add1",23455,"ville1",980973,98,1,"comm1", ressources1);
-	Patient *patient2 = new Patient("patient2", "patient2nom", "add2", 23455, "ville2", 980973, 98, 1, "comm2", ressources2);
+	Patient *patient1 = new Patient("patient1", "patient1nom","add1",23455,"ville1",980973,666,1,"comm1", ressources1);
+	Patient *patient2 = new Patient("patient2", "patient2nom", "add2", 23455, "ville2", 980973, 111, 3, "comm2", ressources2);
 
 	patients.push_back(*patient1);
 	patients.push_back(*patient2);
 
-	for_each(patients.begin(), patients.end(), DisplayPatient(sortie));
+	patientsSorted.resize(patients.size());
+	transform(patients.begin(), patients.end(), patientsSorted.begin(), SortResources());
 
+	DisplayPatient res = for_each(patientsSorted.begin(), patientsSorted.end(), DisplayPatient(sortie));
+	sortie << "Durée totale consultation : " << res.getDureeConsultation() << endl;
+	sortie << "Priorité moyene : " << res.getPrioriteMoy() << endl;
+
+	cout << endl;
 	
 }

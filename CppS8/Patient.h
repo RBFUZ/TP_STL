@@ -45,7 +45,7 @@ public:
 	void setDureeEstime(int dureeEstime) { this->dureeEstime= dureeEstime; }
 	int getPriorite() { return priorite; }
 	void setPriorite(int priorite) { this->priorite = priorite; }
-	vector<int> getRessources() { return ressources; }
+	vector<int>*getRessources() { return &ressources; }
 	void setResources(vector<int> resources) { this->ressources = resources; }
 
 	//void displayPatient(ostream& sortie);
