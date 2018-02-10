@@ -1,8 +1,10 @@
 #pragma once
 #include <stdlib.h>
 #include <iostream>
+#include <string>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -20,6 +22,7 @@ private:
 	int priorite;
 
 	vector<int> ressources;
+	multimap<int, int> heurePassage;
 
 public:
 	Patient();
@@ -45,10 +48,13 @@ public:
 	void setDureeEstime(int dureeEstime) { this->dureeEstime= dureeEstime; }
 	int getPriorite() { return priorite; }
 	void setPriorite(int priorite) { this->priorite = priorite; }
-	vector<int>*getRessources() { return &ressources; }
+	vector<int>* getRessources() { return &ressources; }
 	void setResources(vector<int> resources) { this->ressources = resources; }
+	multimap<int,int> * getHeurePassage() { return &heurePassage; }
 
 	//void displayPatient(ostream& sortie);
 	static void test(ostream& sortie);
+	static void Patient::testAlgo();
+	bool operator==(Patient patient);
 };
 

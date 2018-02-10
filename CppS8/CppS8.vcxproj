@@ -77,15 +77,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Creneau.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Multimap.cpp" />
     <ClCompile Include="MySet.cpp" />
     <ClCompile Include="MyVector.cpp" />
+    <ClCompile Include="Patient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Creneau.h" />
     <ClInclude Include="Multimap.h" />
     <ClInclude Include="MySet.h" />
     <ClInclude Include="MyVector.h" />
+    <ClInclude Include="Patient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
