@@ -74,10 +74,11 @@ Patient::Patient(string nom, string prenom, string adresse, int cp, string ville
 	this->commentaire = commentaire;
 	this->ressources = ressources;
 
-	heurePassage.insert(pair<int, int>(1, -1));
-	heurePassage.insert(pair<int, int>(2, -1));
-	heurePassage.insert(pair<int, int>(3, -1));
-	heurePassage.insert(pair<int, int>(4, -1));
+	for (vector<int>::iterator itR = ressources.begin(); itR != ressources.end(); ++itR)
+	{
+		heurePassage.insert(pair<int, int>(*itR, -1));
+	}
+		
 }
 
 
@@ -119,16 +120,27 @@ void Patient::testAlgo()
 	vector<Patient> patientList;
 	vector<int> ressources{ 1, 2, 3, 4 };
 
-	Patient * patient1 = new Patient("nom1", "prenom", "adresse", 0, "tours", 0, 20, 1, "dz", ressources);
-	Patient * patient2 = new Patient("nom2", "prenom", "adresse", 0, "tours", 0, 40, 7, "dz", ressources);
-	Patient * patient3 = new Patient("nom3", "prenom", "adresse", 0, "tours", 0, 30, 2, "dz", ressources);
-	Patient * patient4 = new Patient("nom4", "prenom", "adresse", 0, "tours", 0, 80, 10, "dz", ressources);
-	Patient * patient5 = new Patient("nom5", "prenom", "adresse", 0, "tours", 0, 50, 12, "dz", ressources);
-	Patient * patient6 = new Patient("nom6", "prenom", "adresse", 0, "tours", 0, 60, 19, "dz", ressources);
-	Patient * patient7 = new Patient("nom7", "prenom", "adresse", 0, "tours", 0, 48, 50, "dz", ressources);
-	Patient * patient8 = new Patient("nom8", "prenom", "adresse", 0, "tours", 0, 65, 1, "dz", ressources);
-	Patient * patient9 = new Patient("nom9", "prenom", "adresse", 0, "tours", 0, 70, 45, "dz", ressources);
-	Patient * patient10 = new Patient("nom10", "prenom", "adresse", 0, "tours", 0, 559, 16, "dz", ressources);
+	vector<int> ressources1{ 2, 3};
+	vector<int> ressources2{ 2, 4};
+	vector<int> ressources3{ 1 };
+	vector<int> ressources4{ 1, 4};
+	vector<int> ressources5{ 4 };
+
+	Patient * patient1 = new Patient("nom1", "prenom", "adresse", 0, "tours", 0, 20, 1, "dz", ressources1);
+	Patient * patient2 = new Patient("nom2", "prenom", "adresse", 0, "tours", 0, 40, 7, "dz", ressources2);
+	Patient * patient3 = new Patient("nom3", "prenom", "adresse", 0, "tours", 0, 30, 2, "dz", ressources3);
+	Patient * patient4 = new Patient("nom4", "prenom", "adresse", 0, "tours", 0, 80, 10, "dz", ressources4);
+	Patient * patient5 = new Patient("nom5", "prenom", "adresse", 0, "tours", 0, 50, 12, "dz", ressources5);
+	Patient * patient6 = new Patient("nom6", "prenom", "adresse", 0, "tours", 0, 60, 19, "dz", ressources1);
+	Patient * patient7 = new Patient("nom7", "prenom", "adresse", 0, "tours", 0, 48, 50, "dz", ressources2);
+	Patient * patient8 = new Patient("nom8", "prenom", "adresse", 0, "tours", 0, 65, 1, "dz", ressources3);
+	Patient * patient9 = new Patient("nom9", "prenom", "adresse", 0, "tours", 0, 70, 45, "dz", ressources4);
+	Patient * patient10 = new Patient("nom10", "prenom", "adresse", 0, "tours", 0, 100, 16, "dz", ressources5);
+	Patient * patient11 = new Patient("nom11", "prenom", "adresse", 0, "tours", 0, 45, 17, "dz", ressources1);
+	Patient * patient12 = new Patient("nom12", "prenom", "adresse", 0, "tours", 0, 32, 91, "dz", ressources2);
+	Patient * patient13 = new Patient("nom13", "prenom", "adresse", 0, "tours", 0, 29, 64, "dz", ressources3);
+	Patient * patient14 = new Patient("nom14", "prenom", "adresse", 0, "tours", 0, 78, 28, "dz", ressources4);
+	Patient * patient15 = new Patient("nom15", "prenom", "adresse", 0, "tours", 0, 132, 37, "dz", ressources5);
 
 	patientList.push_back(*patient1);
 	patientList.push_back(*patient2);
@@ -140,6 +152,11 @@ void Patient::testAlgo()
 	patientList.push_back(*patient8);
 	patientList.push_back(*patient9);
 	patientList.push_back(*patient10);
+	patientList.push_back(*patient11);
+	patientList.push_back(*patient12);
+	patientList.push_back(*patient13);
+	patientList.push_back(*patient14);
+	patientList.push_back(*patient15);
 
 	// TRIE
 	sort(patientList.begin(), patientList.end(), SortPatient::SortPatient());
@@ -152,12 +169,13 @@ void Patient::testAlgo()
 	for (int i = 0; i < 52; i++)
 		vec.push_back(creneau);
 
-	// Ajout des RESSOURCES (4 ressources)
-	for (int i = 1; i <= 4; i++)
+	// Ajout des RESSOURCES
+	for (unsigned int i = 1; i <= ressources.size() ; i++)
 		mp.insert(pair<int, vector<Creneau>>(i, vec));
 
 	int dureeParRessource;
 	bool rdvTrouve = true;
+	vector<Creneau>::iterator itCreneauTemp;
 
 	// Passage des patients un par un
 	for (vector<Patient>::iterator itP = patientList.begin(); itP != patientList.end(); ++itP)
@@ -211,6 +229,24 @@ void Patient::testAlgo()
 								break;
 							}
 						}
+
+						// Garde en mémoire l'itérateur car incrémentation pour voir si les créneaux supérieurs sont libres
+						itCreneauTemp = itC;
+
+						// Itération sur les créneaux supérieurs. Si créneaux alors passage du boolean à faux (donc pas de rendez-vous possible sur le créneau sur lequel on se trouve)
+						for (int i = 1; i < nbCreneau; i++)
+						{
+							itC++;
+
+							if (!itC->getDisponible())
+							{
+								rdvTrouve = false;
+								break;
+							}
+						}
+
+						// Remise de l'itérateur à l'état initial
+						itC = itCreneauTemp;
 					}
 						
 					// Quand il n'y a pas de conflit avec les autres rendez-vous
@@ -246,7 +282,7 @@ void Patient::affichageRendezVous(vector<Patient> patientList)
 	{
 		int heure, minute = 0;
 
-		cout << itP->getNom() << endl;
+		cout << endl << itP->getNom() << endl;
 
 		// Passage des ressources une par une pour un patient donnée
 		for (multimap<int, int>::iterator itR = itP->getHeurePassage()->begin(); itR != itP->getHeurePassage()->end(); ++itR)
