@@ -54,7 +54,8 @@ public:
 
 	//void displayPatient(ostream& sortie);
 	static void test(ostream& sortie);
-	static void Patient::testAlgo();
+	static void testAlgo();
+	static void affichageRendezVous(vector<Patient> patientList);
 	bool operator==(Patient patient);
 };
 

@@ -129,15 +129,6 @@ void Patient::testAlgo()
 	Patient * patient8 = new Patient("nom8", "prenom", "adresse", 0, "tours", 0, 65, 1, "dz", ressources);
 	Patient * patient9 = new Patient("nom9", "prenom", "adresse", 0, "tours", 0, 70, 45, "dz", ressources);
 	Patient * patient10 = new Patient("nom10", "prenom", "adresse", 0, "tours", 0, 559, 16, "dz", ressources);
-	Patient * patient11 = new Patient("nom11", "prenom", "adresse", 0, "tours", 0, 45, 17, "dz", ressources);
-	Patient * patient12 = new Patient("nom12", "prenom", "adresse", 0, "tours", 0, 32, 91, "dz", ressources);
-	Patient * patient13 = new Patient("nom13", "prenom", "adresse", 0, "tours", 0, 29, 64, "dz", ressources);
-	Patient * patient14 = new Patient("nom14", "prenom", "adresse", 0, "tours", 0, 78, 28, "dz", ressources);
-	Patient * patient15 = new Patient("nom15", "prenom", "adresse", 0, "tours", 0, 132, 37, "dz", ressources);
-	Patient * patient16 = new Patient("nom16", "prenom", "adresse", 0, "tours", 0, 16, 19, "dz", ressources);
-	Patient * patient17 = new Patient("nom17", "prenom", "adresse", 0, "tours", 0, 19, 25, "dz", ressources);
-	Patient * patient18 = new Patient("nom18", "prenom", "adresse", 0, "tours", 0, 20, 2, "dz", ressources);
-	Patient * patient19 = new Patient("nom19", "prenom", "adresse", 0, "tours", 0, 90, 16, "dz", ressources);
 
 	patientList.push_back(*patient1);
 	patientList.push_back(*patient2);
@@ -149,15 +140,6 @@ void Patient::testAlgo()
 	patientList.push_back(*patient8);
 	patientList.push_back(*patient9);
 	patientList.push_back(*patient10);
-	patientList.push_back(*patient11);
-	patientList.push_back(*patient12);
-	patientList.push_back(*patient13);
-	patientList.push_back(*patient14);
-	patientList.push_back(*patient15);
-	patientList.push_back(*patient16);
-	patientList.push_back(*patient17);
-	patientList.push_back(*patient18);
-	patientList.push_back(*patient19);
 
 	// TRIE
 	sort(patientList.begin(), patientList.end(), SortPatient::SortPatient());
@@ -175,6 +157,7 @@ void Patient::testAlgo()
 		mp.insert(pair<int, vector<Creneau>>(i, vec));
 
 	int dureeParRessource;
+	bool rdvTrouve = true;
 
 	// Passage des patients un par un
 	for (vector<Patient>::iterator itP = patientList.begin(); itP != patientList.end(); ++itP)
@@ -197,26 +180,67 @@ void Patient::testAlgo()
 					nbCreneau = nbCreneau / 15;
 					nbCreneau = ceil(nbCreneau);
 
-					// Dans le patient concerné, ajout d'un indicateur pour lui indiquer ou se trouve son rendez-vous dans une ressource donnée (nécessaire pour l'affichage)
-					itP->getHeurePassage()->find(*itR)->second = distance(search->second.begin(), itC);
-
-					// Réservation d'autant de créneaux nécessaires
-					for (int i = 0; i < nbCreneau; i++)
+					// Test si le patient en question n'a pas un rendez vous pour la même période sur une autre ressource
+					for (multimap<int, int>::iterator itR2 = itP->getHeurePassage()->begin(); itR2 != itP->getHeurePassage()->end(); ++itR2)
 					{
-						itC->setDisponible(false);
-						itC->setPatient(*itP);
-						itC++; // MODIFIER ICI CAR DEPASSEMENT POSSIBLE (2 jours)
+						// Si == - 1 alors pas de rendez-vous pour une ressource donnée
+						if (itR2->second != -1)
+						{
+							// Si le créneau courant est avant un rendez-vous déjà pris (voir si ce créneau ne va pas débordé sur le rendez-vous plus tard dans la journée).
+							if (distance(search->second.begin(), itC) < itR2->second)
+							{
+								// Test si débordement ou non. Si débordement alors le boolean est à faux et on break pour passer au créneau suivant pour voir si lui ça passe ou non.
+								if (distance(search->second.begin(), itC) + nbCreneau > itR2->second)
+								{
+									rdvTrouve = false;
+									break;
+								}
+							} // Si le créneau courant est après un rendez-vous déjà prit (voir si le rendez-vous déjà pris ne va pas débordé sur le créneau sur lequel on se trouve).
+							else if (distance(search->second.begin(), itC) > itR2->second)
+							{
+								// Test si débordement ou non. Si débordement alors le boolean est à faux et on break pour passer au créneau suivant pour voir si lui ça passe ou non.
+								if (distance(search->second.begin(), itC) < itR2->second + nbCreneau)
+								{
+									rdvTrouve = false;
+									break;
+								}
+							}
+							else // Un rendez-vous est déjà pris sur le même créneau sur lequel on se trouve (même heure). Donc passage au créneau suivant.
+							{
+								rdvTrouve = false;
+								break;
+							}
+						}
 					}
+						
+					// Quand il n'y a pas de conflit avec les autres rendez-vous
+					if (rdvTrouve)
+					{
+						// Dans le patient concerné, ajout d'un indicateur pour lui indiquer ou se trouve son rendez-vous dans une ressource donnée (nécessaire pour l'affichage)
+						itP->getHeurePassage()->find(*itR)->second = distance(search->second.begin(), itC);
 
-					// Reservation trouvée donc on passe à la ressource suivante
-					break;
+						// Réservation d'autant de créneaux nécessaires
+						for (int i = 0; i < nbCreneau; i++)
+						{
+							itC->setDisponible(false);
+							itC->setPatient(*itP);
+							itC++; // MODIFIER ICI CAR DEPASSEMENT POSSIBLE (2 jours)
+						}
+
+						// Reservation trouvée donc on passe à la ressource suivante
+						break;
+					}
+					rdvTrouve = true;
 				}
 			}
 		}
 	}
-	
-	// Affichage
 
+	affichageRendezVous(patientList);
+}
+
+void Patient::affichageRendezVous(vector<Patient> patientList)
+{
 	// Passage des patients un par un
 	for (vector<Patient>::iterator itP = patientList.begin(); itP != patientList.end(); ++itP)
 	{
@@ -225,7 +249,7 @@ void Patient::testAlgo()
 		cout << itP->getNom() << endl;
 
 		// Passage des ressources une par une pour un patient donnée
-		for (multimap<int,int>::iterator itR = itP->getHeurePassage()->begin(); itR != itP->getHeurePassage()->end(); ++itR)
+		for (multimap<int, int>::iterator itR = itP->getHeurePassage()->begin(); itR != itP->getHeurePassage()->end(); ++itR)
 		{
 			// Calcul des heures
 			heure = (int)itR->second / 4;
@@ -242,6 +266,8 @@ void Patient::testAlgo()
 			}
 
 			cout << "Ressource " << itR->first << " : " << heure + 8 << " H " << minute << endl;
+
+			minute = 0;
 		}
 	}
 }
