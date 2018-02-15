@@ -26,12 +26,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    dialogconnexion.cpp
+    dialogconnexion.cpp \
+    dialogclient.cpp \
+    dialogpersonnel.cpp \
+    dialogapropos.cpp
 
 HEADERS += \
         mainwindow.h \
-    dialogconnexion.h
+    dialogconnexion.h \
+    dialogclient.h \
+    dialogpersonnel.h \
+    dialogapropos.h
 
 FORMS += \
         mainwindow.ui \
-    dialogconnexion.ui
+    dialogconnexion.ui \
+    dialogclient.ui \
+    dialogpersonnel.ui \
+    dialogapropos.ui
+
+RESOURCES += \
+    logo.qrc

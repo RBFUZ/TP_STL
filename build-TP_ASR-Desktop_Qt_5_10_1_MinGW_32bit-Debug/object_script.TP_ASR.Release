@@ -1,0 +1,14 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\dialogconnexion.o
+./release\dialogclient.o
+./release\dialogpersonnel.o
+./release\dialogapropos.o
+./release\qrc_logo.o
+./release\moc_mainwindow.o
+./release\moc_dialogconnexion.o
+./release\moc_dialogclient.o
+./release\moc_dialogpersonnel.o
+./release\moc_dialogapropos.o
+);

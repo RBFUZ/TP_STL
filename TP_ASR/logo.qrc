@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/myLogo">
+        <file>images/logo_client.jpg</file>
+        <file>images/logo_personnel.png</file>
+        <file>images/logo_polytech.png</file>
+    </qresource>
+</RCC>
