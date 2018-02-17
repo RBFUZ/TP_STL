@@ -1,9 +1,12 @@
 #include "mainwindow.h"
 #include "dialogconnexion.h"
 #include <QApplication>
+#include "patient.h"
 
 int main(int argc, char *argv[])
 {
+    Patient patient1;
+
     QApplication a(argc, argv);
     MainWindow w;
     DialogConnexion dlgConnexion;

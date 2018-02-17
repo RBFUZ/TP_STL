@@ -29,14 +29,16 @@ SOURCES += \
     dialogconnexion.cpp \
     dialogclient.cpp \
     dialogpersonnel.cpp \
-    dialogapropos.cpp
+    dialogapropos.cpp \
+    patient.cpp
 
 HEADERS += \
         mainwindow.h \
     dialogconnexion.h \
     dialogclient.h \
     dialogpersonnel.h \
-    dialogapropos.h
+    dialogapropos.h \
+    patient.h
 
 FORMS += \
         mainwindow.ui \

@@ -18,7 +18,7 @@
     <rect>
      <x>50</x>
      <y>20</y>
-     <width>228</width>
+     <width>238</width>
      <height>106</height>
     </rect>
    </property>
@@ -60,6 +60,12 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leLogin</tabstop>
+  <tabstop>leMotdepasse</tabstop>
+  <tabstop>btnConnecter</tabstop>
+  <tabstop>btnAnnuler</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
