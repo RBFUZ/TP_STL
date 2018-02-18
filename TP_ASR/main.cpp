@@ -5,9 +5,8 @@
 
 int main(int argc, char *argv[])
 {
-    Patient patient1;
-
     QApplication a(argc, argv);
+
     MainWindow w;
     DialogConnexion dlgConnexion;
     int dialogCode = dlgConnexion.exec();

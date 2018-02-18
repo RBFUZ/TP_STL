@@ -48,7 +48,11 @@
      <widget class="QLineEdit" name="leLogin"/>
     </item>
     <item row="1" column="1" colspan="2">
-     <widget class="QLineEdit" name="leMotdepasse"/>
+     <widget class="QLineEdit" name="leMotdepasse">
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
     </item>
     <item row="2" column="2">
      <widget class="QPushButton" name="btnConnecter">
