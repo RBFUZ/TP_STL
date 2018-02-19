@@ -22,9 +22,6 @@ DialogClient::DialogClient(QWidget *parent) :
             pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
             pItem->setCheckState(Qt::Unchecked);
         }
-
-
-
 }
 
 DialogClient::~DialogClient()
@@ -33,6 +30,15 @@ DialogClient::~DialogClient()
 }
 
 void DialogClient::createNewPatient(){
+    QVector<QString> * ressources= new QVector<QString>;
+
+    QListWidgetItem* pItem=0;
+    for(int i = 0; i < ui->lwRessources->count(); ++i){
+            pItem = ui->lwRessources->item(i);
+            if (pItem->checkState()==2)
+                ressources->append(pItem->text());
+        }
+
     Patient patient1(
                 ui->leNom->text(),
                 ui->lePrenom->text(),
@@ -43,7 +49,7 @@ void DialogClient::createNewPatient(){
                 ui->deJourRdv->date(),
                 ui->sbDuree->value(),
                 ui->sbPriorite->value(),
-                Q_NULLPTR,
+                ressources,
                 ui->teCommentaires->toPlainText());
 
     /*qDebug()<<"New client created :"
@@ -67,39 +73,42 @@ void DialogClient::on_btnOk_clicked()
     bool lwCompleted =false; //at least on resources (listWidget) checked
     bool leacceptable=true; //format respected for tel and cp
 
+    QString ssRedBorder="border: 2px solid red"; //stle for red border
+
     QList<QLineEdit *> list=this->findChildren<QLineEdit *>();//get all lineEdit in the form
     list.removeOne(ui->leTel);//remove facultative fields
     QList<QLineEdit *>::iterator i;
 
     for (i=list.begin();i!=list.end();i++){
         if ((*i)->text().isEmpty() ){//True for all empty field
-            (*i)->setStyleSheet("border: 2px solid red");//apply red border
+            (*i)->setStyleSheet(ssRedBorder);
             leCompleted = false;
         }else{
             (*i)->setStyleSheet("");//remove an anterior red border
         };
     }
 
-    if (!ui->leCp->hasAcceptableInput()){
-        ui->leCp->setStyleSheet("border: 2px solid red");
+    if (!ui->leCp->hasAcceptableInput()){//If
+        ui->leCp->setStyleSheet(ssRedBorder);
         leacceptable=false;
     }else ui->leCp->setStyleSheet("");
+
     if (!(ui->leTel->text().isEmpty())&&!(ui->leTel->hasAcceptableInput())){
-        ui->leTel->setStyleSheet("border: 2px solid red");
+        ui->leTel->setStyleSheet(ssRedBorder);
         leacceptable=false;
     }else ui->leTel->setStyleSheet("");
 
     for(int i=0;i<ui->lwRessources->count(); ++i)
     {
         QListWidgetItem* item = ui->lwRessources->item(i);
-        if (item->checkState()==2)//true for checked ressources
+        if (item->checkState()==2)//TODO : constante check state true for checked ressources
             lwCompleted=true;
     }
-    if (!lwCompleted)ui->lwRessources->setStyleSheet("border: 2px solid red");//red border if no resources selected
+    if (!lwCompleted)ui->lwRessources->setStyleSheet(ssRedBorder);//red border if no resources selected
             else ui->lwRessources->setStyleSheet("");
 
     if (leCompleted && lwCompleted && leacceptable){
-        createNewPatient();
+        createNewPatient();//debug only
         accept();
      }
     else ui->lblObligatoire->setStyleSheet("color:red");

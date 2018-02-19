@@ -11,7 +11,7 @@ Patient::Patient()
 }
 */
 
-Patient::Patient(QString nom, QString prenom, QString adresse, QString ville,QString cp, QString numTel, QDate jourPassage, int dureeEstime, int priorite, vector<int> * ressources, QString commentaires){
+Patient::Patient(QString nom, QString prenom, QString adresse, QString ville,QString cp, QString numTel, QDate jourPassage, int dureeEstime, int priorite, QVector<QString> * ressources, QString commentaires){
     this->nom = formatNom(nom);
     this->prenom = formatNom(prenom);
     this->adresse = adresse;
@@ -21,7 +21,7 @@ Patient::Patient(QString nom, QString prenom, QString adresse, QString ville,QSt
     this->jourPassage=jourPassage;
     this->dureeEstime = dureeEstime;
     this->priorite = priorite;
-    //this->ressources = ressources;//TODO : QVector ? Transformation des QString en ID ? passage a un pointeur ?
+    this->ressources = ressources;//TODO : QVector ? Transformation des QString en ID ? passage a un pointeur ?
     this->commentaires = commentaires;
 /*
     for (vector<int>::iterator itR = ressources.begin(); itR != ressources.end(); ++itR)
@@ -59,7 +59,7 @@ void Patient::display(){
          <<"\n Date : "<<jourPassage
          <<"\n Duree : "<<dureeEstime
          <<"\n Priorite : "<<priorite
-         <<"\n Ressources : "<<Q_NULLPTR
+         <<"\n Ressources : "<<*ressources
          <<"\n Commentaires : "<<commentaires;
 
 }

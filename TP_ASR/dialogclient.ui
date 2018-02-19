@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>288</width>
-    <height>490</height>
+    <width>269</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>251</width>
-     <height>441</height>
+     <height>449</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayoutClient">
@@ -37,7 +37,11 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="leNom"/>
+     <widget class="QLineEdit" name="leNom">
+      <property name="inputMask">
+       <string/>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="lblPrenom">
@@ -106,10 +110,10 @@
     <item row="4" column="1">
      <widget class="QLineEdit" name="leCp">
       <property name="inputMask">
-       <string>99999</string>
+       <string>99999;-</string>
       </property>
-      <property name="text">
-       <string/>
+      <property name="cursorPosition">
+       <number>0</number>
       </property>
      </widget>
     </item>
@@ -123,7 +127,7 @@
     <item row="5" column="1">
      <widget class="QLineEdit" name="leTel">
       <property name="inputMask">
-       <string>9999999999</string>
+       <string>\09 99 99 99 99;_</string>
       </property>
      </widget>
     </item>
@@ -236,8 +240,8 @@
     <rect>
      <x>180</x>
      <y>460</y>
-     <width>75</width>
-     <height>23</height>
+     <width>81</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
@@ -245,6 +249,19 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leNom</tabstop>
+  <tabstop>lePrenom</tabstop>
+  <tabstop>leAdresse</tabstop>
+  <tabstop>leVille</tabstop>
+  <tabstop>leCp</tabstop>
+  <tabstop>leTel</tabstop>
+  <tabstop>deJourRdv</tabstop>
+  <tabstop>sbDuree</tabstop>
+  <tabstop>sbPriorite</tabstop>
+  <tabstop>lwRessources</tabstop>
+  <tabstop>teCommentaires</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

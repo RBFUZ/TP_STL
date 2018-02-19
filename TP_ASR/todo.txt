@@ -1,0 +1,19 @@
+class ressources
+QString nom
+int ID
+
+Patient => Client
+champ id
+vector<struct resources *> rdv
+
+
+rdv class
+
+resources *
+heure debut
+heure fin
+
+
+
+ajouter "clear et cancel" dans digclient
+message status

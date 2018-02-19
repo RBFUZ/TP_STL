@@ -1,7 +1,5 @@
 #ifndef PATIENT_H
 #define PATIENT_H
-#define DEFAULT_DUREE_ESTIME 60 //TODO : useless ? default value in the view
-#define DEFAULT_PRIORITE 1
 #include <QString>
 #include <QDate>
 
@@ -26,9 +24,9 @@ private:
     int cp;
     int numTel; //facultatif
     QDate jourPassage;
-    int dureeEstime = DEFAULT_DUREE_ESTIME; //in minute
-    int priorite = DEFAULT_PRIORITE;// 5 high -> 1 low
-    vector<int> ressources; //TODO :Pasage a un QVector
+    int dureeEstime; //in minute
+    int priorite;// 5 high -> 1 low
+    QVector<QString> * ressources; //TODO : Stockage de int(id) et non de string(nom)
     QString commentaires; //facultatif
 
     multimap<int, int> heurePassage;
@@ -39,7 +37,7 @@ private:
 public:
     Patient();
     //Patient(QString nom, vector<int> ressources) Obsolete
-    Patient(QString nom, QString prenom, QString adresse, QString ville,QString cp, QString numTel, QDate jourPassage, int dureeEstime, int priorite, vector<int> * ressources, QString commentaires);
+    Patient(QString nom, QString prenom, QString adresse, QString ville,QString cp, QString numTel, QDate jourPassage, int dureeEstime, int priorite, QVector<QString> * ressources, QString commentaires);
     ~Patient();
 
     //inline get/set
@@ -61,8 +59,8 @@ public:
     void setDureeEstime(int dureeEstime) { this->dureeEstime= dureeEstime; }
     int getPriorite() { return priorite; }
     void setPriorite(int priorite) { this->priorite = priorite; }
-    vector<int>* getRessources() { return &ressources; }//pointer
-    void setResources(vector<int> resources) { this->ressources = resources; }
+    QVector<QString>* getRessources() { return ressources; }//pointer
+    void setResources(QVector<QString>* resources) { this->ressources = resources; }
     multimap<int,int> * getHeurePassage() { return &heurePassage; }//pointer
     QDate getJourPassage(){return jourPassage;}
     void setJourPassge(QDate date){this->jourPassage=date;}
