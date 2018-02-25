@@ -3,11 +3,16 @@
 #include <QLineEdit>
 #include <QDebug>
 #include "modeles/client.h"
+#include <QSqlDatabase>
+#include <QSqlTableModel>
+#include <QSqlQuery>
+
 
 #define NAMECPOBJECT "leCp"
 #define NAMETELOBJECT "leTel"
 #define NBSPACEPHONE 4
 #define CHECKSTATERESSOURCES 2
+#define CONNECTIONNAME "Reservation"
 
 ControleurClient::ControleurClient() {
 
@@ -86,4 +91,35 @@ void ControleurClient::createNewPatient(QList<QLineEdit*> listLineEdit, QTextEdi
         sbDureePriorite.at(1)->value());
 
    client.addDatabase();
+}
+
+void ControleurClient::searchClient(QList<QLineEdit *> listLineEdit, QList<QDateEdit *> listDateEdit, QTableView * tableView)
+{
+    QString nom = listLineEdit.at(0)->text(), prenom = listLineEdit.at(1)->text(), identifiant = listLineEdit.at(2)->text();
+    QSqlDatabase db = QSqlDatabase::database(CONNECTIONNAME);
+    QSqlTableModel * model = new QSqlTableModel(NULL, db);
+    model->setTable("TClient");
+    model->select();
+
+    if (nom.length() != 0) // Add % if not empty
+        nom = nom.append('%');
+    if (prenom.length() != 0) // Add % if not empty
+        prenom = prenom.append('%');
+    if (identifiant.length() == 0) // Set to 0 because problem if the string is empty
+        identifiant = "0";
+
+    // setFilter is equivalent to WHERE clause in SQL
+    model->setFilter(QString("id = "+ identifiant +
+                             " OR nom LIKE '"+ nom +
+                             "' OR prenom LIKE '"+ prenom +
+                             "' OR dateRdv between '"+ listDateEdit.at(0)->text() +"' and '"+ listDateEdit.at(1)->text() +"'"));
+
+    tableView->setModel(model);
+    tableView->hideColumn(3);
+    tableView->hideColumn(4);
+    tableView->hideColumn(5);
+    tableView->hideColumn(6);
+    tableView->hideColumn(7);
+    tableView->hideColumn(9);
+    tableView->hideColumn(10);
 }

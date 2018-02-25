@@ -73,7 +73,7 @@ void Client::addDatabase() {
     query->bindValue(":cp", getCp());
     query->bindValue(":commentaires", getCommentaires());
     query->bindValue(":tel", getnumTel());
-    query->bindValue(":date", getJourPassage());
+    query->bindValue(":date", getJourPassage().toString("yyyy/MM/dd"));
     query->bindValue(":duree", getDureeEstime());
     query->bindValue(":priorite", getPriorite());
 
