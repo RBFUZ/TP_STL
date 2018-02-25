@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,20 +25,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    dialogconnexion.cpp \
-    dialogclient.cpp \
-    dialogpersonnel.cpp \
-    dialogapropos.cpp \
-    patient.cpp
+        vues/mainwindow.cpp \
+    vues/dialogconnexion.cpp \
+    vues/dialogclient.cpp \
+    vues/dialogpersonnel.cpp \
+    vues/dialogapropos.cpp \
+    controleurs/controleurclient.cpp \
+    c_init_bd.cpp \
+    modeles/client.cpp \
+    modeles/type.cpp \
+    modeles/rdv.cpp \
+    modeles/compte.cpp
 
 HEADERS += \
-        mainwindow.h \
-    dialogconnexion.h \
-    dialogclient.h \
-    dialogpersonnel.h \
-    dialogapropos.h \
-    patient.h
+        vues/mainwindow.h \
+    vues/dialogconnexion.h \
+    vues/dialogclient.h \
+    vues/dialogpersonnel.h \
+    vues/dialogapropos.h \
+    controleurs/controleurclient.h \
+    c_init_bd.h \
+    modeles/client.h \
+    modeles/type.h \
+    modeles/rdv.h \
+    modeles/compte.h
 
 FORMS += \
         mainwindow.ui \

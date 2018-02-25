@@ -3,6 +3,7 @@
 #include "dialogclient.h"
 #include "dialogpersonnel.h"
 #include "dialogapropos.h"
+#include "c_init_bd.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +32,7 @@ void MainWindow::on_actionA_propos_triggered()
 
 void MainWindow::on_actionClient_triggered()
 {
+
     DialogClient dlgClient;
     dlgClient.exec();
 }
