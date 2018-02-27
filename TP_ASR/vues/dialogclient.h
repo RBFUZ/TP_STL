@@ -19,12 +19,7 @@ class DialogClient : public QDialog
 public:
     explicit DialogClient(QWidget *parent = 0);
     ~DialogClient();
-
-signals:
-    void verifyClientInfo(QList<QLineEdit*>, QTextEdit *, QDateEdit *, QList<QSpinBox*>, QListWidget *);
-
-public slots:
-    void clientOk(); // Signal emitted by controleurClient. Used to accept() the dialog if information is OK
+    void createNewPatient();
 
 private slots:
     void on_btnOk_clicked();

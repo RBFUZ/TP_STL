@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     w.show();
 
-    c_init_bd::Creation_BD();
+    C_INIT_BD::Creation_BD();
 
     return a.exec();
 }

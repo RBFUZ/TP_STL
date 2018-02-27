@@ -2,9 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QLineEdit>
-#include <QDateEdit>
-#include <QTableView>
+#include "bdmanager.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -17,9 +16,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-signals:
-    void searchClient(QList<QLineEdit *> listLineEdit, QList<QDateEdit *> listDateEdit, QTableView * tableView);
 
 private slots:
     void on_actionQuitter_triggered();

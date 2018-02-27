@@ -64,7 +64,6 @@ public:
 
     //test_only
     void display();
-    void addDatabase();
 };
 
 #endif // PATIENT_H

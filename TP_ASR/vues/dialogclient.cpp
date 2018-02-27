@@ -1,6 +1,7 @@
 #include "dialogclient.h"
 #include "ui_dialogclient.h"
 #include "controleurs/controleurclient.h"
+#include "bdmanager.h"
 
 DialogClient::DialogClient(QWidget *parent) :
     QDialog(parent),
@@ -23,18 +24,6 @@ DialogClient::DialogClient(QWidget *parent) :
             pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
             pItem->setCheckState(Qt::Unchecked);
         }
-
-    ControleurClient * controleurClient = new ControleurClient();
-    connect(this,SIGNAL(verifyClientInfo(QList<QLineEdit*>,
-                                          QTextEdit *,
-                                          QDateEdit *,
-                                          QList<QSpinBox*>,
-                                          QListWidget *)), controleurClient, SLOT(verifyClientInfo(QList<QLineEdit*>,
-                                                                                                   QTextEdit *,
-                                                                                                   QDateEdit *,
-                                                                                                   QList<QSpinBox*>,
-                                                                                                   QListWidget *)));
-    connect(controleurClient, SIGNAL(clientOK()), this, SLOT(clientOk()));
 }
 
 DialogClient::~DialogClient()
@@ -44,14 +33,66 @@ DialogClient::~DialogClient()
 
 void DialogClient::on_btnOk_clicked()
 {
-    QList<QSpinBox *> listSB;
-    listSB.append(ui->sbDuree);
-    listSB.append(ui->sbPriorite);
+    bool leCompleted =true; //line edit all filled
+    bool lwCompleted =false; //at least on resources (listWidget) checked
+    bool leacceptable=true; //format respected for tel and cp
 
-    emit verifyClientInfo(this->findChildren<QLineEdit *>(), ui->teCommentaires, ui->deJourRdv, listSB, ui->lwRessources);
+    QString ssRedBorder="border: 2px solid red"; //stle for red border
+
+    QList<QLineEdit *> list=this->findChildren<QLineEdit *>();//get all lineEdit in the form
+    list.removeOne(ui->leTel);//remove facultative fields
+
+    foreach (QLineEdit * lineEdit, list) {
+        if (lineEdit->text().isEmpty() ){//True for all empty field
+            lineEdit->setStyleSheet(ssRedBorder);
+            leCompleted = false;
+        }else{
+            lineEdit->setStyleSheet("");//remove an anterior red border
+        };
+    }
+
+    if (!ui->leCp->hasAcceptableInput()){
+        ui->leCp->setStyleSheet(ssRedBorder);
+        leacceptable=false;
+    }else ui->leCp->setStyleSheet("");
+
+    if (!(ui->leTel->text().isEmpty())&&!(ui->leTel->hasAcceptableInput())){
+        ui->leTel->setStyleSheet(ssRedBorder);
+        leacceptable=false;
+    }else ui->leTel->setStyleSheet("");
+
+    for(int i=0;i<ui->lwRessources->count(); ++i)
+    {
+        QListWidgetItem* item = ui->lwRessources->item(i);
+        if (item->checkState()==2)//TODO : constante check state true for checked ressources
+            lwCompleted=true;
+    }
+
+    if (!lwCompleted)ui->lwRessources->setStyleSheet(ssRedBorder);//red border if no resources selected
+            else ui->lwRessources->setStyleSheet("");
+
+    if (leCompleted && lwCompleted && leacceptable){
+        createNewPatient();
+        accept();
+     }
+    else ui->lblObligatoire->setStyleSheet("color:red");
 }
 
-void DialogClient::clientOk()
+void DialogClient::createNewPatient()
 {
-    accept();
+    Client * client = new Client(
+        ui->leNom->text(),
+        ui->lePrenom->text(),
+        ui->leAdresse->text(),
+        ui->leVille->text(),
+        ui->leCp->text(),
+        ui->teCommentaires->toPlainText(),
+        ui->leTel->text(),
+        ui->deJourRdv->date(),
+        ui->sbDuree->value(),
+        ui->sbPriorite->value()
+    );
+
+    // Add the client to the database
+    BDManager::addClient(client);
 }

@@ -1,8 +1,6 @@
 #include "client.h"
 #include "c_init_bd.h"
 
-#define CONNECTIONNAME "Reservation"
-
 Client::Client()
 {
 }
@@ -56,28 +54,4 @@ void Client::display(){
          <<"\n Date : "<<jourPassage
          <<"\n Duree : "<<dureeEstime
          <<"\n Priorite : "<<priorite;
-}
-
-// Ajout d'un client à la base de données
-void Client::addDatabase() {
-    QSqlDatabase db = QSqlDatabase::database(CONNECTIONNAME); // Connexion à la base
-    QSqlQuery * query = new QSqlQuery(db);
-
-    query->prepare("INSERT INTO TClient (id,nom,prenom,adresse,ville,cp,commentaire,tel,dateRdv,dureeRdv,priorite)"
-                "VALUES (NULL,:nom,:prenom,:adresse,:ville,:cp,:commentaires,:tel,:date,:duree,:priorite)");
-
-    query->bindValue(":nom", getNom());
-    query->bindValue(":prenom", getPrenom());
-    query->bindValue(":adresse", getAdresse());
-    query->bindValue(":ville", getVille());
-    query->bindValue(":cp", getCp());
-    query->bindValue(":commentaires", getCommentaires());
-    query->bindValue(":tel", getnumTel());
-    query->bindValue(":date", getJourPassage().toString("yyyy/MM/dd"));
-    query->bindValue(":duree", getDureeEstime());
-    query->bindValue(":priorite", getPriorite());
-
-    query->exec();
-
-    c_init_bd::Close_BD();
 }

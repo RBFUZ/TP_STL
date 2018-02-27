@@ -30,12 +30,12 @@ SOURCES += \
     vues/dialogclient.cpp \
     vues/dialogpersonnel.cpp \
     vues/dialogapropos.cpp \
-    controleurs/controleurclient.cpp \
     c_init_bd.cpp \
     modeles/client.cpp \
     modeles/type.cpp \
     modeles/rdv.cpp \
-    modeles/compte.cpp
+    modeles/compte.cpp \
+    bdmanager.cpp
 
 HEADERS += \
         vues/mainwindow.h \
@@ -43,12 +43,12 @@ HEADERS += \
     vues/dialogclient.h \
     vues/dialogpersonnel.h \
     vues/dialogapropos.h \
-    controleurs/controleurclient.h \
     c_init_bd.h \
     modeles/client.h \
     modeles/type.h \
     modeles/rdv.h \
-    modeles/compte.h
+    modeles/compte.h \
+    bdmanager.h
 
 FORMS += \
         mainwindow.ui \
