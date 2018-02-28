@@ -6,8 +6,7 @@ BDManager::BDManager()
 
 void BDManager::addClient(Client * client)
 {
-    QSqlDatabase db = QSqlDatabase::database();
-    QSqlQuery * query = new QSqlQuery(db);
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
 
     query->prepare("INSERT INTO TClient (id,nom,prenom,adresse,ville,cp,commentaire,tel,dateRdv,dureeRdv,priorite)"
                 "VALUES (NULL,:nom,:prenom,:adresse,:ville,:cp,:commentaires,:tel,:date,:duree,:priorite)");
@@ -19,8 +18,7 @@ void BDManager::addClient(Client * client)
 
 void BDManager::modifyClient(Client * client, int idClient)
 {
-    QSqlDatabase db = QSqlDatabase::database();
-    QSqlQuery * query = new QSqlQuery(db);
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
 
     query->prepare("UPDATE TClient "
                    "SET nom = :nom, "
@@ -44,8 +42,7 @@ void BDManager::modifyClient(Client * client, int idClient)
 QSqlTableModel * BDManager::searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin)
 {
     QString nom = leNom->text(), prenom = lePrenom->text(), identifiant = leIdentifiant->text();
-    QSqlDatabase db = QSqlDatabase::database();
-    QSqlTableModel * model = new QSqlTableModel(NULL, db);
+    QSqlTableModel * model = new QSqlTableModel(NULL, QSqlDatabase::database());
     model->setTable("TClient");
     model->select();
 
@@ -77,4 +74,43 @@ void BDManager::bindValue(QSqlQuery * query, Client * client)
     query->bindValue(":date", client->getJourPassage().toString("yyyy-MM-dd"));
     query->bindValue(":duree", client->getDureeEstime());
     query->bindValue(":priorite", client->getPriorite());
+}
+
+QSqlQueryModel * BDManager::selectTypeLabel()
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+    query->exec("SELECT Label FROM TType");
+    model->setQuery(*query);
+    return model;
+}
+
+int BDManager::addPersonnel(Personnel * personnel)
+{
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+
+    query->prepare("INSERT INTO TRessource (id,nom,prenom,idType)"
+                "VALUES (NULL,:nom,:prenom,:idType)");
+
+    query->bindValue(":nom", personnel->getNom());
+    query->bindValue(":prenom", personnel->getPrenom());
+    query->bindValue(":idType", personnel->getIdType());
+
+    query->exec();
+
+    return query->lastInsertId().toInt();
+}
+
+void BDManager::addCompte(Compte * compte)
+{
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+
+    query->prepare("INSERT INTO TCompte (id,idRessource,login,mdp)"
+                "VALUES (NULL,:idPersonnel,:login,:mdp)");
+
+    query->bindValue(":idPersonnel", compte->getIdPersonnel());
+    query->bindValue(":login", compte->getLogin());
+    query->bindValue(":mdp", compte->getMotdepasse());
+
+    query->exec();
 }

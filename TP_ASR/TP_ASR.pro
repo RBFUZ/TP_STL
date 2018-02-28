@@ -35,7 +35,8 @@ SOURCES += \
     modeles/type.cpp \
     modeles/rdv.cpp \
     modeles/compte.cpp \
-    bdmanager.cpp
+    bdmanager.cpp \
+    modeles/personnel.cpp
 
 HEADERS += \
         vues/mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     modeles/type.h \
     modeles/rdv.h \
     modeles/compte.h \
-    bdmanager.h
+    bdmanager.h \
+    modeles/personnel.h
 
 FORMS += \
         mainwindow.ui \
