@@ -28,6 +28,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSqlTableModel * model;
+    void addModifAndRemoveOption();
 };
 
 #endif // MAINWINDOW_H

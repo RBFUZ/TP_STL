@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->deRendezvousDebut->setMinimumDate(QDate::currentDate());
     ui->deRendezvousFin->setMinimumDate(QDate::currentDate().addDays(1));
 
-    //model = NULL;
+    model = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -65,6 +65,11 @@ void MainWindow::on_btnRechercherclient_clicked()
     ui->tableView->hideColumn(9);
     ui->tableView->hideColumn(10);
 
+    addModifAndRemoveOption();
+}
+
+void MainWindow::addModifAndRemoveOption()
+{
     // Add two columns (modification, suppression)
     model->insertColumns(11, 2);
     model->setHeaderData(11, Qt::Horizontal, QObject::tr("Modification"));
@@ -101,13 +106,16 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
             dialogClient.setIdClient(model->index(index.row(), 0).data().toInt()); // We need id to know which client must be modified
             dialogClient.setClient(client);
             dialogClient.exec();
+
+            // Refresh tableView
+            model->selectRow(index.row());
         }
         else
         {
-            // SUPPRESSION
+            model->removeRow(index.row());
+            model->submitAll(); // Push modification to the database
+            model->select(); // Refresh entries
+            addModifAndRemoveOption();
         }
-
-        // Refresh tableView
-        model->selectRow(index.row());
     }
 }
