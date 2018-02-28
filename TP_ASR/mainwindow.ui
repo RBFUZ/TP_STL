@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>616</width>
+    <width>730</width>
     <height>517</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>591</width>
+      <width>711</width>
       <height>391</height>
      </rect>
     </property>
@@ -35,7 +35,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>561</width>
+        <width>681</width>
         <height>341</height>
        </rect>
       </property>
@@ -161,7 +161,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>616</width>
+     <width>730</width>
      <height>21</height>
     </rect>
    </property>

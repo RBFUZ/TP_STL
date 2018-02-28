@@ -1,6 +1,5 @@
 #include "dialogclient.h"
 #include "ui_dialogclient.h"
-#include "controleurs/controleurclient.h"
 #include "bdmanager.h"
 
 DialogClient::DialogClient(QWidget *parent) :
@@ -8,6 +7,9 @@ DialogClient::DialogClient(QWidget *parent) :
     ui(new Ui::DialogClient)
 {
     ui->setupUi(this);
+
+    // Set dialog to creation mode
+    create = true;
 
     //Init Date
     ui->deJourRdv->setMinimumDate(QDate::currentDate());
@@ -72,13 +74,14 @@ void DialogClient::on_btnOk_clicked()
             else ui->lwRessources->setStyleSheet("");
 
     if (leCompleted && lwCompleted && leacceptable){
-        createNewPatient();
+        clientIsValid();
+        create = true; // Reset the mode
         accept();
      }
     else ui->lblObligatoire->setStyleSheet("color:red");
 }
 
-void DialogClient::createNewPatient()
+void DialogClient::clientIsValid()
 {
     Client * client = new Client(
         ui->leNom->text(),
@@ -93,6 +96,22 @@ void DialogClient::createNewPatient()
         ui->sbPriorite->value()
     );
 
-    // Add the client to the database
-    BDManager::addClient(client);
+    if (create)
+        BDManager::addClient(client); // Add the client to the database
+    else
+        BDManager::modifyClient(client, idClient); // Modify the client to the database
+}
+
+void DialogClient::setClient(Client * client)
+{
+    ui->leNom->setText(client->getNom());
+    ui->lePrenom->setText(client->getPrenom());
+    ui->leAdresse->setText(client->getAdresse());
+    ui->leVille->setText(client->getVille());
+    ui->leCp->setText(QString::number(client->getCp()));
+    ui->teCommentaires->setText(client->getCommentaires());
+    ui->leTel->setText(QString::number(client->getnumTel()));
+    ui->deJourRdv->setDate(client->getJourPassage());
+    ui->sbDuree->setValue(client->getDureeEstime());
+    ui->sbPriorite->setValue(client->getPriorite());
 }

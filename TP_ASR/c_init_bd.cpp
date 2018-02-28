@@ -128,12 +128,12 @@ bool C_INIT_BD::Creation_BD()
 
 
         b_test=query.exec("INSERT INTO TClient "
-                          "SELECT '1' AS 'Id', 'Ricardo' AS 'Nom', 'Jacques' AS 'Prenom', '3 rue des justices' AS 'Adresse', 'Tours' AS 'Ville', '37200' AS 'CP', 'Dépressif' AS 'Commentaire', '247558963' AS 'Commentaire', '2013-06-01' AS 'DateRdv', '90' AS 'DureeRdv', '2' AS 'Priorite'"
-                                  "UNION SELECT 2, 'Pirouette', 'Stéphanie', '15 rue des dames', 'Chanceaux', 37390, 'Rien à dire.', 247542942, '2019-06-01', 50, 2 "
-                                  "UNION SELECT 3, 'Puisser', 'Albert', '15 rue des chevaux', 'Verigné', 37250, 'Asthmatique.', 247642892, '2020-06-01', 45, 3 "
-                                  "UNION SELECT 4, 'Tujais', 'Téo', '15 rue de l''arbre', 'Monts', 37450, '', 247845889, '2018-10-01', 20, 4 "
-                                  "UNION SELECT 5, 'Kistran', 'Flavien', '89 impasse des rangs', 'Mettray', 37620, 'En forme.', 247895623, '2015-06-01', 80, 1 "
-                                  "UNION SELECT 6, 'Qing', 'Xue', '14 rue Jean Jaures', 'Tours', 37200, 'Aucun.', 247555588, '2013-06-01', 60, 3 ");
+                          "SELECT '1' AS 'Id', 'Ricardo' AS 'Nom', 'Jacques' AS 'Prenom', '3 rue des justices' AS 'Adresse', 'Tours' AS 'Ville', '37200' AS 'CP', 'Dépressif' AS 'Commentaire', '2475589631' AS 'Commentaire', '2013-06-01' AS 'DateRdv', '90' AS 'DureeRdv', '2' AS 'Priorite'"
+                                  "UNION SELECT 2, 'Pirouette', 'Stéphanie', '15 rue des dames', 'Chanceaux', 37390, 'Rien à dire.', 2475429421, '2018-02-27', 50, 2 "
+                                  "UNION SELECT 3, 'Puisser', 'Albert', '15 rue des chevaux', 'Verigné', 37250, 'Asthmatique.', 2476428921, '2020-06-01', 45, 3 "
+                                  "UNION SELECT 4, 'Tujais', 'Téo', '15 rue de l''arbre', 'Monts', 37450, '', 2478458891, '2018-03-01', 20, 4 "
+                                  "UNION SELECT 5, 'Kistran', 'Flavien', '89 impasse des rangs', 'Mettray', 37620, 'En forme.', 2478956231, '2018-02-28', 80, 1 "
+                                  "UNION SELECT 6, 'Qing', 'Xue', '14 rue Jean Jaures', 'Tours', 37200, 'Aucun.', 2475555811, '2018-02-28', 60, 3 ");
         if(!b_test)
         {
             qDebug() << query.lastError().text();

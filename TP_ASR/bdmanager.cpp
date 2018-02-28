@@ -12,16 +12,31 @@ void BDManager::addClient(Client * client)
     query->prepare("INSERT INTO TClient (id,nom,prenom,adresse,ville,cp,commentaire,tel,dateRdv,dureeRdv,priorite)"
                 "VALUES (NULL,:nom,:prenom,:adresse,:ville,:cp,:commentaires,:tel,:date,:duree,:priorite)");
 
-    query->bindValue(":nom", client->getNom());
-    query->bindValue(":prenom", client->getPrenom());
-    query->bindValue(":adresse", client->getAdresse());
-    query->bindValue(":ville", client->getVille());
-    query->bindValue(":cp", client->getCp());
-    query->bindValue(":commentaires", client->getCommentaires());
-    query->bindValue(":tel", client->getnumTel());
-    query->bindValue(":date", client->getJourPassage().toString("yyyy-MM-dd"));
-    query->bindValue(":duree", client->getDureeEstime());
-    query->bindValue(":priorite", client->getPriorite());
+    bindValue(query, client); // Bind client value to the query
+
+    query->exec();
+}
+
+void BDManager::modifyClient(Client * client, int idClient)
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery * query = new QSqlQuery(db);
+
+    query->prepare("UPDATE TClient "
+                   "SET nom = :nom, "
+                   "prenom = :prenom, "
+                   "adresse = :adresse, "
+                   "ville = :ville, "
+                   "cp = :cp, "
+                   "commentaire = :commentaires, "
+                   "tel = :tel, "
+                   "dateRdv = :date, "
+                   "dureeRdv = :duree,"
+                   "priorite = :priorite "
+                   "WHERE id = :id");
+
+    query->bindValue(":id", idClient);
+    bindValue(query, client); // Bind client value to the query
 
     query->exec();
 }
@@ -48,4 +63,18 @@ QSqlTableModel * BDManager::searchClient(QLineEdit * leNom, QLineEdit * lePrenom
                              "' OR dateRdv between '"+ deDebut->text() +"' and '"+ deFin->text() +"'"));
 
     return model;
+}
+
+void BDManager::bindValue(QSqlQuery * query, Client * client)
+{
+    query->bindValue(":nom", client->getNom());
+    query->bindValue(":prenom", client->getPrenom());
+    query->bindValue(":adresse", client->getAdresse());
+    query->bindValue(":ville", client->getVille());
+    query->bindValue(":cp", client->getCp());
+    query->bindValue(":commentaires", client->getCommentaires());
+    query->bindValue(":tel", client->getnumTel());
+    query->bindValue(":date", client->getJourPassage().toString("yyyy-MM-dd"));
+    query->bindValue(":duree", client->getDureeEstime());
+    query->bindValue(":priorite", client->getPriorite());
 }
