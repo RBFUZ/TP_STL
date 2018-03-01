@@ -27,7 +27,9 @@ DialogPersonnel::~DialogPersonnel()
 
 void DialogPersonnel::initType()
 {
-    ui->cbType->setModel(BDManager::selectTypeLabel());
+    QSqlQueryModel * model = BDManager::selectAllType();
+    model->removeColumn(0); // Remove id column. Just keep label column for printing
+    ui->cbType->setModel(model);
     ui->cbType->show();
 }
 

@@ -76,11 +76,22 @@ void BDManager::bindValue(QSqlQuery * query, Client * client)
     query->bindValue(":priorite", client->getPriorite());
 }
 
-QSqlQueryModel * BDManager::selectTypeLabel()
+QSqlQueryModel * BDManager::selectAllType()
 {
     QSqlQueryModel * model = new QSqlQueryModel();
     QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-    query->exec("SELECT Label FROM TType");
+    query->exec("SELECT * FROM TType");
+    model->setQuery(*query);
+    return model;
+}
+
+QSqlQueryModel * BDManager::selectPersonnelSpecificType(int idType)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+    query->prepare("SELECT id, nom FROM TRessource WHERE idType = :idType");
+    query->bindValue(":idType", idType);
+    query->exec();
     model->setQuery(*query);
     return model;
 }

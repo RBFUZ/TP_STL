@@ -4,12 +4,18 @@
 #include "dialogpersonnel.h"
 #include "dialogapropos.h"
 #include <QStandardItem>
+#include <QSqlQueryModel>
+#include <QStandardItemModel>
+#include <QSqlRecord>
+#include <QSortFilterProxyModel>
+#include <QTreeWidgetItem>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    model = NULL;
 
     // Init status bar
     ui->statusBar->showMessage("Connecté !");
@@ -18,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->deRendezvousDebut->setMinimumDate(QDate::currentDate());
     ui->deRendezvousFin->setMinimumDate(QDate::currentDate().addDays(1));
 
-    model = NULL;
+    // Fill TreeView (personnel)
+    initPersonnel();
 }
 
 MainWindow::~MainWindow()
@@ -118,4 +125,30 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
             addModifAndRemoveOption();
         }
     }
+}
+
+void MainWindow::initPersonnel()
+{
+    QSqlQueryModel * listType = BDManager::selectAllType();
+    QSqlQueryModel * listPersonnel = NULL;
+
+    QStandardItemModel * allItem = new QStandardItemModel(listType->rowCount(), 1); //  Contains all items
+
+    for (int nodeNumber = 0; nodeNumber < listType->rowCount(); ++nodeNumber) // Iteration on each node
+    {
+        QStandardItem * item = new QStandardItem(listType->record(nodeNumber).value(1).toString()); // Node
+        listPersonnel = BDManager::selectPersonnelSpecificType(listType->record(nodeNumber).value(0).toInt()); // Get all personnel of type item defined line above
+
+        for (int childNumber = 0; childNumber < listPersonnel->rowCount(); childNumber++) // Iteration on each child of one node
+        {
+            QStandardItem * child = new QStandardItem(listPersonnel->record(childNumber).value(1).toString()); // Child of one node
+            item->appendRow(child); // Add child to the current node
+        }
+        allItem->setItem(nodeNumber, item); // Add the current node to the tree
+    }
+
+    ui->treeView->setModel(allItem);
+    ui->treeView->show();
+    ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Disable edit mode
+    allItem->setHeaderData(0, Qt::Horizontal, "", Qt::DisplayRole); // Set empty title to the column because print "1" by default
 }

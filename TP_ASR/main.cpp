@@ -8,6 +8,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    C_INIT_BD::Creation_BD();
+
     MainWindow w;
 
     // Authentification
@@ -20,8 +22,6 @@ int main(int argc, char *argv[])
         return 0;*/
 
     w.show();
-
-    C_INIT_BD::Creation_BD();
 
     return a.exec();
 }

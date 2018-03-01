@@ -18,7 +18,8 @@ public:
     static void modifyClient(Client * client, int idClient);
     static QSqlTableModel * searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin);
     static int addPersonnel(Personnel * personnel);
-    static QSqlQueryModel * selectTypeLabel();
+    static QSqlQueryModel * selectAllType();
+    static QSqlQueryModel * selectPersonnelSpecificType(int idType);
     static void addCompte(Compte * compte);
 
 private:

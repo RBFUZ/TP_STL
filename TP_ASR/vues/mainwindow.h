@@ -29,6 +29,7 @@ private:
     Ui::MainWindow *ui;
     QSqlTableModel * model;
     void addModifAndRemoveOption();
+    void initPersonnel();
 };
 
 #endif // MAINWINDOW_H
