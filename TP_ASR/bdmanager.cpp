@@ -4,7 +4,7 @@ BDManager::BDManager()
 {
 }
 
-void BDManager::addClient(Client * client)
+int BDManager::addClient(Client * client)
 {
     QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
 
@@ -14,6 +14,7 @@ void BDManager::addClient(Client * client)
     bindValue(query, client); // Bind client value to the query
 
     query->exec();
+    return query->lastInsertId().toInt();
 }
 
 void BDManager::modifyClient(Client * client)
@@ -121,24 +122,13 @@ void BDManager::removePersonnel(int idPersonnel)
     query->exec();
 }
 
-QSqlQueryModel * BDManager::selectAllType()
+QSqlQueryModel * BDManager::selectAllPersonnel()
 {
     QSqlQueryModel * model = new QSqlQueryModel();
     QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-    query->exec("SELECT * FROM TType");
+    query->exec("SELECT * FROM TRessource");
     model->setQuery(*query);
     return model;
-}
-
-QString BDManager::selectTypeSpecificId(int id)
-{
-    QSqlQueryModel * model = new QSqlQueryModel();
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-    query->prepare("SELECT label FROM TType WHERE id = :id");
-    query->bindValue(":id", id);
-    query->exec();
-    model->setQuery(*query);
-    return model->record(0).value(0).toString();
 }
 
 QSqlQueryModel * BDManager::selectPersonnelSpecificType(int idType)
@@ -161,6 +151,35 @@ QSqlQueryModel * BDManager::selectPersonnelSpecificId(int id)
     query->exec();
     model->setQuery(*query);
     return model;
+}
+
+bool BDManager::isInformaticien(int idPersonnel)
+{
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+    query->prepare("SELECT id FROM TCompte WHERE idRessource = :idPersonnel");
+    query->bindValue(":idPersonnel", idPersonnel);
+    query->exec();
+    return query->next();
+}
+
+QSqlQueryModel * BDManager::selectAllType()
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+    query->exec("SELECT * FROM TType");
+    model->setQuery(*query);
+    return model;
+}
+
+QString BDManager::selectTypeSpecificId(int id)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+    query->prepare("SELECT label FROM TType WHERE id = :id");
+    query->bindValue(":id", id);
+    query->exec();
+    model->setQuery(*query);
+    return model->record(0).value(0).toString();
 }
 
 void BDManager::addCompte(Compte * compte)
@@ -199,11 +218,15 @@ QSqlQueryModel * BDManager::selectCompteSpecificIdPersonnel(int idPersonnel)
     return model;
 }
 
-bool BDManager::isInformaticien(int idPersonnel)
+void BDManager::createRdv(Rdv * rdv)
 {
     QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-    query->prepare("SELECT id FROM TCompte WHERE idRessource = :idPersonnel");
-    query->bindValue(":idPersonnel", idPersonnel);
+
+    query->prepare("INSERT INTO TRdv (id,idClient,idRessource)"
+                "VALUES (NULL,:idClient,:idRessource)");
+
+    query->bindValue(":idClient", rdv->getIdClient());
+    query->bindValue(":idRessource", rdv->getIdPersonnel());
+
     query->exec();
-    return query->next();
 }

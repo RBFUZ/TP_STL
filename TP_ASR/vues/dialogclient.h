@@ -35,6 +35,7 @@ private:
     Ui::DialogClient *ui;
     bool create;
     int idClient; // Necessary for modifying client. Know which client must be modified
+    void initRessources();
 };
 
 #endif // DIALOGCLIENT_H

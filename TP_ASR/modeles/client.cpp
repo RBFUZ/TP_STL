@@ -16,13 +16,6 @@ Client::Client(QString nom, QString prenom, QString adresse, QString ville,QStri
     this->jourPassage=jourPassage;
     this->dureeEstime = dureeEstime;
     this->priorite = priorite;
-
-/*
-    for (vector<int>::iterator itR = ressources.begin(); itR != ressources.end(); ++itR)
-    {
-        heurePassage.insert(pair<int, int>(*itR, -1));
-    }
-*/
 }
 
 QString Client::formatNom (QString nom){

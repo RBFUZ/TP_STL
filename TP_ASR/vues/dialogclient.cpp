@@ -14,23 +14,28 @@ DialogClient::DialogClient(QWidget *parent) :
     //Init Date
     ui->deJourRdv->setMinimumDate(QDate::currentDate());
 
-    //InitResourcesList
-    //String list of ressources names
-    QStringList ressourcesNames;
-    ressourcesNames <<"ressource1"<<"ressource2"<<"ressource3"<<"ressource4"<<"ressource5"<<"ressource6"<<"ressource1"<<"ressource2"<<"ressource3";
-
-    ui->lwRessources->addItems(ressourcesNames);
-    QListWidgetItem* pItem=0;
-    for(int i = 0; i < ui->lwRessources->count(); ++i){
-            pItem = ui->lwRessources->item(i);
-            pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
-            pItem->setCheckState(Qt::Unchecked);
-        }
+    //Init Ressources
+    initRessources();
 }
 
 DialogClient::~DialogClient()
 {
     delete ui;
+}
+
+void DialogClient::initRessources()
+{
+    QSqlQueryModel * model = BDManager::selectAllPersonnel();
+
+    QListWidgetItem * pItem = 0;
+    for (int i = 0; i < model->rowCount(); ++i)
+    {
+        // There is also the id because it's the easiest way to retieve the id after because name is not a primary key.
+        ui->lwRessources->addItem(model->record(i).value(0).toString() + " " + model->record(i).value(1).toString());
+        pItem = ui->lwRessources->item(i);
+        pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
+        pItem->setCheckState(Qt::Unchecked);
+    }
 }
 
 void DialogClient::on_btnOk_clicked()
@@ -83,6 +88,9 @@ void DialogClient::on_btnOk_clicked()
 
 void DialogClient::clientIsValid()
 {
+    int idClientAdded = 0;
+    QString idPersonnel;
+
     Client * client = new Client(
         ui->leNom->text(),
         ui->lePrenom->text(),
@@ -99,7 +107,20 @@ void DialogClient::clientIsValid()
     client->setId(getIdClient()); // Set id because if modification, BDManager::modifyClient need it.
 
     if (create)
-        BDManager::addClient(client); // Add the client to the database
+    {
+        idClientAdded = BDManager::addClient(client); // Add the client to the database
+
+        // Create each RDV. Depend on personnel selected
+        for (int i = 0; i < ui->lwRessources->count(); ++i)
+        {
+            if (ui->lwRessources->item(i)->checkState())
+            {
+                idPersonnel = ui->lwRessources->item(i)->data(0).toString().split(" ").at(0); // Retrieve the id of the personnel selected
+                qDebug() << "ID CLIENT : " << idClientAdded << "ID PERSONNEL : " << idPersonnel.toInt();
+                BDManager::createRdv(new Rdv(idClientAdded, idPersonnel.toInt()));
+            }
+        }
+    }
     else
         BDManager::modifyClient(client); // Modify the client to the database
 }
