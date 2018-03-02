@@ -122,7 +122,13 @@ void DialogClient::clientIsValid()
         }
     }
     else
+    {
         BDManager::modifyClient(client); // Modify the client to the database
+
+        // FAIRE ICI
+            // - Supprimer les rendez-vous que la personne à décocher.
+            // - Ajouter les nouveaux rdv
+    }
 }
 
 void DialogClient::setClient(Client * client)
