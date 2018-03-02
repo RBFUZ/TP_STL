@@ -96,10 +96,12 @@ void DialogClient::clientIsValid()
         ui->sbPriorite->value()
     );
 
+    client->setId(getIdClient()); // Set id because if modification, BDManager::modifyClient need it.
+
     if (create)
         BDManager::addClient(client); // Add the client to the database
     else
-        BDManager::modifyClient(client, idClient); // Modify the client to the database
+        BDManager::modifyClient(client); // Modify the client to the database
 }
 
 void DialogClient::setClient(Client * client)
@@ -114,4 +116,6 @@ void DialogClient::setClient(Client * client)
     ui->deJourRdv->setDate(client->getJourPassage());
     ui->sbDuree->setValue(client->getDureeEstime());
     ui->sbPriorite->setValue(client->getPriorite());
+
+    setIdClient(client->getId()); // DialogClient need to know which client is actually modified (id). Avoid to do a complex sql request.
 }

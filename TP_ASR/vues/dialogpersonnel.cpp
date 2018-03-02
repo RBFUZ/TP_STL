@@ -12,6 +12,9 @@ DialogPersonnel::DialogPersonnel(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Set dialog to creation mode
+    create = true;
+
     // Recover label of TType table
     initType();
 
@@ -68,6 +71,7 @@ void DialogPersonnel::on_btnOk_clicked()
 
     if (leCompleted) {
        personnelIsValid();
+       create = true; // Reset the mode
        accept();
     }
     else
@@ -97,7 +101,7 @@ void DialogPersonnel::on_cbType_activated(const QString &arg1)
 
 void DialogPersonnel::personnelIsValid()
 {
-    int id;
+    int idPersonnel = getIdPersonnel();
 
     Personnel * personnel = new Personnel(
                 ui->leNom->text(),
@@ -105,17 +109,45 @@ void DialogPersonnel::personnelIsValid()
                 ui->cbType->currentIndex() + 1
                 );
 
-    id = BDManager::addPersonnel(personnel); // Add personnel to the database
+    personnel->setId(getIdPersonnel()); // Set id because if modification, BDManager::modifyPersonnel need it.
+
+    if (create)
+        idPersonnel = BDManager::addPersonnel(personnel); // Add personnel to the database. Return the lastInsertId.
+    else
+        BDManager::modifyPersonnel(personnel); // Modify personnel to the database
+
+    if (BDManager::isInformaticien(personnel)) // Need to remove the account link the the personnel if he changes of Type.
+        BDManager::removeCompte(personnel); // Remove account thanks to the personnel id.
 
     // If Informaticien has been selected
     if (ui->cbType->currentText().compare(LBLINFORMATICIEN) == 0)
     {
         Compte * compte = new Compte(
-                    id,
+                    idPersonnel,
                     ui->leLogin->text(),
                     ui->leMotdepasse->text()
         );
+            BDManager::addCompte(compte); // Add compte to the database
+    }
+}
 
-        BDManager::addCompte(compte); // Add compte to the database
+void DialogPersonnel::setPersonnel(Personnel * personnel)
+{
+    QString nomType = BDManager::selectTypeSpecificId(personnel->getIdType());
+
+    setIdPersonnel(personnel->getId()); // DialogPersonnel need to know which personnel is actually modified (id). Avoid to do a complex sql request.
+    ui->leNom->setText(personnel->getNom());
+    ui->lePrenom->setText(personnel->getPrenom());
+    ui->cbType->setCurrentText(nomType);
+
+    // Need to fill login and mdp fields if his type is Informaticien
+    if (nomType.compare(LBLINFORMATICIEN) == 0)
+    {
+        QSqlQueryModel * model = BDManager::selectCompteSpecificIdPersonnel(personnel->getId());
+        ui->leLogin->setEnabled(true);
+        ui->leMotdepasse->setEnabled(true);
+
+        ui->leLogin->setText(model->record(0).value(0).toString());
+        ui->leMotdepasse->setText(model->record(0).value(1).toString());
     }
 }

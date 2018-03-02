@@ -3,12 +3,10 @@
 #include "dialogclient.h"
 #include "dialogpersonnel.h"
 #include "dialogapropos.h"
-#include <QStandardItem>
-#include <QSqlQueryModel>
 #include <QStandardItemModel>
+#include <QStandardItem>
 #include <QSqlRecord>
-#include <QSortFilterProxyModel>
-#include <QTreeWidgetItem>
+#include <QSqlQueryModel>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -97,6 +95,7 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
         if (index.column() == 11)
         {
             Client * client = new Client();
+            client->setId(model->index(index.row(), 0).data().toInt()); // We need id to know which client must be modified or removed
             client->setNom(model->index(index.row(), 1).data().toString());
             client->setPreom(model->index(index.row(), 2).data().toString());
             client->setAdress(model->index(index.row(), 3).data().toString());
@@ -110,7 +109,6 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
 
             DialogClient dialogClient;
             dialogClient.setCreate(false); // Change mode of dialogClient because we need to modify the client and not add an other.
-            dialogClient.setIdClient(model->index(index.row(), 0).data().toInt()); // We need id to know which client must be modified
             dialogClient.setClient(client);
             dialogClient.exec();
 
@@ -141,7 +139,7 @@ void MainWindow::initPersonnel()
 
         for (int childNumber = 0; childNumber < listPersonnel->rowCount(); childNumber++) // Iteration on each child of one node
         {
-            QStandardItem * child = new QStandardItem(listPersonnel->record(childNumber).value(1).toString()); // Child of one node
+            QStandardItem * child = new QStandardItem(listPersonnel->record(childNumber).value(0).toString() + " " + listPersonnel->record(childNumber).value(1).toString()); // Child of one node
             item->appendRow(child); // Add child to the current node
         }
         allItem->setItem(nodeNumber, item); // Add the current node to the tree
@@ -151,4 +149,41 @@ void MainWindow::initPersonnel()
     ui->treeView->show();
     ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Disable edit mode
     allItem->setHeaderData(0, Qt::Horizontal, "", Qt::DisplayRole); // Set empty title to the column because print "1" by default
+}
+
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
+{
+    if (index.parent().data().toString().compare("") != 0) // Check if child or node. If != child else node.
+    {
+        // Change properties of buttons
+        ui->btnModifier->setEnabled(true);
+        ui->btnSupprimer->setEnabled(true);
+    }
+    else
+    {
+        ui->btnModifier->setEnabled(false);
+        ui->btnSupprimer->setEnabled(false);
+    }
+}
+
+void MainWindow::on_btnModifier_clicked()
+{
+    QItemSelectionModel * model = ui->treeView->selectionModel();
+    QModelIndex index = model->currentIndex();
+    QString idPersonnel = index.data().toString().split(" ").at(0); // Recover the id of the personnel selected
+    QSqlQueryModel * listPersonnel = BDManager::selectPersonnelSpecificId(idPersonnel.toInt()); // Recover the personnel selected
+
+    Personnel * personnel = new Personnel(
+                listPersonnel->record(0).value(1).toString(),
+                listPersonnel->record(0).value(2).toString(),
+                listPersonnel->record(0).value(3).toInt()
+    );
+    personnel->setId(listPersonnel->record(0).value(0).toInt()); // Need id because if his TType is Informaticien, need login and mdp to print in DialogPersonnel fields
+
+    DialogPersonnel dialogPersonnel;
+    dialogPersonnel.setCreate(false); // Set to modification mode
+    dialogPersonnel.setPersonnel(personnel);
+    dialogPersonnel.exec();
+
+    initPersonnel(); // Peut être à revoir ?? Regénération de toute la liste juste pour une modification ?? Code complexe pour ne rafraichir que la ligne modifier.
 }

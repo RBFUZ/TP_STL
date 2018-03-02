@@ -17,6 +17,7 @@ using namespace std;
 class Client
 {
 private:
+    int id;
     QString nom;
     QString prenom;
     QString adresse;
@@ -40,6 +41,8 @@ public:
     ~Client();
 
     //inline get/set
+    int getId() { return id; }
+    void setId(int id) {this->id = id; }
     QString getNom() { return nom; }
     void setNom(QString nom) { this->nom = formatNom(nom); }
     QString getPrenom() { return prenom; }

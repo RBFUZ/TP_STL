@@ -25,6 +25,10 @@ private slots:
     void on_tableView_activated(const QModelIndex &index);
     void on_btnRechercherclient_clicked();
 
+    void on_treeView_clicked(const QModelIndex &index);
+
+    void on_btnModifier_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlTableModel * model;
