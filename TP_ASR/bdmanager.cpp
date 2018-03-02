@@ -110,6 +110,17 @@ void BDManager::modifyPersonnel(Personnel * personnel)
     query->exec();
 }
 
+void BDManager::removePersonnel(int idPersonnel)
+{
+    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
+
+    query->prepare("DELETE FROM TRessource "
+                "WHERE id = :idPersonnel");
+
+    query->bindValue(":idPersonnel", idPersonnel);
+    query->exec();
+}
+
 QSqlQueryModel * BDManager::selectAllType()
 {
     QSqlQueryModel * model = new QSqlQueryModel();
@@ -166,14 +177,14 @@ void BDManager::addCompte(Compte * compte)
     query->exec();
 }
 
-void BDManager::removeCompte(Personnel * personnel)
+void BDManager::removeCompte(int idPersonnel)
 {
     QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
 
     query->prepare("DELETE FROM TCompte "
                 "WHERE idRessource = :idPersonnel");
 
-    query->bindValue(":idPersonnel", personnel->getId());
+    query->bindValue(":idPersonnel", idPersonnel);
     query->exec();
 }
 
@@ -188,11 +199,11 @@ QSqlQueryModel * BDManager::selectCompteSpecificIdPersonnel(int idPersonnel)
     return model;
 }
 
-bool BDManager::isInformaticien(Personnel * personnel)
+bool BDManager::isInformaticien(int idPersonnel)
 {
     QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->prepare("SELECT id FROM TCompte WHERE idRessource = :idPersonnel");
-    query->bindValue(":idPersonnel", personnel->getId());
+    query->bindValue(":idPersonnel", idPersonnel);
     query->exec();
     return query->next();
 }

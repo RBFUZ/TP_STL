@@ -20,14 +20,15 @@ public:
     static QSqlTableModel * searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin);
     static int addPersonnel(Personnel * personnel);
     static void modifyPersonnel(Personnel * personnel);
+    static void removePersonnel(int idPersonnel);
     static QSqlQueryModel * selectAllType();
     static QString selectTypeSpecificId(int id);
     static QSqlQueryModel * selectPersonnelSpecificType(int idType);
     static QSqlQueryModel * selectPersonnelSpecificId(int id);
     static void addCompte(Compte * compte);
-    static void removeCompte(Personnel * personnel);
+    static void removeCompte(int idPersonnel);
     static QSqlQueryModel * selectCompteSpecificIdPersonnel(int idPersonnel);
-    static bool isInformaticien(Personnel * personnel);
+    static bool isInformaticien(int idPersonnel);
 
 private:
     static void bindValue(QSqlQuery * query, Client * client); // Bind client value to the query

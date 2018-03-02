@@ -29,6 +29,8 @@ private slots:
 
     void on_btnModifier_clicked();
 
+    void on_btnSupprimer_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlTableModel * model;

@@ -116,8 +116,8 @@ void DialogPersonnel::personnelIsValid()
     else
         BDManager::modifyPersonnel(personnel); // Modify personnel to the database
 
-    if (BDManager::isInformaticien(personnel)) // Need to remove the account link the the personnel if he changes of Type.
-        BDManager::removeCompte(personnel); // Remove account thanks to the personnel id.
+    if (BDManager::isInformaticien(personnel->getId())) // Need to remove the account link the the personnel if he changes of Type.
+        BDManager::removeCompte(personnel->getId()); // Remove account thanks to the personnel id.
 
     // If Informaticien has been selected
     if (ui->cbType->currentText().compare(LBLINFORMATICIEN) == 0)

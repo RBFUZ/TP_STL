@@ -187,3 +187,19 @@ void MainWindow::on_btnModifier_clicked()
 
     initPersonnel(); // Peut être à revoir ?? Regénération de toute la liste juste pour une modification ?? Code complexe pour ne rafraichir que la ligne modifier.
 }
+
+void MainWindow::on_btnSupprimer_clicked()
+{
+    QItemSelectionModel * model = ui->treeView->selectionModel();
+    QModelIndex index = model->currentIndex();
+    QString idPersonnel = index.data().toString().split(" ").at(0); // Recover the id of the personnel selected
+
+    if (BDManager::isInformaticien(idPersonnel.toInt()))
+    {
+        BDManager::removeCompte(idPersonnel.toInt());
+    }
+
+    BDManager::removePersonnel(idPersonnel.toInt());
+
+    initPersonnel(); // Peut être à revoir ?? Regénération de toute la liste juste pour une modification ?? Code complexe pour ne rafraichir que la ligne modifier.
+}
