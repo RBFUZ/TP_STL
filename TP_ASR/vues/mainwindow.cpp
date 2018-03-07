@@ -130,7 +130,7 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
 void MainWindow::initPersonnel()
 {
     QSqlQueryModel * listType = bdManager->selectAllType();
-    QSqlQueryModel * listPersonnel = NULL;
+    vector<Personnel *> listPersonnel;
 
     QStandardItemModel * allItem = new QStandardItemModel(listType->rowCount(), 1); //  Contains all items
 
@@ -139,9 +139,9 @@ void MainWindow::initPersonnel()
         QStandardItem * item = new QStandardItem(listType->record(nodeNumber).value(1).toString()); // Node
         listPersonnel = bdManager->selectPersonnelSpecificType(listType->record(nodeNumber).value(0).toInt()); // Get all personnel of type item defined line above
 
-        for (int childNumber = 0; childNumber < listPersonnel->rowCount(); childNumber++) // Iteration on each child of one node
+        for (size_t childNumber = 0; childNumber < listPersonnel.size(); childNumber++) // Iteration on each child of one node
         {
-            QStandardItem * child = new QStandardItem(listPersonnel->record(childNumber).value(0).toString() + " " + listPersonnel->record(childNumber).value(1).toString()); // Child of one node
+            QStandardItem * child = new QStandardItem(QString::number(listPersonnel.at(childNumber)->getId()) + " " + listPersonnel.at(childNumber)->getNom()); // Child of one node
             item->appendRow(child); // Add child to the current node
         }
         allItem->setItem(nodeNumber, item); // Add the current node to the tree
@@ -172,15 +172,9 @@ void MainWindow::on_btnModifier_clicked()
 {
     QItemSelectionModel * model = ui->treeView->selectionModel();
     QModelIndex index = model->currentIndex();
+    qDebug() << index.row();
     QString idPersonnel = index.data().toString().split(" ").at(0); // Recover the id of the personnel selected
-    QSqlQueryModel * listPersonnel = bdManager->selectPersonnelSpecificId(idPersonnel.toInt()); // Recover the personnel selected
-
-    Personnel * personnel = new Personnel(
-                listPersonnel->record(0).value(1).toString(),
-                listPersonnel->record(0).value(2).toString(),
-                listPersonnel->record(0).value(3).toInt()
-    );
-    personnel->setId(listPersonnel->record(0).value(0).toInt()); // Need id because if his TType is Informaticien, need login and mdp to print in DialogPersonnel fields
+    Personnel * personnel = bdManager->selectPersonnelSpecificId(idPersonnel.toInt()); // Recover the personnel selected
 
     DialogPersonnel dialogPersonnel;
     dialogPersonnel.setCreate(false); // Set to modification mode

@@ -18,6 +18,21 @@ Client::Client(QString nom, QString prenom, QString adresse, QString ville,QStri
     this->priorite = priorite;
 }
 
+void Client::convertRecordToClient(QSqlRecord record)
+{
+    this->id = record.value(0).toInt();
+    this->nom = record.value(1).toString();
+    this->prenom = record.value(2).toString();
+    this->adresse = record.value(3).toString();
+    this->ville = record.value(4).toString();
+    this->cp = record.value(5).toInt();
+    this->commentaires = record.value(6).toString();
+    this->numTel = record.value(7).toInt();
+    this->jourPassage = record.value(8).toDate();
+    this->dureeEstime = record.value(9).toInt();
+    this->priorite = record.value(10).toInt();
+}
+
 QString Client::formatNom (QString nom){
     nom=nom.toLower();
     nom[0]=nom[0].toUpper();

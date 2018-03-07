@@ -145,11 +145,11 @@ void DialogPersonnel::setPersonnel(Personnel * personnel)
     // Need to fill login and mdp fields if his type is Informaticien
     if (nomType.compare(LBLINFORMATICIEN) == 0)
     {
-        QSqlQueryModel * model = bdManager->selectCompteSpecificIdPersonnel(personnel->getId());
+        Compte * compte = bdManager->selectCompteSpecificIdPersonnel(personnel->getId());
         ui->leLogin->setEnabled(true);
         ui->leMotdepasse->setEnabled(true);
 
-        ui->leLogin->setText(model->record(0).value(0).toString());
-        ui->leMotdepasse->setText(model->record(0).value(1).toString());
+        ui->leLogin->setText(compte->getLogin());
+        ui->leMotdepasse->setText(compte->getMotdepasse());
     }
 }

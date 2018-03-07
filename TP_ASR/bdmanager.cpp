@@ -3,7 +3,6 @@
 BDManager::BDManager()
 {
     query = new QSqlQuery(QSqlDatabase::database());
-    model = new QSqlQueryModel();
 }
 
 int BDManager::addClient(Client * client)
@@ -114,29 +113,50 @@ void BDManager::removePersonnel(int idPersonnel)
     query->exec();
 }
 
-QSqlQueryModel * BDManager::selectAllPersonnel()
+vector<Personnel *> BDManager::selectAllPersonnel()
 {
+    model = new QSqlQueryModel();
     query->exec("SELECT * FROM TRessource");
     model->setQuery(*query);
-    return model;
+
+    return convertSqlToPersonnel(model);
 }
 
-QSqlQueryModel * BDManager::selectPersonnelSpecificType(int idType)
+vector<Personnel *> BDManager::selectPersonnelSpecificType(int idType)
 {
-    query->prepare("SELECT id, nom FROM TRessource WHERE idType = :idType");
+    model = new QSqlQueryModel();
+    query->prepare("SELECT * FROM TRessource WHERE idType = :idType");
     query->bindValue(":idType", idType);
     query->exec();
     model->setQuery(*query);
-    return model;
+
+    return convertSqlToPersonnel(model);
 }
 
-QSqlQueryModel * BDManager::selectPersonnelSpecificId(int id)
+Personnel * BDManager::selectPersonnelSpecificId(int id)
 {
+    Personnel * personnel = new Personnel();
+    model = new QSqlQueryModel();
     query->prepare("SELECT * FROM TRessource WHERE id = :id");
     query->bindValue(":id", id);
     query->exec();
     model->setQuery(*query);
-    return model;
+
+    personnel->convertRecordToPersonnel(model->record(0));
+    return personnel;
+}
+
+vector<Personnel *> BDManager::convertSqlToPersonnel(QSqlQueryModel * model)
+{
+    vector<Personnel *> listPersonnel;
+
+    for (int i = 0; i < model->rowCount(); ++i) // For line of the query result
+    {
+        Personnel * personnel = new Personnel();
+        personnel->convertRecordToPersonnel(model->record(i));
+        listPersonnel.push_back(personnel);
+    }
+    return listPersonnel;
 }
 
 bool BDManager::isInformaticien(int idPersonnel)
@@ -147,15 +167,18 @@ bool BDManager::isInformaticien(int idPersonnel)
     return query->next();
 }
 
-QSqlQueryModel * BDManager::selectAllType()
+QSqlQueryModel *BDManager::selectAllType()
 {
+    model = new QSqlQueryModel();
     query->exec("SELECT * FROM TType");
     model->setQuery(*query);
+
     return model;
 }
 
 QString BDManager::selectTypeSpecificId(int id)
 {
+    model = new QSqlQueryModel();
     query->prepare("SELECT label FROM TType WHERE id = :id");
     query->bindValue(":id", id);
     query->exec();
@@ -184,13 +207,17 @@ void BDManager::removeCompte(int idPersonnel)
     query->exec();
 }
 
-QSqlQueryModel * BDManager::selectCompteSpecificIdPersonnel(int idPersonnel)
+Compte * BDManager::selectCompteSpecificIdPersonnel(int idPersonnel)
 {
-    query->prepare("SELECT login, mdp FROM TCompte WHERE idRessource = :idPersonnel");
+    Compte * compte = new Compte();
+    model = new QSqlQueryModel();
+    query->prepare("SELECT * FROM TCompte WHERE idRessource = :idPersonnel");
     query->bindValue(":idPersonnel", idPersonnel);
     query->exec();
     model->setQuery(*query);
-    return model;
+
+    compte->convertRecordToCompte(model->record(0));
+    return compte;
 }
 
 void BDManager::createRdv(Rdv * rdv)

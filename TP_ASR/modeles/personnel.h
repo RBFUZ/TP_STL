@@ -2,6 +2,7 @@
 #define PERSONNEL_H
 
 #include <QString>
+#include <QSqlRecord>
 
 class Personnel
 {
@@ -14,6 +15,7 @@ private:
 public:
     Personnel();
     Personnel(QString nom, QString prenom, int idType);
+    void convertRecordToPersonnel(QSqlRecord record);
     QString formatNom (QString nom);
 
     // Getters and Setters

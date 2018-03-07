@@ -5,6 +5,7 @@
 #include "modeles/personnel.h"
 #include "modeles/compte.h"
 #include "modeles/rdv.h"
+#include "modeles/type.h"
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -25,9 +26,10 @@ public:
     int addPersonnel(Personnel * personnel);
     void modifyPersonnel(Personnel * personnel);
     void removePersonnel(int idPersonnel);
-    QSqlQueryModel * selectAllPersonnel();
-    QSqlQueryModel * selectPersonnelSpecificType(int idType);
-    QSqlQueryModel * selectPersonnelSpecificId(int id);
+    vector<Personnel *> selectAllPersonnel();
+    vector<Personnel *> selectPersonnelSpecificType(int idType);
+    Personnel *selectPersonnelSpecificId(int id);
+    vector<Personnel *> convertSqlToPersonnel(QSqlQueryModel *model);
     bool isInformaticien(int idPersonnel);
 
     QSqlQueryModel * selectAllType();
@@ -35,7 +37,7 @@ public:
 
     void addCompte(Compte * compte);
     void removeCompte(int idPersonnel);
-    QSqlQueryModel * selectCompteSpecificIdPersonnel(int idPersonnel);
+    Compte *selectCompteSpecificIdPersonnel(int idPersonnel);
 
     void createRdv(Rdv *rdv);
 

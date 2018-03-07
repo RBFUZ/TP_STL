@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <map>
 #include "bdmanager.h"
-
 
 namespace Ui {
 class MainWindow;
@@ -34,7 +34,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     BDManager * bdManager;
-    QSqlTableModel * model;
+    QSqlTableModel * model; // TODO A revoir, inutile peut être
+    multimap<QString, vector<Personnel>> listPersonnel;
+
     void addModifAndRemoveOption();
     void initPersonnel();
 };

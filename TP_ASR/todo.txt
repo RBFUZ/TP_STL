@@ -9,3 +9,9 @@ message status
 
 Bug :
 Ajout ressource -> refresh treeView
+
+POUR REMY :
+- Constructeur par défaut dans chacune des classes du modèle
+- Ajouter une méthode convertSQLTo[Personnel, Client, ...] (Méthode appelée depuis la classe BDManager pour créer un objet du modèle à partir d'une QSqlTableModel)
+- Faire les modifications nécessaire pour prendre en compte cette nouvelle valeur de retour dans les vues principalement.
+- Mettre en place la correction de l'id dans le string (affichage personnel + ajout client)

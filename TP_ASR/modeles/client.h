@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <QSqlRecord>
 
 #include <QDebug>
 
@@ -39,6 +40,7 @@ public:
     //Patient(QString nom, vector<int> ressources) Obsolete
     Client(QString nom, QString prenom, QString adresse, QString ville, QString cp, QString commentaires, QString numTel, QDate jourPassage, int dureeEstime, int priorite);
     ~Client();
+    void convertRecordToClient(QSqlRecord record);
 
     //inline get/set
     int getId() { return id; }

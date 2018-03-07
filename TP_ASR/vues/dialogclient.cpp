@@ -27,13 +27,13 @@ DialogClient::~DialogClient()
 
 void DialogClient::initRessources()
 {
-    QSqlQueryModel * model = bdManager->selectAllPersonnel();
+    vector<Personnel *> listPersonnel = bdManager->selectAllPersonnel();
 
     QListWidgetItem * pItem = 0;
-    for (int i = 0; i < model->rowCount(); ++i)
+    for (size_t i = 0; i < listPersonnel.size(); ++i)
     {
         // There is also the id because it's the easiest way to retieve the id after because name is not a primary key.
-        ui->lwRessources->addItem(model->record(i).value(0).toString() + " " + model->record(i).value(1).toString());
+        ui->lwRessources->addItem(QString::number(listPersonnel.at(i)->getId()) + " " + listPersonnel.at(i)->getNom());
         pItem = ui->lwRessources->item(i);
         pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
         pItem->setCheckState(Qt::Unchecked);
