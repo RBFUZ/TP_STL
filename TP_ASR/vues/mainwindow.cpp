@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    bdManager = new BDManager();
     model = NULL;
 
     // Init status bar
@@ -57,7 +59,7 @@ void MainWindow::on_actionPersonnel_triggered()
 
 void MainWindow::on_btnRechercherclient_clicked()
 {
-    model = BDManager::searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
+    model = bdManager->searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
 
     ui->tableView->setModel(model);
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Not allow user to edit cell
@@ -127,7 +129,7 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
 
 void MainWindow::initPersonnel()
 {
-    QSqlQueryModel * listType = BDManager::selectAllType();
+    QSqlQueryModel * listType = bdManager->selectAllType();
     QSqlQueryModel * listPersonnel = NULL;
 
     QStandardItemModel * allItem = new QStandardItemModel(listType->rowCount(), 1); //  Contains all items
@@ -135,7 +137,7 @@ void MainWindow::initPersonnel()
     for (int nodeNumber = 0; nodeNumber < listType->rowCount(); ++nodeNumber) // Iteration on each node
     {
         QStandardItem * item = new QStandardItem(listType->record(nodeNumber).value(1).toString()); // Node
-        listPersonnel = BDManager::selectPersonnelSpecificType(listType->record(nodeNumber).value(0).toInt()); // Get all personnel of type item defined line above
+        listPersonnel = bdManager->selectPersonnelSpecificType(listType->record(nodeNumber).value(0).toInt()); // Get all personnel of type item defined line above
 
         for (int childNumber = 0; childNumber < listPersonnel->rowCount(); childNumber++) // Iteration on each child of one node
         {
@@ -171,7 +173,7 @@ void MainWindow::on_btnModifier_clicked()
     QItemSelectionModel * model = ui->treeView->selectionModel();
     QModelIndex index = model->currentIndex();
     QString idPersonnel = index.data().toString().split(" ").at(0); // Recover the id of the personnel selected
-    QSqlQueryModel * listPersonnel = BDManager::selectPersonnelSpecificId(idPersonnel.toInt()); // Recover the personnel selected
+    QSqlQueryModel * listPersonnel = bdManager->selectPersonnelSpecificId(idPersonnel.toInt()); // Recover the personnel selected
 
     Personnel * personnel = new Personnel(
                 listPersonnel->record(0).value(1).toString(),
@@ -194,12 +196,12 @@ void MainWindow::on_btnSupprimer_clicked()
     QModelIndex index = model->currentIndex();
     QString idPersonnel = index.data().toString().split(" ").at(0); // Recover the id of the personnel selected
 
-    if (BDManager::isInformaticien(idPersonnel.toInt()))
+    if (bdManager->isInformaticien(idPersonnel.toInt()))
     {
-        BDManager::removeCompte(idPersonnel.toInt());
+        bdManager->removeCompte(idPersonnel.toInt());
     }
 
-    BDManager::removePersonnel(idPersonnel.toInt());
+    bdManager->removePersonnel(idPersonnel.toInt());
 
     initPersonnel(); // Peut être à revoir ?? Regénération de toute la liste juste pour une modification ?? Code complexe pour ne rafraichir que la ligne modifier.
 }

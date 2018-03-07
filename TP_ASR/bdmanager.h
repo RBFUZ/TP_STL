@@ -18,30 +18,32 @@ class BDManager
 public:
     BDManager();
 
-    static int addClient(Client * client);
-    static void modifyClient(Client * client);
-    static QSqlTableModel * searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin);
+    int addClient(Client * client);
+    void modifyClient(Client * client);
+    QSqlTableModel * searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin);
 
-    static int addPersonnel(Personnel * personnel);
-    static void modifyPersonnel(Personnel * personnel);
-    static void removePersonnel(int idPersonnel);
-    static QSqlQueryModel * selectAllPersonnel();
-    static QSqlQueryModel * selectPersonnelSpecificType(int idType);
-    static QSqlQueryModel * selectPersonnelSpecificId(int id);
-    static bool isInformaticien(int idPersonnel);
+    int addPersonnel(Personnel * personnel);
+    void modifyPersonnel(Personnel * personnel);
+    void removePersonnel(int idPersonnel);
+    QSqlQueryModel * selectAllPersonnel();
+    QSqlQueryModel * selectPersonnelSpecificType(int idType);
+    QSqlQueryModel * selectPersonnelSpecificId(int id);
+    bool isInformaticien(int idPersonnel);
 
-    static QSqlQueryModel * selectAllType();
-    static QString selectTypeSpecificId(int id);
+    QSqlQueryModel * selectAllType();
+    QString selectTypeSpecificId(int id);
 
-    static void addCompte(Compte * compte);
-    static void removeCompte(int idPersonnel);
-    static QSqlQueryModel * selectCompteSpecificIdPersonnel(int idPersonnel);
+    void addCompte(Compte * compte);
+    void removeCompte(int idPersonnel);
+    QSqlQueryModel * selectCompteSpecificIdPersonnel(int idPersonnel);
 
-    static void createRdv(Rdv *rdv);
+    void createRdv(Rdv *rdv);
 
 
 private:
-    static void bindValue(QSqlQuery * query, Client * client); // Bind client value to the query
+    void bindValue(QSqlQuery * query, Client * client); // Bind client value to the query
+    QSqlQuery * query;
+    QSqlQueryModel * model;
 };
 
 #endif // BDMANAGER_H

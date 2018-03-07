@@ -2,12 +2,12 @@
 
 BDManager::BDManager()
 {
+    query = new QSqlQuery(QSqlDatabase::database());
+    model = new QSqlQueryModel();
 }
 
 int BDManager::addClient(Client * client)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("INSERT INTO TClient (id,nom,prenom,adresse,ville,cp,commentaire,tel,dateRdv,dureeRdv,priorite)"
                 "VALUES (NULL,:nom,:prenom,:adresse,:ville,:cp,:commentaires,:tel,:date,:duree,:priorite)");
 
@@ -19,8 +19,6 @@ int BDManager::addClient(Client * client)
 
 void BDManager::modifyClient(Client * client)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("UPDATE TClient "
                    "SET nom = :nom, "
                    "prenom = :prenom, "
@@ -79,8 +77,6 @@ void BDManager::bindValue(QSqlQuery * query, Client * client)
 
 int BDManager::addPersonnel(Personnel * personnel)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("INSERT INTO TRessource (id,nom,prenom,idType)"
                 "VALUES (NULL,:nom,:prenom,:idType)");
 
@@ -95,8 +91,6 @@ int BDManager::addPersonnel(Personnel * personnel)
 
 void BDManager::modifyPersonnel(Personnel * personnel)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("UPDATE TRessource "
                    "SET nom = :nom, "
                    "prenom = :prenom, "
@@ -113,8 +107,6 @@ void BDManager::modifyPersonnel(Personnel * personnel)
 
 void BDManager::removePersonnel(int idPersonnel)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("DELETE FROM TRessource "
                 "WHERE id = :idPersonnel");
 
@@ -124,8 +116,6 @@ void BDManager::removePersonnel(int idPersonnel)
 
 QSqlQueryModel * BDManager::selectAllPersonnel()
 {
-    QSqlQueryModel * model = new QSqlQueryModel();
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->exec("SELECT * FROM TRessource");
     model->setQuery(*query);
     return model;
@@ -133,8 +123,6 @@ QSqlQueryModel * BDManager::selectAllPersonnel()
 
 QSqlQueryModel * BDManager::selectPersonnelSpecificType(int idType)
 {
-    QSqlQueryModel * model = new QSqlQueryModel();
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->prepare("SELECT id, nom FROM TRessource WHERE idType = :idType");
     query->bindValue(":idType", idType);
     query->exec();
@@ -144,8 +132,6 @@ QSqlQueryModel * BDManager::selectPersonnelSpecificType(int idType)
 
 QSqlQueryModel * BDManager::selectPersonnelSpecificId(int id)
 {
-    QSqlQueryModel * model = new QSqlQueryModel();
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->prepare("SELECT * FROM TRessource WHERE id = :id");
     query->bindValue(":id", id);
     query->exec();
@@ -155,7 +141,6 @@ QSqlQueryModel * BDManager::selectPersonnelSpecificId(int id)
 
 bool BDManager::isInformaticien(int idPersonnel)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->prepare("SELECT id FROM TCompte WHERE idRessource = :idPersonnel");
     query->bindValue(":idPersonnel", idPersonnel);
     query->exec();
@@ -164,8 +149,6 @@ bool BDManager::isInformaticien(int idPersonnel)
 
 QSqlQueryModel * BDManager::selectAllType()
 {
-    QSqlQueryModel * model = new QSqlQueryModel();
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->exec("SELECT * FROM TType");
     model->setQuery(*query);
     return model;
@@ -173,8 +156,6 @@ QSqlQueryModel * BDManager::selectAllType()
 
 QString BDManager::selectTypeSpecificId(int id)
 {
-    QSqlQueryModel * model = new QSqlQueryModel();
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->prepare("SELECT label FROM TType WHERE id = :id");
     query->bindValue(":id", id);
     query->exec();
@@ -184,8 +165,6 @@ QString BDManager::selectTypeSpecificId(int id)
 
 void BDManager::addCompte(Compte * compte)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("INSERT INTO TCompte (id,idRessource,login,mdp)"
                 "VALUES (NULL,:idPersonnel,:login,:mdp)");
 
@@ -198,8 +177,6 @@ void BDManager::addCompte(Compte * compte)
 
 void BDManager::removeCompte(int idPersonnel)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("DELETE FROM TCompte "
                 "WHERE idRessource = :idPersonnel");
 
@@ -209,8 +186,6 @@ void BDManager::removeCompte(int idPersonnel)
 
 QSqlQueryModel * BDManager::selectCompteSpecificIdPersonnel(int idPersonnel)
 {
-    QSqlQueryModel * model = new QSqlQueryModel();
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
     query->prepare("SELECT login, mdp FROM TCompte WHERE idRessource = :idPersonnel");
     query->bindValue(":idPersonnel", idPersonnel);
     query->exec();
@@ -220,8 +195,6 @@ QSqlQueryModel * BDManager::selectCompteSpecificIdPersonnel(int idPersonnel)
 
 void BDManager::createRdv(Rdv * rdv)
 {
-    QSqlQuery * query = new QSqlQuery(QSqlDatabase::database());
-
     query->prepare("INSERT INTO TRdv (id,idClient,idRessource)"
                 "VALUES (NULL,:idClient,:idRessource)");
 

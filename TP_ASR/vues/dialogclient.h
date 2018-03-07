@@ -1,8 +1,10 @@
 #ifndef DIALOGCLIENT_H
 #define DIALOGCLIENT_H
 
-#include <QDialog>
 #include "modeles/client.h"
+#include "bdmanager.h"
+
+#include <QDialog>
 #include <QListWidget>
 #include <QDateEdit>
 #include <QTextEdit>
@@ -33,6 +35,7 @@ private slots:
 
 private:
     Ui::DialogClient *ui;
+    BDManager * bdManager;
     bool create;
     int idClient; // Necessary for modifying client. Know which client must be modified
     void initRessources();

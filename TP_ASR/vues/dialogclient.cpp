@@ -8,6 +8,8 @@ DialogClient::DialogClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    bdManager = new BDManager();
+
     // Set dialog to creation mode
     create = true;
 
@@ -25,7 +27,7 @@ DialogClient::~DialogClient()
 
 void DialogClient::initRessources()
 {
-    QSqlQueryModel * model = BDManager::selectAllPersonnel();
+    QSqlQueryModel * model = bdManager->selectAllPersonnel();
 
     QListWidgetItem * pItem = 0;
     for (int i = 0; i < model->rowCount(); ++i)
@@ -104,11 +106,11 @@ void DialogClient::clientIsValid()
         ui->sbPriorite->value()
     );
 
-    client->setId(getIdClient()); // Set id because if modification, BDManager::modifyClient need it.
+    client->setId(getIdClient()); // Set id because if modification, bdManager->modifyClient need it.
 
     if (create)
     {
-        idClientAdded = BDManager::addClient(client); // Add the client to the database
+        idClientAdded = bdManager->addClient(client); // Add the client to the database
 
         // Create each RDV. Depend on personnel selected
         for (int i = 0; i < ui->lwRessources->count(); ++i)
@@ -117,13 +119,13 @@ void DialogClient::clientIsValid()
             {
                 idPersonnel = ui->lwRessources->item(i)->data(0).toString().split(" ").at(0); // Retrieve the id of the personnel selected
                 qDebug() << "ID CLIENT : " << idClientAdded << "ID PERSONNEL : " << idPersonnel.toInt();
-                BDManager::createRdv(new Rdv(idClientAdded, idPersonnel.toInt()));
+                bdManager->createRdv(new Rdv(idClientAdded, idPersonnel.toInt()));
             }
         }
     }
     else
     {
-        BDManager::modifyClient(client); // Modify the client to the database
+        bdManager->modifyClient(client); // Modify the client to the database
 
         // FAIRE ICI
             // - Supprimer les rendez-vous que la personne à décocher.
