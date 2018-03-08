@@ -9,6 +9,7 @@
 #include <QDateEdit>
 #include <QTextEdit>
 #include <QSpinBox>
+#include <set>
 
 namespace Ui {
 class DialogClient;
@@ -34,7 +35,8 @@ private slots:
 private:
     Ui::DialogClient *ui;
     BDManager * bdManager;
-    vector<Personnel *> vecPersonnel;
+    QList<Personnel *> listAllPersonnel;
+    QList<Personnel *> listSpecificPersonnel;
     Client * client;
 
     bool create;

@@ -130,7 +130,7 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
 void MainWindow::initPersonnel()
 {
     QSqlQueryModel * listType = bdManager->selectAllType();
-    vector<Personnel *> listPersonnel;
+    QList<Personnel *> listPersonnel;
 
     QStandardItemModel * allItem = new QStandardItemModel(listType->rowCount(), 1); //  Contains all items
 
@@ -141,7 +141,7 @@ void MainWindow::initPersonnel()
 
         mapPersonnel.insert(listType->record(nodeNumber).value(1).toString(), listPersonnel); // Insert allPersonnel of one type to the map
 
-        for (size_t childNumber = 0; childNumber < listPersonnel.size(); childNumber++) // Iteration on each child of one node
+        for (int childNumber = 0; childNumber < listPersonnel.size(); childNumber++) // Iteration on each child of one node
         {
             QStandardItem * child = new QStandardItem(listPersonnel.at(childNumber)->getNom()); // Child of one node
             item->appendRow(child); // Add child to the current node

@@ -35,7 +35,7 @@ private:
     Ui::MainWindow *ui;
     BDManager * bdManager;
     QSqlTableModel * model; // TODO A revoir, inutile peut être
-    QMap<QString, vector<Personnel *>> mapPersonnel;
+    QMap<QString, QList<Personnel *>> mapPersonnel;
 
     void addModifAndRemoveOption();
     void initPersonnel();

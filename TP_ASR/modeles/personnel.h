@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QSqlRecord>
+#include <QDebug>
+#include <QList>
 
 class Personnel
 {

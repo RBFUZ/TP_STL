@@ -1,6 +1,7 @@
 #include "dialogclient.h"
 #include "ui_dialogclient.h"
 #include "bdmanager.h"
+#include <QList>
 
 DialogClient::DialogClient(QWidget *parent) :
     QDialog(parent),
@@ -29,12 +30,12 @@ DialogClient::~DialogClient()
 
 void DialogClient::initRessources()
 {
-    vecPersonnel = bdManager->selectAllPersonnel();
+    listAllPersonnel = bdManager->selectAllPersonnel();
 
     QListWidgetItem * pItem = 0;
-    for (size_t i = 0; i < vecPersonnel.size(); ++i)
+    for (int i = 0; i < listAllPersonnel.size(); ++i)
     {
-        ui->lwRessources->addItem(vecPersonnel.at(i)->getNom());
+        ui->lwRessources->addItem(listAllPersonnel.at(i)->getNom());
         pItem = ui->lwRessources->item(i);
         pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
         pItem->setCheckState(Qt::Unchecked);
@@ -116,7 +117,7 @@ void DialogClient::clientIsValid()
         // Create each RDV. Depend on personnel selected
         for (int i = 0; i < ui->lwRessources->count(); ++i)
             if (ui->lwRessources->item(i)->checkState())
-                bdManager->createRdv(new Rdv(idClientAdded, vecPersonnel.at(i)->getId()));
+                bdManager->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(i)->getId()));
     }
     else
     {
@@ -142,4 +143,13 @@ void DialogClient::setClient(Client * client)
     ui->sbPriorite->setValue(client->getPriorite());
 
     this->client = client; // Keep an instance of the current client
+
+
+    // Check personnel checkbox associated to the client
+    listSpecificPersonnel = bdManager->selectPersonnelSpecificClient(this->client->getId());
+
+    for (int loopSpecific = 0; loopSpecific < listSpecificPersonnel.size(); ++loopSpecific)
+        for (int loopAll = 0; loopAll < listAllPersonnel.size(); ++loopAll)
+            if (listAllPersonnel.at(loopAll)->getId() == listSpecificPersonnel.at(loopSpecific)->getId())
+                ui->lwRessources->item(loopAll)->setCheckState(Qt::Checked);
 }

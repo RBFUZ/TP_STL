@@ -26,9 +26,10 @@ public:
     int addPersonnel(Personnel * personnel);
     void modifyPersonnel(Personnel * personnel);
     void removePersonnel(int idPersonnel);
-    vector<Personnel *> selectAllPersonnel();
-    vector<Personnel *> selectPersonnelSpecificType(int idType);
-    vector<Personnel *> convertSqlToPersonnel(QSqlQueryModel *model);
+    QList<Personnel *> selectAllPersonnel();
+    QList<Personnel *> selectPersonnelSpecificType(int idType);
+    Personnel * selectPersonnelSpecificId(int idPersonnel);
+    QList<Personnel *> convertSqlToPersonnel(QSqlQueryModel *model);
     bool isInformaticien(int idPersonnel);
 
     QSqlQueryModel * selectAllType();
@@ -39,6 +40,7 @@ public:
     Compte *selectCompteSpecificIdPersonnel(int idPersonnel);
 
     void createRdv(Rdv *rdv);
+    QList<Personnel *> selectPersonnelSpecificClient(int idClient);
 
 
 private:

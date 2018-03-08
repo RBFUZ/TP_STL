@@ -113,7 +113,7 @@ void BDManager::removePersonnel(int idPersonnel)
     query->exec();
 }
 
-vector<Personnel *> BDManager::selectAllPersonnel()
+QList<Personnel *> BDManager::selectAllPersonnel()
 {
     model = new QSqlQueryModel();
     query->exec("SELECT * FROM TRessource");
@@ -122,7 +122,7 @@ vector<Personnel *> BDManager::selectAllPersonnel()
     return convertSqlToPersonnel(model);
 }
 
-vector<Personnel *> BDManager::selectPersonnelSpecificType(int idType)
+QList<Personnel *> BDManager::selectPersonnelSpecificType(int idType)
 {
     model = new QSqlQueryModel();
     query->prepare("SELECT * FROM TRessource WHERE idType = :idType");
@@ -133,9 +133,20 @@ vector<Personnel *> BDManager::selectPersonnelSpecificType(int idType)
     return convertSqlToPersonnel(model);
 }
 
-vector<Personnel *> BDManager::convertSqlToPersonnel(QSqlQueryModel * model)
+Personnel * BDManager::selectPersonnelSpecificId(int idPersonnel)
 {
-    vector<Personnel *> listPersonnel;
+    model = new QSqlQueryModel();
+    query->prepare("SELECT * FROM TRessource WHERE id = :idPersonnel");
+    query->bindValue(":idPersonnel", idPersonnel);
+    query->exec();
+    model->setQuery(*query);
+
+    return convertSqlToPersonnel(model).at(0);
+}
+
+QList<Personnel *> BDManager::convertSqlToPersonnel(QSqlQueryModel * model)
+{
+    QList<Personnel *> listPersonnel;
 
     for (int i = 0; i < model->rowCount(); ++i) // For line of the query result
     {
@@ -216,4 +227,20 @@ void BDManager::createRdv(Rdv * rdv)
     query->bindValue(":idRessource", rdv->getIdPersonnel());
 
     query->exec();
+}
+
+QList<Personnel *> BDManager::selectPersonnelSpecificClient(int idClient)
+{
+    QList<Personnel *> listPersonnel;
+
+    QSqlQueryModel * model = new QSqlQueryModel();
+    query->prepare("SELECT * FROM TRdv WHERE idClient = :idClient");
+    query->bindValue(":idClient", idClient);
+    query->exec();
+    model->setQuery(*query);
+
+    for (int i = 0; i < model->rowCount(); ++i)
+        listPersonnel.push_back(selectPersonnelSpecificId(model->record(i).value(2).toInt())); // Add each Personnel object to the QList for a specific client
+
+    return listPersonnel;
 }
