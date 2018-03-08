@@ -133,19 +133,6 @@ vector<Personnel *> BDManager::selectPersonnelSpecificType(int idType)
     return convertSqlToPersonnel(model);
 }
 
-Personnel * BDManager::selectPersonnelSpecificId(int id)
-{
-    Personnel * personnel = new Personnel();
-    model = new QSqlQueryModel();
-    query->prepare("SELECT * FROM TRessource WHERE id = :id");
-    query->bindValue(":id", id);
-    query->exec();
-    model->setQuery(*query);
-
-    personnel->convertRecordToPersonnel(model->record(0));
-    return personnel;
-}
-
 vector<Personnel *> BDManager::convertSqlToPersonnel(QSqlQueryModel * model)
 {
     vector<Personnel *> listPersonnel;

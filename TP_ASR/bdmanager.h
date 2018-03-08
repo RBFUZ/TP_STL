@@ -28,7 +28,6 @@ public:
     void removePersonnel(int idPersonnel);
     vector<Personnel *> selectAllPersonnel();
     vector<Personnel *> selectPersonnelSpecificType(int idType);
-    Personnel *selectPersonnelSpecificId(int id);
     vector<Personnel *> convertSqlToPersonnel(QSqlQueryModel *model);
     bool isInformaticien(int idPersonnel);
 

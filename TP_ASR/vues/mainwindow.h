@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <map>
+#include <QMap>
 #include "bdmanager.h"
 
 namespace Ui {
@@ -35,7 +35,7 @@ private:
     Ui::MainWindow *ui;
     BDManager * bdManager;
     QSqlTableModel * model; // TODO A revoir, inutile peut être
-    multimap<QString, vector<Personnel>> listPersonnel;
+    QMap<QString, vector<Personnel *>> mapPersonnel;
 
     void addModifAndRemoveOption();
     void initPersonnel();
