@@ -27,8 +27,6 @@ public:
     // Getters / Setters
     bool getCreate() {return create;}
     void setCreate(bool statut) {create = statut;}
-    int getIdClient() { return idClient; }
-    void setIdClient(int idClient) {this->idClient = idClient; }
 
 private slots:
     void on_btnOk_clicked();
@@ -36,8 +34,10 @@ private slots:
 private:
     Ui::DialogClient *ui;
     BDManager * bdManager;
+    vector<Personnel *> vecPersonnel;
+    Client * client;
+
     bool create;
-    int idClient; // Necessary for modifying client. Know which client must be modified
     void initRessources();
 };
 

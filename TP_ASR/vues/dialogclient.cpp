@@ -10,6 +10,8 @@ DialogClient::DialogClient(QWidget *parent) :
 
     bdManager = new BDManager();
 
+    client = nullptr;
+
     // Set dialog to creation mode
     create = true;
 
@@ -27,13 +29,12 @@ DialogClient::~DialogClient()
 
 void DialogClient::initRessources()
 {
-    vector<Personnel *> listPersonnel = bdManager->selectAllPersonnel();
+    vecPersonnel = bdManager->selectAllPersonnel();
 
     QListWidgetItem * pItem = 0;
-    for (size_t i = 0; i < listPersonnel.size(); ++i)
+    for (size_t i = 0; i < vecPersonnel.size(); ++i)
     {
-        // There is also the id because it's the easiest way to retieve the id after because name is not a primary key.
-        ui->lwRessources->addItem(QString::number(listPersonnel.at(i)->getId()) + " " + listPersonnel.at(i)->getNom());
+        ui->lwRessources->addItem(vecPersonnel.at(i)->getNom());
         pItem = ui->lwRessources->item(i);
         pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
         pItem->setCheckState(Qt::Unchecked);
@@ -91,22 +92,22 @@ void DialogClient::on_btnOk_clicked()
 void DialogClient::clientIsValid()
 {
     int idClientAdded = 0;
-    QString idPersonnel;
 
-    Client * client = new Client(
-        ui->leNom->text(),
-        ui->lePrenom->text(),
-        ui->leAdresse->text(),
-        ui->leVille->text(),
-        ui->leCp->text(),
-        ui->teCommentaires->toPlainText(),
-        ui->leTel->text(),
-        ui->deJourRdv->date(),
-        ui->sbDuree->value(),
-        ui->sbPriorite->value()
-    );
+    if (create)
+    {
+        this->client = new Client();
+    }
 
-    client->setId(getIdClient()); // Set id because if modification, bdManager->modifyClient need it.
+    this->client->setNom(ui->leNom->text());
+    this->client->setPrenom(ui->lePrenom->text());
+    this->client->setAdress(ui->leAdresse->text());
+    this->client->setVille(ui->leVille->text());
+    this->client->setCp(ui->leCp->text());
+    this->client->setComentaires(ui->teCommentaires->toPlainText());
+    this->client->setNumTel(ui->leTel->text().toInt());
+    this->client->setJourPassge(ui->deJourRdv->date());
+    this->client->setDureeEstime(ui->sbDuree->value());
+    this->client->setPriorite(ui->sbPriorite->value());
 
     if (create)
     {
@@ -114,14 +115,8 @@ void DialogClient::clientIsValid()
 
         // Create each RDV. Depend on personnel selected
         for (int i = 0; i < ui->lwRessources->count(); ++i)
-        {
             if (ui->lwRessources->item(i)->checkState())
-            {
-                idPersonnel = ui->lwRessources->item(i)->data(0).toString().split(" ").at(0); // Retrieve the id of the personnel selected
-                qDebug() << "ID CLIENT : " << idClientAdded << "ID PERSONNEL : " << idPersonnel.toInt();
-                bdManager->createRdv(new Rdv(idClientAdded, idPersonnel.toInt()));
-            }
-        }
+                bdManager->createRdv(new Rdv(idClientAdded, vecPersonnel.at(i)->getId()));
     }
     else
     {
@@ -146,5 +141,5 @@ void DialogClient::setClient(Client * client)
     ui->sbDuree->setValue(client->getDureeEstime());
     ui->sbPriorite->setValue(client->getPriorite());
 
-    setIdClient(client->getId()); // DialogClient need to know which client is actually modified (id). Avoid to do a complex sql request.
+    this->client = client; // Keep an instance of the current client
 }

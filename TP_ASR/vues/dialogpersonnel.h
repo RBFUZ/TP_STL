@@ -21,8 +21,6 @@ public:
     void setPersonnel(Personnel * personnel);
 
     // Getters and Setters
-    int getIdPersonnel() { return idPersonnel; }
-    void setIdPersonnel(int idPersonnel) { this->idPersonnel = idPersonnel; }
     int getCreate() { return create; }
     void setCreate(bool value) { this->create = value; }
 
@@ -33,7 +31,7 @@ private slots:
 private:
     Ui::DialogPersonnel *ui;
     BDManager * bdManager;
-    int idPersonnel;
+    Personnel * personnel;
     void initType();
     void personnelIsValid();
     bool create;

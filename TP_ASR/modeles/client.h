@@ -48,7 +48,7 @@ public:
     QString getNom() { return nom; }
     void setNom(QString nom) { this->nom = formatNom(nom); }
     QString getPrenom() { return prenom; }
-    void setPreom(QString prenom) { this->prenom = formatNom(prenom); }
+    void setPrenom(QString prenom) { this->prenom = formatNom(prenom); }
     QString getAdresse() { return adresse; }
     void setAdress(QString adresse) { this->adresse = adresse; }
     QString getVille() { return ville; }

@@ -97,9 +97,9 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
         if (index.column() == 11)
         {
             Client * client = new Client();
-            client->setId(model->index(index.row(), 0).data().toInt()); // We need id to know which client must be modified or removed
+            client->setId(model->index(index.row(), 0).data().toInt());
             client->setNom(model->index(index.row(), 1).data().toString());
-            client->setPreom(model->index(index.row(), 2).data().toString());
+            client->setPrenom(model->index(index.row(), 2).data().toString());
             client->setAdress(model->index(index.row(), 3).data().toString());
             client->setVille(model->index(index.row(), 4).data().toString());
             client->setCp(model->index(index.row(), 5).data().toString());
@@ -111,7 +111,7 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
 
             DialogClient dialogClient;
             dialogClient.setCreate(false); // Change mode of dialogClient because we need to modify the client and not add an other.
-            dialogClient.setClient(client);
+            dialogClient.setClient(client); // Print information to the dialogClient
             dialogClient.exec();
 
             // Refresh tableView

@@ -103,15 +103,14 @@ void DialogPersonnel::on_cbType_activated(const QString &arg1)
 
 void DialogPersonnel::personnelIsValid()
 {
-    int idPersonnel = getIdPersonnel();
+    int idPersonnel = this->personnel->getId();
 
-    Personnel * personnel = new Personnel(
-                ui->leNom->text(),
-                ui->lePrenom->text(),
-                ui->cbType->currentIndex() + 1
-                );
+    if (create)
+        this->personnel = new Personnel();
 
-    personnel->setId(getIdPersonnel()); // Set id because if modification, bdManager->modifyPersonnel need it.
+    this->personnel->setNom(ui->leNom->text());
+    this->personnel->setPrenom(ui->lePrenom->text());
+    this->personnel->setIdType(ui->cbType->currentIndex() + 1);
 
     if (create)
         idPersonnel = bdManager->addPersonnel(personnel); // Add personnel to the database. Return the lastInsertId.
@@ -137,7 +136,8 @@ void DialogPersonnel::setPersonnel(Personnel * personnel)
 {
     QString nomType = bdManager->selectTypeSpecificId(personnel->getIdType());
 
-    setIdPersonnel(personnel->getId()); // DialogPersonnel need to know which personnel is actually modified (id). Avoid to do a complex sql request.
+    this->personnel = personnel; // Keep an instance of the personnel which we currently work.
+
     ui->leNom->setText(personnel->getNom());
     ui->lePrenom->setText(personnel->getPrenom());
     ui->cbType->setCurrentText(nomType);
