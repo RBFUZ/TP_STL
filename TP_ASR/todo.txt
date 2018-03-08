@@ -13,6 +13,7 @@ Ajout ressource -> refresh treeView
 POUR REMY :
 - Gérer le cas ou l'on ajoute des personnels lors de la modification d'un client
 - Gérer le cas ou l'on supprime des personnels lors de la modification d'un client
-- Inverse le critère de la recherche des clients. Quand aucun critère -> Afficher tous les clients.
+- Eclater la mainWindow en plusieurs classes
+- Eclater le BDManager en plusieurs classes
 - Mettre à jour l'affichage quand ajout d'un client ou d'un personnel
 - Revoir la connexion avec la BD. Singleton ou fermer les connexions après chaque requete
