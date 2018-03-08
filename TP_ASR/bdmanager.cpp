@@ -37,6 +37,20 @@ void BDManager::modifyClient(Client * client)
     query->exec();
 }
 
+void BDManager::bindValue(QSqlQuery * query, Client * client)
+{
+    query->bindValue(":nom", client->getNom());
+    query->bindValue(":prenom", client->getPrenom());
+    query->bindValue(":adresse", client->getAdresse());
+    query->bindValue(":ville", client->getVille());
+    query->bindValue(":cp", client->getCp());
+    query->bindValue(":commentaires", client->getCommentaires());
+    query->bindValue(":tel", client->getnumTel());
+    query->bindValue(":date", client->getJourPassage().toString("yyyy-MM-dd"));
+    query->bindValue(":duree", client->getDureeEstime());
+    query->bindValue(":priorite", client->getPriorite());
+}
+
 QSqlTableModel * BDManager::searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin)
 {
     QString nom = leNom->text(), prenom = lePrenom->text(), identifiant = leIdentifiant->text();
@@ -60,18 +74,13 @@ QSqlTableModel * BDManager::searchClient(QLineEdit * leNom, QLineEdit * lePrenom
     return model;
 }
 
-void BDManager::bindValue(QSqlQuery * query, Client * client)
+QSqlTableModel * BDManager::selectAllClient()
 {
-    query->bindValue(":nom", client->getNom());
-    query->bindValue(":prenom", client->getPrenom());
-    query->bindValue(":adresse", client->getAdresse());
-    query->bindValue(":ville", client->getVille());
-    query->bindValue(":cp", client->getCp());
-    query->bindValue(":commentaires", client->getCommentaires());
-    query->bindValue(":tel", client->getnumTel());
-    query->bindValue(":date", client->getJourPassage().toString("yyyy-MM-dd"));
-    query->bindValue(":duree", client->getDureeEstime());
-    query->bindValue(":priorite", client->getPriorite());
+    QSqlTableModel * model = new QSqlTableModel(NULL, QSqlDatabase::database());
+    model->setTable("TClient");
+    model->select();
+
+    return model;
 }
 
 int BDManager::addPersonnel(Personnel * personnel)

@@ -24,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->deRendezvousDebut->setMinimumDate(QDate::currentDate());
     ui->deRendezvousFin->setMinimumDate(QDate::currentDate().addDays(1));
 
+    // Fill TableView (client)
+    initClient();
+
     // Fill TreeView (personnel)
     initPersonnel();
 }
@@ -46,21 +49,27 @@ void MainWindow::on_actionA_propos_triggered()
 
 void MainWindow::on_actionClient_triggered()
 {
-
     DialogClient dlgClient;
     dlgClient.exec();
+    initClient();
 }
 
 void MainWindow::on_actionPersonnel_triggered()
 {
     DialogPersonnel dlgPersonnel;
     dlgPersonnel.exec();
+    initPersonnel();
 }
 
 void MainWindow::on_btnRechercherclient_clicked()
 {
     model = bdManager->searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
+    setPropertyTableView();
+    addModifAndRemoveOption();
+}
 
+void MainWindow::setPropertyTableView()
+{
     ui->tableView->setModel(model);
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Not allow user to edit cell
 
@@ -71,8 +80,6 @@ void MainWindow::on_btnRechercherclient_clicked()
     ui->tableView->hideColumn(7);
     ui->tableView->hideColumn(9);
     ui->tableView->hideColumn(10);
-
-    addModifAndRemoveOption();
 }
 
 void MainWindow::addModifAndRemoveOption()
@@ -125,6 +132,20 @@ void MainWindow::on_tableView_activated(const QModelIndex &index)
             addModifAndRemoveOption();
         }
     }
+}
+
+void MainWindow::initClient()
+{
+    model = bdManager->selectAllClient();
+    setPropertyTableView();
+    addModifAndRemoveOption();
+
+    // Reset all search fields
+    ui->leIdentifiant->setText("");
+    ui->leNom->setText("");
+    ui->lePrenom->setText("");
+    ui->deRendezvousDebut->setDate(QDate::currentDate());
+    ui->deRendezvousFin->setDate(QDate::currentDate().addDays(1));
 }
 
 void MainWindow::initPersonnel()

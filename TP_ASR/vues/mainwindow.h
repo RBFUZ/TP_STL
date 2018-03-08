@@ -38,6 +38,8 @@ private:
     QMap<QString, QList<Personnel *>> mapPersonnel;
 
     void addModifAndRemoveOption();
+    void initClient();
+    void setPropertyTableView();
     void initPersonnel();
 };
 
