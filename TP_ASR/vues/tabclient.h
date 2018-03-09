@@ -2,7 +2,7 @@
 #define TABCLIENT_H
 
 #include <QWidget>
-#include "bdmanager.h"
+#include "bdmanagerclient.h"
 
 namespace Ui {
 class TabClient;
@@ -25,7 +25,7 @@ private slots:
 private:
     // Attributes
     Ui::TabClient *ui;
-    BDManager * bdManager;
+    BDManagerClient * bdManagerClient;
     QSqlTableModel * model; // TODO A revoir, inutile peut être
 
     // Methods

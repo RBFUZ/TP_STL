@@ -25,7 +25,7 @@ TabClient::~TabClient()
 
 void TabClient::on_btnRechercherclient_clicked()
 {
-    model = bdManager->searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
+    model = bdManagerClient->searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
     setPropertyTableView();
     addModifAndRemoveOption();
 }
@@ -98,7 +98,7 @@ void TabClient::on_tableView_activated(const QModelIndex &index)
 
 void TabClient::initClient()
 {
-    model = bdManager->selectAllClient();
+    model = bdManagerClient->selectAllClient();
     setPropertyTableView();
     addModifAndRemoveOption();
 
