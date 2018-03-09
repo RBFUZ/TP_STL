@@ -15,17 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     bdManager = new BDManager();
-    model = NULL;
 
     // Init status bar
     ui->statusBar->showMessage("Connecté !");
-
-    //Init Date
-    ui->deRendezvousDebut->setMinimumDate(QDate::currentDate());
-    ui->deRendezvousFin->setMinimumDate(QDate::currentDate().addDays(1));
-
-    // Fill TableView (client)
-    initClient();
 
     // Fill TreeView (personnel)
     initPersonnel();
@@ -51,7 +43,7 @@ void MainWindow::on_actionClient_triggered()
 {
     DialogClient dlgClient;
     dlgClient.exec();
-    initClient();
+    ui->tabClient->initClient();
 }
 
 void MainWindow::on_actionPersonnel_triggered()
@@ -59,93 +51,6 @@ void MainWindow::on_actionPersonnel_triggered()
     DialogPersonnel dlgPersonnel;
     dlgPersonnel.exec();
     initPersonnel();
-}
-
-void MainWindow::on_btnRechercherclient_clicked()
-{
-    model = bdManager->searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
-    setPropertyTableView();
-    addModifAndRemoveOption();
-}
-
-void MainWindow::setPropertyTableView()
-{
-    ui->tableView->setModel(model);
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Not allow user to edit cell
-
-    ui->tableView->hideColumn(3);
-    ui->tableView->hideColumn(4);
-    ui->tableView->hideColumn(5);
-    ui->tableView->hideColumn(6);
-    ui->tableView->hideColumn(7);
-    ui->tableView->hideColumn(9);
-    ui->tableView->hideColumn(10);
-}
-
-void MainWindow::addModifAndRemoveOption()
-{
-    // Add two columns (modification, suppression)
-    model->insertColumns(11, 2);
-    model->setHeaderData(11, Qt::Horizontal, QObject::tr("Modification"));
-    model->setHeaderData(12, Qt::Horizontal, QObject::tr("Suppression"));
-
-    // Add labels for each rows
-    for (int i = 0; i < model->rowCount(); i++)
-    {
-        ui->tableView->setIndexWidget(model->index(i,11), new QLabel("<font color='red'>Modifier</font>")); // Add label to the cell modification
-        ui->tableView->setIndexWidget(model->index(i,12), new QLabel("<font color='red'>Supprimer</font>")); // Add label to the cell suppression
-    }
-}
-
-void MainWindow::on_tableView_activated(const QModelIndex &index)
-{
-    if (index.column() == 11 || index.column() == 12)
-    {
-        if (index.column() == 11)
-        {
-            Client * client = new Client();
-            client->setId(model->index(index.row(), 0).data().toInt());
-            client->setNom(model->index(index.row(), 1).data().toString());
-            client->setPrenom(model->index(index.row(), 2).data().toString());
-            client->setAdress(model->index(index.row(), 3).data().toString());
-            client->setVille(model->index(index.row(), 4).data().toString());
-            client->setCp(model->index(index.row(), 5).data().toString());
-            client->setComentaires(model->index(index.row(), 6).data().toString());
-            client->setNumTel(model->index(index.row(), 7).data().toInt());
-            client->setJourPassge(QDate::fromString(model->index(index.row(), 8).data().toString(), "yyyy-MM-dd"));
-            client->setDureeEstime(model->index(index.row(), 9).data().toInt());
-            client->setPriorite(model->index(index.row(), 10).data().toInt());
-
-            DialogClient dialogClient;
-            dialogClient.setCreate(false); // Change mode of dialogClient because we need to modify the client and not add an other.
-            dialogClient.setClient(client); // Print information to the dialogClient
-            dialogClient.exec();
-
-            // Refresh tableView
-            model->selectRow(index.row());
-        }
-        else
-        {
-            model->removeRow(index.row());
-            model->submitAll(); // Push modification to the database
-            model->select(); // Refresh entries
-            addModifAndRemoveOption();
-        }
-    }
-}
-
-void MainWindow::initClient()
-{
-    model = bdManager->selectAllClient();
-    setPropertyTableView();
-    addModifAndRemoveOption();
-
-    // Reset all search fields
-    ui->leIdentifiant->setText("");
-    ui->leNom->setText("");
-    ui->lePrenom->setText("");
-    ui->deRendezvousDebut->setDate(QDate::currentDate());
-    ui->deRendezvousFin->setDate(QDate::currentDate().addDays(1));
 }
 
 void MainWindow::initPersonnel()

@@ -26,96 +26,10 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="tabRecherche">
+    <widget class="TabClient" name="tabClient">
      <attribute name="title">
       <string>Recherche de client</string>
      </attribute>
-     <widget class="QWidget" name="gridLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>681</width>
-        <height>341</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayoutRecherche">
-       <item row="1" column="7">
-        <widget class="QDateEdit" name="deRendezvousFin">
-         <property name="displayFormat">
-          <string>yyyy-MM-dd</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="6">
-        <widget class="QLabel" name="lblDaterendezvousFin">
-         <property name="text">
-          <string>Fin</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="5" colspan="3">
-        <widget class="QLineEdit" name="leIdentifiant"/>
-       </item>
-       <item row="0" column="4">
-        <widget class="QLabel" name="lblIdentifiant">
-         <property name="text">
-          <string>Identifiant</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="5">
-        <widget class="QDateEdit" name="deRendezvousDebut">
-         <property name="displayFormat">
-          <string>yyyy-MM-dd</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QLabel" name="lblDaterendezvousDebut">
-         <property name="text">
-          <string>Début</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="8" rowspan="2">
-        <widget class="QPushButton" name="btnRechercherclient">
-         <property name="text">
-          <string>Rechercher</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="9">
-        <widget class="QTableView" name="tableView"/>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="lePrenom"/>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="leNom"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="lblPrenom">
-         <property name="text">
-          <string>Prénom</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="lblNom">
-         <property name="text">
-          <string>Nom</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
     </widget>
     <widget class="QWidget" name="tabListePersonnel">
      <attribute name="title">
@@ -302,6 +216,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>TabClient</class>
+   <extends>QWidget</extends>
+   <header>tabclient.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="logo.qrc"/>
  </resources>

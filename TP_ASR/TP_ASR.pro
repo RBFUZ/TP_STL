@@ -36,7 +36,8 @@ SOURCES += \
     modeles/rdv.cpp \
     modeles/compte.cpp \
     bdmanager.cpp \
-    modeles/personnel.cpp
+    modeles/personnel.cpp \
+    tabclient.cpp
 
 HEADERS += \
         vues/mainwindow.h \
@@ -50,14 +51,16 @@ HEADERS += \
     modeles/rdv.h \
     modeles/compte.h \
     bdmanager.h \
-    modeles/personnel.h
+    modeles/personnel.h \
+    tabclient.h
 
 FORMS += \
         mainwindow.ui \
     dialogconnexion.ui \
     dialogclient.ui \
     dialogpersonnel.ui \
-    dialogapropos.ui
+    dialogapropos.ui \
+    tabclient.ui
 
 RESOURCES += \
     logo.qrc
