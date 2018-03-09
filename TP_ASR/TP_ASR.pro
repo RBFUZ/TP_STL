@@ -30,6 +30,7 @@ SOURCES += \
     vues/dialogclient.cpp \
     vues/dialogpersonnel.cpp \
     vues/dialogapropos.cpp \
+    vues/tabclient.cpp \
     c_init_bd.cpp \
     modeles/client.cpp \
     modeles/type.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     vues/dialogclient.h \
     vues/dialogpersonnel.h \
     vues/dialogapropos.h \
+    vues/tabclient.h \
     c_init_bd.h \
     modeles/client.h \
     modeles/type.h \
@@ -59,7 +61,8 @@ FORMS += \
     dialogconnexion.ui \
     dialogclient.ui \
     dialogpersonnel.ui \
-    dialogapropos.ui
+    dialogapropos.ui \
+    tabclient.ui
 
 RESOURCES += \
     logo.qrc

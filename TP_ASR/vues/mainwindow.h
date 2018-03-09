@@ -22,8 +22,6 @@ private slots:
     void on_actionClient_triggered();
     void on_actionPersonnel_triggered();
     void on_actionA_propos_triggered();
-    void on_tableView_activated(const QModelIndex &index);
-    void on_btnRechercherclient_clicked();
 
     void on_treeView_clicked(const QModelIndex &index);
 
@@ -34,12 +32,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     BDManager * bdManager;
-    QSqlTableModel * model; // TODO A revoir, inutile peut être
     QMap<QString, QList<Personnel *>> mapPersonnel;
 
-    void addModifAndRemoveOption();
-    void initClient();
-    void setPropertyTableView();
     void initPersonnel();
 };
 
