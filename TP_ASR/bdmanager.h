@@ -19,10 +19,7 @@ class BDManager
 public:
     BDManager();
 
-    int addClient(Client * client);
-    void modifyClient(Client * client);
-    QSqlTableModel * searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin);
-    QSqlTableModel * selectAllClient();
+
 
     int addPersonnel(Personnel * personnel);
     void modifyPersonnel(Personnel * personnel);
@@ -44,8 +41,7 @@ public:
     QList<Personnel *> selectPersonnelSpecificClient(int idClient);
 
 
-private:
-    void bindValue(QSqlQuery * query, Client * client); // Bind client value to the query
+private :
     QSqlQuery * query;
     QSqlQueryModel * model;
 };

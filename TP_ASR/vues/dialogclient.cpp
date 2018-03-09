@@ -1,6 +1,6 @@
 #include "dialogclient.h"
 #include "ui_dialogclient.h"
-#include "bdmanager.h"
+#include "bdmanagerClient.h"
 #include <QList>
 
 DialogClient::DialogClient(QWidget *parent) :
@@ -9,7 +9,7 @@ DialogClient::DialogClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    bdManager = new BDManager();
+    bdManagerClient = new BDManagerClient();
 
     client = nullptr;
 
@@ -30,7 +30,7 @@ DialogClient::~DialogClient()
 
 void DialogClient::initRessources()
 {
-    listAllPersonnel = bdManager->selectAllPersonnel();
+    listAllPersonnel = bdManagerPersonnel->selectAllPersonnel();
 
     QListWidgetItem * pItem = 0;
     for (int i = 0; i < listAllPersonnel.size(); ++i)
@@ -112,20 +112,21 @@ void DialogClient::clientIsValid()
 
     if (create)
     {
-        idClientAdded = bdManager->addClient(client); // Add the client to the database
+        idClientAdded = bdManagerClient->addClient(client); // Add the client to the database
 
         // Create each RDV. Depend on personnel selected
         for (int i = 0; i < ui->lwRessources->count(); ++i)
             if (ui->lwRessources->item(i)->checkState())
-                bdManager->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(i)->getId()));
+                bdManagerPersonnel->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(i)->getId()));
     }
     else
     {
-        bdManager->modifyClient(client); // Modify the client to the database
+        bdManagerClient->modifyClient(client); // Modify the client to the database
 
         // FAIRE ICI
             // - Supprimer les rendez-vous que la personne à décocher.
             // - Ajouter les nouveaux rdv
+        //Utiliser le slot des checkbox de la liste de ressource
     }
 }
 
@@ -146,7 +147,7 @@ void DialogClient::setClient(Client * client)
 
 
     // Check personnel checkbox associated to the client
-    listSpecificPersonnel = bdManager->selectPersonnelSpecificClient(this->client->getId());
+    listSpecificPersonnel = bdManagerPersonnel->selectPersonnelSpecificClient(this->client->getId());
 
     for (int loopSpecific = 0; loopSpecific < listSpecificPersonnel.size(); ++loopSpecific)
         for (int loopAll = 0; loopAll < listAllPersonnel.size(); ++loopAll)

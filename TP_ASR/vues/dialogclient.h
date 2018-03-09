@@ -2,7 +2,8 @@
 #define DIALOGCLIENT_H
 
 #include "modeles/client.h"
-#include "bdmanager.h"
+#include "bdmanagerclient.h"
+#include "bdManager.h"
 
 #include <QDialog>
 #include <QListWidget>
@@ -34,7 +35,8 @@ private slots:
 
 private:
     Ui::DialogClient *ui;
-    BDManager * bdManager;
+    BDManagerClient * bdManagerClient;
+    BDManager * bdManagerPersonnel;
     QList<Personnel *> listAllPersonnel;
     QList<Personnel *> listSpecificPersonnel;
     Client * client;
