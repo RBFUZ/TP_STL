@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QMap>
 #include "bdmanager.h"
+#include "vues/tabclient.h"
+#include "vues/tabpersonnel.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,18 +25,8 @@ private slots:
     void on_actionPersonnel_triggered();
     void on_actionA_propos_triggered();
 
-    void on_treeView_clicked(const QModelIndex &index);
-
-    void on_btnModifier_clicked();
-
-    void on_btnSupprimer_clicked();
-
 private:
     Ui::MainWindow *ui;
-    BDManager * bdManager;
-    QMap<QString, QList<Personnel *>> mapPersonnel;
-
-    void initPersonnel();
 };
 
 #endif // MAINWINDOW_H

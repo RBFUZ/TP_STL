@@ -24,68 +24,17 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="TabClient" name="tabClient">
      <attribute name="title">
       <string>Recherche de client</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="tabListePersonnel">
+    <widget class="TabPersonnel" name="tabPersonnel">
      <attribute name="title">
       <string>Liste du personnel</string>
      </attribute>
-     <widget class="QWidget" name="gridLayoutWidget_3">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>691</width>
-        <height>351</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="1">
-        <widget class="QPushButton" name="btnModifier">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Modifier</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="btnSupprimer">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Supprimer</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0" colspan="3">
-        <widget class="QTreeView" name="treeView"/>
-       </item>
-      </layout>
-     </widget>
     </widget>
     <widget class="QWidget" name="tabPlanification">
      <attribute name="title">
@@ -119,7 +68,7 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="3">
-        <widget class="QTableView" name="tableView_2"/>
+        <widget class="QTableView" name="tableView"/>
        </item>
       </layout>
      </widget>
@@ -221,6 +170,12 @@
    <class>TabClient</class>
    <extends>QWidget</extends>
    <header>tabclient.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TabPersonnel</class>
+   <extends>QWidget</extends>
+   <header>tabpersonnel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

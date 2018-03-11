@@ -1,7 +1,9 @@
 #include "bdmanagerclient.h"
 
 BDManagerClient::BDManagerClient()
-{}
+{
+    query = new QSqlQuery(QSqlDatabase::database());
+}
 
 int BDManagerClient::addClient(Client * client)
 {

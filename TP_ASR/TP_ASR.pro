@@ -31,14 +31,15 @@ SOURCES += \
     vues/dialogpersonnel.cpp \
     vues/dialogapropos.cpp \
     vues/tabclient.cpp \
-    c_init_bd.cpp \
+    vues/tabpersonnel.cpp \
     modeles/client.cpp \
     modeles/type.cpp \
     modeles/rdv.cpp \
     modeles/compte.cpp \
-    bdmanager.cpp \
     modeles/personnel.cpp \
-    bdmanagerclient.cpp
+    bdmanager/c_init_bd.cpp \
+    bdmanager/bdmanager.cpp \
+    bdmanager/bdmanagerclient.cpp
 
 HEADERS += \
         vues/mainwindow.h \
@@ -47,14 +48,15 @@ HEADERS += \
     vues/dialogpersonnel.h \
     vues/dialogapropos.h \
     vues/tabclient.h \
-    c_init_bd.h \
+    vues/tabpersonnel.h \
     modeles/client.h \
     modeles/type.h \
     modeles/rdv.h \
     modeles/compte.h \
-    bdmanager.h \
     modeles/personnel.h \
-    bdmanagerclient.h
+    bdmanager/c_init_bd.h \
+    bdmanager/bdmanager.h \
+    bdmanager/bdmanagerclient.h
 
 FORMS += \
         mainwindow.ui \
@@ -62,7 +64,8 @@ FORMS += \
     dialogclient.ui \
     dialogpersonnel.ui \
     dialogapropos.ui \
-    tabclient.ui
+    tabclient.ui \
+    tabpersonnel.ui
 
 RESOURCES += \
     logo.qrc

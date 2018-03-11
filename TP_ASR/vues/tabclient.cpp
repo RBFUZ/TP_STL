@@ -8,7 +8,10 @@ TabClient::TabClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    model = NULL; // TODO A revoir
+    // Init BD connexion
+    bdManagerClient = new BDManagerClient();
+
+    model = nullptr;
 
     //Init Date
     ui->deRendezvousDebut->setMinimumDate(QDate::currentDate());
