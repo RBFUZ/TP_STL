@@ -5,7 +5,7 @@
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 #include "modeles/personnel.h"
-#include "bdmanager.h"
+#include "bdmanager/bdmanagerpersonnel.h"
 
 namespace Ui {
 class DialogPersonnel;
@@ -30,7 +30,7 @@ private slots:
 
 private:
     Ui::DialogPersonnel *ui;
-    BDManager * bdManager;
+    BDManagerPersonnel * bdManagerPersonnel;
     Personnel * personnel;
     void initType();
     void personnelIsValid();

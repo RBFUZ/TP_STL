@@ -5,8 +5,8 @@
 #include <QSqlQueryModel>
 #include <QStandardItemModel>
 
-#include "bdmanager.h"
 #include "vues/dialogpersonnel.h"
+#include "bdmanager/bdmanagerpersonnel.h"
 
 namespace Ui {
 class TabPersonnel;
@@ -30,7 +30,7 @@ private slots:
 
 private:
     Ui::TabPersonnel *ui;
-    BDManager * bdManager;
+    BDManagerPersonnel * bdManagerPersonnel;
     QMap<QString, QList<Personnel *>> mapPersonnel;
 };
 

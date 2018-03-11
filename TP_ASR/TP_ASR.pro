@@ -39,7 +39,9 @@ SOURCES += \
     modeles/personnel.cpp \
     bdmanager/c_init_bd.cpp \
     bdmanager/bdmanager.cpp \
-    bdmanager/bdmanagerclient.cpp
+    bdmanager/bdmanagerclient.cpp \
+    bdmanager/bdmanagerpersonnel.cpp \
+    bdmanager/bdmanagerplanification.cpp
 
 HEADERS += \
         vues/mainwindow.h \
@@ -56,7 +58,9 @@ HEADERS += \
     modeles/personnel.h \
     bdmanager/c_init_bd.h \
     bdmanager/bdmanager.h \
-    bdmanager/bdmanagerclient.h
+    bdmanager/bdmanagerclient.h \
+    bdmanager/bdmanagerpersonnel.h \
+    bdmanager/bdmanagerplanification.h
 
 FORMS += \
         mainwindow.ui \

@@ -2,7 +2,7 @@
 #include "vues/dialogconnexion.h"
 #include <QApplication>
 #include "modeles/client.h"
-#include "c_init_bd.h"
+#include "bdmanager/c_init_bd.h"
 
 int main(int argc, char *argv[])
 {

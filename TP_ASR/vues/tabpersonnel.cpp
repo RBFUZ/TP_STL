@@ -7,7 +7,7 @@ TabPersonnel::TabPersonnel(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    bdManager = new BDManager();
+    bdManagerPersonnel = new BDManagerPersonnel();
 
     // Fill TreeView (personnel)
     initPersonnel();
@@ -20,7 +20,7 @@ TabPersonnel::~TabPersonnel()
 
 void TabPersonnel::initPersonnel()
 {
-    QSqlQueryModel * listType = bdManager->selectAllType();
+    QSqlQueryModel * listType = bdManagerPersonnel->selectAllType();
     QList<Personnel *> listPersonnel;
 
     QStandardItemModel * allItem = new QStandardItemModel(listType->rowCount(), 1); //  Contains all items
@@ -28,7 +28,7 @@ void TabPersonnel::initPersonnel()
     for (int nodeNumber = 0; nodeNumber < listType->rowCount(); ++nodeNumber) // Iteration on each node
     {
         QStandardItem * item = new QStandardItem(listType->record(nodeNumber).value(1).toString()); // Node
-        listPersonnel = bdManager->selectPersonnelSpecificType(listType->record(nodeNumber).value(0).toInt()); // Get all personnel of type item defined line above
+        listPersonnel = bdManagerPersonnel->selectPersonnelSpecificType(listType->record(nodeNumber).value(0).toInt()); // Get all personnel of type item defined line above
 
         mapPersonnel.insert(listType->record(nodeNumber).value(1).toString(), listPersonnel); // Insert allPersonnel of one type to the map
 
@@ -81,12 +81,12 @@ void TabPersonnel::on_btnSupprimer_clicked()
 
     int idPersonnel = mapPersonnel.find(index.parent().data().toString()).value().at(index.row())->getId();
 
-    if (bdManager->isInformaticien(idPersonnel))
+    if (bdManagerPersonnel->isInformaticien(idPersonnel))
     {
-        bdManager->removeCompte(idPersonnel);
+        bdManagerPersonnel->removeCompte(idPersonnel);
     }
 
-    bdManager->removePersonnel(idPersonnel);
+    bdManagerPersonnel->removePersonnel(idPersonnel);
 
     initPersonnel();
 }

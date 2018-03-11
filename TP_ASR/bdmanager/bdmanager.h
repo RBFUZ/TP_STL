@@ -19,28 +19,6 @@ class BDManager
 public:
     BDManager();
 
-
-
-    int addPersonnel(Personnel * personnel);
-    void modifyPersonnel(Personnel * personnel);
-    void removePersonnel(int idPersonnel);
-    QList<Personnel *> selectAllPersonnel();
-    QList<Personnel *> selectPersonnelSpecificType(int idType);
-    Personnel * selectPersonnelSpecificId(int idPersonnel);
-    QList<Personnel *> convertSqlToPersonnel(QSqlQueryModel *model);
-    bool isInformaticien(int idPersonnel);
-
-    QSqlQueryModel * selectAllType();
-    QString selectTypeSpecificId(int id);
-
-    void addCompte(Compte * compte);
-    void removeCompte(int idPersonnel);
-    Compte *selectCompteSpecificIdPersonnel(int idPersonnel);
-
-    void createRdv(Rdv *rdv);
-    QList<Personnel *> selectPersonnelSpecificClient(int idClient);
-
-
 private :
     QSqlQuery * query;
     QSqlQueryModel * model;

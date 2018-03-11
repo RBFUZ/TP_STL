@@ -1,6 +1,7 @@
 #include "dialogclient.h"
 #include "ui_dialogclient.h"
-#include "bdmanagerClient.h"
+#include "bdmanager/bdmanagerclient.h"
+
 #include <QList>
 
 DialogClient::DialogClient(QWidget *parent) :
@@ -10,6 +11,8 @@ DialogClient::DialogClient(QWidget *parent) :
     ui->setupUi(this);
 
     bdManagerClient = new BDManagerClient();
+    bdManagerPersonnel = new BDManagerPersonnel();
+    bdManagerPlanification = new BDManagerPlanification();
 
     client = nullptr;
 
@@ -117,7 +120,7 @@ void DialogClient::clientIsValid()
         // Create each RDV. Depend on personnel selected
         for (int i = 0; i < ui->lwRessources->count(); ++i)
             if (ui->lwRessources->item(i)->checkState())
-                bdManagerPersonnel->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(i)->getId()));
+                bdManagerPlanification->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(i)->getId()));
     }
     else
     {

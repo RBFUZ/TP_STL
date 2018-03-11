@@ -2,7 +2,7 @@
 #define TABCLIENT_H
 
 #include <QWidget>
-#include "bdmanagerclient.h"
+#include "bdmanager/bdmanagerclient.h"
 
 namespace Ui {
 class TabClient;

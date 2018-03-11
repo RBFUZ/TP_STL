@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QMap>
-#include "bdmanager.h"
 #include "vues/tabclient.h"
 #include "vues/tabpersonnel.h"
 
