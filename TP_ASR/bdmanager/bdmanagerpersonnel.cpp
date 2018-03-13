@@ -1,8 +1,11 @@
 #include "bdmanagerpersonnel.h"
 
+QSqlDatabase BDManagerPersonnel::db;
+
 BDManagerPersonnel::BDManagerPersonnel()
 {
-    query = new QSqlQuery(QSqlDatabase::database());
+    db = BDManager::getInstance()->getConnection();
+    query = new QSqlQuery(db);
 }
 
 int BDManagerPersonnel::addPersonnel(Personnel * personnel)

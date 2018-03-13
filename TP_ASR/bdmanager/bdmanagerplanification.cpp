@@ -1,8 +1,11 @@
 #include "bdmanagerplanification.h"
 
+QSqlDatabase BDManagerPlanification::db;
+
 BDManagerPlanification::BDManagerPlanification()
 {
-    query = new QSqlQuery(QSqlDatabase::database());
+    db = BDManager::getInstance()->getConnection();
+    query = new QSqlQuery(db);
 }
 
 void BDManagerPlanification::createRdv(Rdv * rdv)

@@ -7,6 +7,7 @@
 
 #include "modeles/personnel.h"
 #include "modeles/compte.h"
+#include "bdmanager/bdmanager.h"
 
 class BDManagerPersonnel
 {
@@ -31,6 +32,7 @@ public:
     Compte *selectCompteSpecificIdPersonnel(int idPersonnel);
 
 private:
+    static QSqlDatabase db;
     QSqlQuery * query;
     QSqlQueryModel * model;
 };

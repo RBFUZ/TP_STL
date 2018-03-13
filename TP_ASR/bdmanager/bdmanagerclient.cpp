@@ -1,8 +1,11 @@
 #include "bdmanagerclient.h"
 
+QSqlDatabase BDManagerClient::db;
+
 BDManagerClient::BDManagerClient()
 {
-    query = new QSqlQuery(QSqlDatabase::database());
+    db = BDManager::getInstance()->getConnection();
+    query = new QSqlQuery(db);
 }
 
 int BDManagerClient::addClient(Client * client)
@@ -13,6 +16,7 @@ int BDManagerClient::addClient(Client * client)
     bindValue(query, client); // Bind client value to the query
 
     query->exec();
+
     return query->lastInsertId().toInt();
 }
 
@@ -40,7 +44,8 @@ void BDManagerClient::modifyClient(Client * client)
 QSqlTableModel * BDManagerClient::searchClient(QLineEdit * leNom, QLineEdit * lePrenom, QLineEdit * leIdentifiant, QDateEdit * deDebut, QDateEdit * deFin)
 {
     QString nom = leNom->text(), prenom = lePrenom->text(), identifiant = leIdentifiant->text();
-    QSqlTableModel * model = new QSqlTableModel(NULL, QSqlDatabase::database());
+
+    QSqlTableModel * model = new QSqlTableModel(NULL, db);
     model->setTable("TClient");
     model->select();
 
@@ -62,7 +67,7 @@ QSqlTableModel * BDManagerClient::searchClient(QLineEdit * leNom, QLineEdit * le
 
 QSqlTableModel * BDManagerClient::selectAllClient()
 {
-    QSqlTableModel * model = new QSqlTableModel(NULL, QSqlDatabase::database());
+    QSqlTableModel * model = new QSqlTableModel(NULL, db);
     model->setTable("TClient");
     model->select();
 

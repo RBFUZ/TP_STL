@@ -6,6 +6,7 @@
 #include "modeles/compte.h"
 #include "modeles/rdv.h"
 #include "modeles/type.h"
+#include "bdmanager/bdmanager.h"
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -26,6 +27,8 @@ public:
 
 private:
     void bindValue(QSqlQuery * query, Client * client); // Bind client value to the query
+
+    static QSqlDatabase db;
     QSqlQuery * query;
     QSqlQueryModel * model;
 };

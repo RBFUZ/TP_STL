@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 
 #include "modeles/rdv.h"
+#include "bdmanager/bdmanager.h"
 
 class BDManagerPlanification
 {
@@ -14,6 +15,7 @@ public:
     void createRdv(Rdv *rdv);
 
 private:
+    static QSqlDatabase db;
     QSqlQuery * query;
     QSqlQueryModel * model;
 };
