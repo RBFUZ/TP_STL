@@ -29,6 +29,17 @@ DialogClient::DialogClient(QWidget *parent) :
 DialogClient::~DialogClient()
 {
     delete ui;
+
+    // Delete BDManager
+    delete bdManagerClient;
+    delete bdManagerPersonnel;
+    delete bdManagerPlanification;
+
+    // Delete List
+    qDeleteAll(listAllPersonnel);
+    qDeleteAll(listSpecificPersonnel);
+
+    delete client;
 }
 
 void DialogClient::initRessources()

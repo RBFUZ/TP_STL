@@ -8,28 +8,32 @@ DialogConnexion::DialogConnexion(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    bdPersonnel = new BDManagerPersonnel();
+    bdManagerPersonnel = new BDManagerPersonnel();
 }
 
 DialogConnexion::~DialogConnexion()
 {
     delete ui;
+    delete bdManagerPersonnel;
 }
 
 // Vérification du login et de mot de passe
 bool DialogConnexion::verifyConnexion(QString qsLogin, QString qsMotdepasse)
 {
-    QList<Compte* > listAllCompte = bdPersonnel->selectAllCompte();
+    QList<Compte* > listAllCompte = bdManagerPersonnel->selectAllCompte();
+    bool result = false;
 
     for (int indexList = 0; indexList < listAllCompte.size(); indexList++) // For each element of the list
     {
         if (qsLogin.compare(listAllCompte.at(indexList)->getLogin()) == 0 && qsMotdepasse.compare(listAllCompte.at(indexList)->getMotdepasse()) == 0)
         {
-            return true;
+            result = true;
         }
     }
 
-    return false;
+    qDeleteAll(listAllCompte);
+
+    return result;
 }
 
 // Vérification du login et du mot de passe

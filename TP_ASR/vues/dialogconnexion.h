@@ -23,7 +23,7 @@ private slots:
 private:
     Ui::DialogConnexion *ui;
 
-    BDManagerPersonnel * bdPersonnel;
+    BDManagerPersonnel * bdManagerPersonnel;
 
     bool verifyConnexion(QString qsLogin, QString qsMotdepasse);
 };
