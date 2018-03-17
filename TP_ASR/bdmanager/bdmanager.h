@@ -10,7 +10,7 @@ class BDManager
 {
 public:
     static BDManager * getInstance();
-    static QSqlDatabase getConnection();
+    static QSqlDatabase * getConnection();
 
 private:
     BDManager();
@@ -20,7 +20,7 @@ private:
     void close();
 
     static BDManager * instance;
-    static QSqlDatabase db;
+    static QSqlDatabase * db;
 };
 
 #endif // BDMANAGER_H

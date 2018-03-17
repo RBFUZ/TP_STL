@@ -8,6 +8,7 @@ TabPersonnel::TabPersonnel(QWidget *parent) :
     ui->setupUi(this);
 
     bdManagerPersonnel = new BDManagerPersonnel();
+    bdManagerPlanification = new BDManagerPlanification();
 
     // Fill TreeView (personnel)
     initPersonnel();
@@ -87,6 +88,7 @@ void TabPersonnel::on_btnSupprimer_clicked()
     }
 
     bdManagerPersonnel->removePersonnel(idPersonnel);
+    bdManagerPlanification->removeRdv(idPersonnel);
 
     initPersonnel();
 }

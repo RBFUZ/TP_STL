@@ -1,7 +1,7 @@
 #include "bdmanager.h"
 
 BDManager * BDManager::instance;
-QSqlDatabase BDManager::db;
+QSqlDatabase * BDManager::db;
 
 
 BDManager::BDManager()
@@ -22,29 +22,29 @@ BDManager * BDManager::getInstance()
     return instance;
 }
 
-QSqlDatabase BDManager::getConnection()
+QSqlDatabase * BDManager::getConnection()
 {
     return db;
 }
 
 void BDManager::open()
 {
-    db = QSqlDatabase::database("Planification");
+    db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE", "myConnection"));
 
-    if(db.isValid())
+    if(db->isValid())
     {
-        db.setDatabaseName("base_tmp.sqli");
-        db.open();
+        db->setDatabaseName("base_tmp.sqli");
+        db->open();
     }
     else
     {
-        qDebug() << db.lastError().text();
+        qDebug() << db->lastError().text();
         qDebug() << "Erreur à l'ouverture de la base !\n";
     }
 }
 
 void BDManager::close()
 {
-    db.close();
-    db.removeDatabase("Planification");
+    db->close();
+    db->removeDatabase("QSQLITE");
 }

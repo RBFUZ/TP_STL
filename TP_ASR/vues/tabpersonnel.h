@@ -7,6 +7,7 @@
 
 #include "vues/dialogpersonnel.h"
 #include "bdmanager/bdmanagerpersonnel.h"
+#include "bdmanager/bdmanagerplanification.h"
 
 namespace Ui {
 class TabPersonnel;
@@ -31,6 +32,7 @@ private slots:
 private:
     Ui::TabPersonnel *ui;
     BDManagerPersonnel * bdManagerPersonnel;
+    BDManagerPlanification * bdManagerPlanification;
     QMap<QString, QList<Personnel *>> mapPersonnel;
 };
 

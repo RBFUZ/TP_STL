@@ -1,11 +1,11 @@
 #include "bdmanagerpersonnel.h"
 
-QSqlDatabase BDManagerPersonnel::db;
+QSqlDatabase * BDManagerPersonnel::db;
 
 BDManagerPersonnel::BDManagerPersonnel()
 {
     db = BDManager::getInstance()->getConnection();
-    query = new QSqlQuery(db);
+    query = new QSqlQuery(*db);
 }
 
 int BDManagerPersonnel::addPersonnel(Personnel * personnel)
@@ -166,4 +166,23 @@ Compte * BDManagerPersonnel::selectCompteSpecificIdPersonnel(int idPersonnel)
 
     compte->convertRecordToCompte(model->record(0));
     return compte;
+}
+
+QList<Compte *> BDManagerPersonnel::selectAllCompte()
+{
+    QList<Compte *> listAllCompte;
+
+    QSqlQueryModel * model = new QSqlQueryModel();
+    query->prepare("SELECT * FROM TCompte");
+    query->exec();
+    model->setQuery(*query);
+
+    for (int i = 0; i < model->rowCount(); ++i)
+    {
+        Compte * compte = new Compte();
+        compte->convertRecordToCompte(model->record(i));
+        listAllCompte.push_back(compte);
+    }
+
+    return listAllCompte;
 }

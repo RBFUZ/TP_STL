@@ -95,6 +95,7 @@ void DialogClient::on_btnOk_clicked()
 
 void DialogClient::clientIsValid()
 {
+    bool newRdv = true, removeRdv = false;
     int idClientAdded = 0;
 
     if (create)
@@ -126,10 +127,34 @@ void DialogClient::clientIsValid()
     {
         bdManagerClient->modifyClient(client); // Modify the client to the database
 
-        // FAIRE ICI
-            // - Supprimer les rendez-vous que la personne à décocher.
-            // - Ajouter les nouveaux rdv
-        //Utiliser le slot des checkbox de la liste de ressource
+        listSpecificPersonnel = bdManagerPersonnel->selectPersonnelSpecificClient(client->getId()); // All personnel linked to the client (old version)
+
+        for (int i = 0; i < ui->lwRessources->count(); ++i)
+        {
+            if (ui->lwRessources->item(i)->checkState()) // Checked
+            {
+                for (int j = 0; j < listSpecificPersonnel.size(); j++) // Make difference between own list and item checked.
+                    if (*(listSpecificPersonnel.at(j)) == *(listAllPersonnel.at(i)))
+                        newRdv = false;
+
+                if (newRdv)
+                    bdManagerPlanification->createRdv(new Rdv(client->getId(), listAllPersonnel.at(i)->getId())); // new item checked so add rdv
+
+                newRdv = true;
+            }
+            else
+            {
+                for (int j = 0; j < listSpecificPersonnel.size(); j++) // Make difference between own list and item checked.
+                    if (*(listSpecificPersonnel.at(j)) == *(listAllPersonnel.at(i)))
+                        removeRdv = true;
+
+                if (removeRdv)
+                {
+                    bdManagerPlanification->removeRdv(client, listAllPersonnel.at(i)); // Item unchecked so remove rdv
+                    removeRdv = false;
+                }
+            }
+        }
     }
 }
 

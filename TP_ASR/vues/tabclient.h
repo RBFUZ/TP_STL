@@ -23,12 +23,10 @@ private slots:
     void on_tableView_activated(const QModelIndex &index);
 
 private:
-    // Attributes
     Ui::TabClient *ui;
     BDManagerClient * bdManagerClient;
-    QSqlTableModel * model; // TODO A revoir, inutile peut être
+    QSqlTableModel * model;
 
-    // Methods
     void addModifAndRemoveOption();
     void setPropertyTableView();
 };

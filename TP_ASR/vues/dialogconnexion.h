@@ -1,6 +1,7 @@
 #ifndef DIALOGCONNEXION_H
 #define DIALOGCONNEXION_H
 
+#include "bdmanager/bdmanagerpersonnel.h"
 #include <QDialog>
 
 namespace Ui {
@@ -17,11 +18,13 @@ public:
 
 private slots:
     void on_btnConnecter_clicked();
-
     void on_btnAnnuler_clicked();
 
 private:
     Ui::DialogConnexion *ui;
+
+    BDManagerPersonnel * bdPersonnel;
+
     bool verifyConnexion(QString qsLogin, QString qsMotdepasse);
 };
 

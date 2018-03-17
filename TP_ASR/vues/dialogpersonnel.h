@@ -30,11 +30,15 @@ private slots:
 
 private:
     Ui::DialogPersonnel *ui;
+
     BDManagerPersonnel * bdManagerPersonnel;
+
     Personnel * personnel;
+
+    bool create;
+
     void initType();
     void personnelIsValid();
-    bool create;
 };
 
 #endif // DIALOGPERSONNEL_H

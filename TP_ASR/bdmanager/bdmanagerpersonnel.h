@@ -29,10 +29,11 @@ public:
 
     void addCompte(Compte * compte);
     void removeCompte(int idPersonnel);
-    Compte *selectCompteSpecificIdPersonnel(int idPersonnel);
+    Compte * selectCompteSpecificIdPersonnel(int idPersonnel);
+    QList<Compte *> selectAllCompte();
 
 private:
-    static QSqlDatabase db;
+    static QSqlDatabase * db;
     QSqlQuery * query;
     QSqlQueryModel * model;
 };

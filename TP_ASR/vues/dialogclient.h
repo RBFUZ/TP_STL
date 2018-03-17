@@ -44,6 +44,7 @@ private:
 
     QList<Personnel *> listAllPersonnel;
     QList<Personnel *> listSpecificPersonnel;
+
     Client * client;
     bool create;
 

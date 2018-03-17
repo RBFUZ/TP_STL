@@ -7,6 +7,8 @@ DialogConnexion::DialogConnexion(QWidget *parent) :
     ui(new Ui::DialogConnexion)
 {
     ui->setupUi(this);
+
+    bdPersonnel = new BDManagerPersonnel();
 }
 
 DialogConnexion::~DialogConnexion()
@@ -17,10 +19,17 @@ DialogConnexion::~DialogConnexion()
 // Vérification du login et de mot de passe
 bool DialogConnexion::verifyConnexion(QString qsLogin, QString qsMotdepasse)
 {
-    if (qsLogin.compare("a") == 0 && qsMotdepasse.compare("a") == 0)
-        return true;
-    else
-        return false;
+    QList<Compte* > listAllCompte = bdPersonnel->selectAllCompte();
+
+    for (int indexList = 0; indexList < listAllCompte.size(); indexList++) // For each element of the list
+    {
+        if (qsLogin.compare(listAllCompte.at(indexList)->getLogin()) == 0 && qsMotdepasse.compare(listAllCompte.at(indexList)->getMotdepasse()) == 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // Vérification du login et du mot de passe

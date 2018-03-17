@@ -16,7 +16,9 @@ private:
 
 public:
     Personnel();
+    Personnel(Personnel &personnel);
     Personnel(QString nom, QString prenom, int idType);
+
     void convertRecordToPersonnel(QSqlRecord record);
     QString formatNom (QString nom);
 
@@ -29,6 +31,11 @@ public:
     void setPrenom(QString prenom) { this->prenom = prenom; }
     int getIdType() { return idType; }
     void setIdType(int idType) { this->idType = idType; }
+
+    bool operator==( Personnel & other )
+    {
+        return id == other.id;
+    }
 };
 
 #endif // PERSONNEL_H

@@ -16,6 +16,7 @@
 #include <QSqlRecord>
 
 class BDManagerClient
+
 {
 public:
     BDManagerClient();
@@ -28,7 +29,7 @@ public:
 private:
     void bindValue(QSqlQuery * query, Client * client); // Bind client value to the query
 
-    static QSqlDatabase db;
+    static QSqlDatabase * db;
     QSqlQuery * query;
     QSqlQueryModel * model;
 };

@@ -3,7 +3,14 @@
 
 Personnel::Personnel()
 {
+}
 
+Personnel::Personnel(Personnel &personnel)
+{
+    qDebug("RECOPIE");
+    id = personnel.id;
+    nom = personnel.nom;
+    prenom = personnel.prenom;
 }
 
 Personnel::Personnel(QString nom, QString prenom, int idType)

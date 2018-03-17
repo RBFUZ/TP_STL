@@ -1,11 +1,11 @@
 #include "bdmanagerclient.h"
 
-QSqlDatabase BDManagerClient::db;
+QSqlDatabase * BDManagerClient::db;
 
 BDManagerClient::BDManagerClient()
 {
     db = BDManager::getInstance()->getConnection();
-    query = new QSqlQuery(db);
+    query = new QSqlQuery(*db);
 }
 
 int BDManagerClient::addClient(Client * client)
@@ -45,7 +45,7 @@ QSqlTableModel * BDManagerClient::searchClient(QLineEdit * leNom, QLineEdit * le
 {
     QString nom = leNom->text(), prenom = lePrenom->text(), identifiant = leIdentifiant->text();
 
-    QSqlTableModel * model = new QSqlTableModel(NULL, db);
+    QSqlTableModel * model = new QSqlTableModel(NULL, *db);
     model->setTable("TClient");
     model->select();
 
@@ -67,7 +67,7 @@ QSqlTableModel * BDManagerClient::searchClient(QLineEdit * leNom, QLineEdit * le
 
 QSqlTableModel * BDManagerClient::selectAllClient()
 {
-    QSqlTableModel * model = new QSqlTableModel(NULL, db);
+    QSqlTableModel * model = new QSqlTableModel(NULL, *db);
     model->setTable("TClient");
     model->select();
 

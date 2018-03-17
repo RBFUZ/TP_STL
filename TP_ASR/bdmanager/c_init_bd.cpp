@@ -13,7 +13,7 @@ C_INIT_BD::C_INIT_BD()
 bool C_INIT_BD::Creation_BD()
 {
     bool b_test;
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "Planification");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
     if(db.isValid())
     {
@@ -177,6 +177,7 @@ bool C_INIT_BD::Creation_BD()
         }
 
         db.close();
+        db.removeDatabase("QSQLITE");
 
         return true;
 
