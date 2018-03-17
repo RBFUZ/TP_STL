@@ -21,11 +21,8 @@ private slots:
     void on_btnAnnuler_clicked();
 
 private:
-    Ui::DialogConnexion *ui;
-
+    Ui::DialogConnexion * ui;
     BDManagerPersonnel * bdManagerPersonnel;
-
-    bool verifyConnexion(QString qsLogin, QString qsMotdepasse);
 };
 
 #endif // DIALOGCONNEXION_H

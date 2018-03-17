@@ -24,6 +24,9 @@ private slots:
     void on_actionPersonnel_triggered();
     void on_actionA_propos_triggered();
 
+public slots:
+    void setStatus(QString message);
+
 private:
     Ui::MainWindow *ui;
 };

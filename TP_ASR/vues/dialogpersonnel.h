@@ -39,6 +39,9 @@ private:
 
     void initType();
     void personnelIsValid();
+
+signals:
+    void changeStatus(QString message);
 };
 
 #endif // DIALOGPERSONNEL_H

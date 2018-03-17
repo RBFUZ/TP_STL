@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Init status bar
     ui->statusBar->showMessage("Connecté !");
+
+    connect(ui->tabClient, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); // For status bar
+    connect(ui->tabPersonnel, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); // For status bar
 }
 
 MainWindow::~MainWindow()
@@ -32,14 +35,25 @@ void MainWindow::on_actionA_propos_triggered()
 
 void MainWindow::on_actionClient_triggered()
 {
-    DialogClient dlgClient;
-    dlgClient.exec();
+    DialogClient * dlgClient = new DialogClient();
+    connect(dlgClient, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); // For status bar
+    dlgClient->exec();
     ui->tabClient->initClient();
+
+    delete dlgClient;
 }
 
 void MainWindow::on_actionPersonnel_triggered()
 {
-    DialogPersonnel dlgPersonnel;
-    dlgPersonnel.exec();
+    DialogPersonnel * dlgPersonnel = new DialogPersonnel();
+    connect(dlgPersonnel, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); // For status bar
+    dlgPersonnel->exec();
     ui->tabPersonnel->initPersonnel();
+
+    delete dlgPersonnel;
+}
+
+void MainWindow::setStatus(QString message)
+{
+    ui->statusBar->showMessage(message);
 }

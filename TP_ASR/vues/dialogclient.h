@@ -49,6 +49,9 @@ private:
     bool create;
 
     void initRessources();
+
+signals:
+    void changeStatus(QString message);
 };
 
 #endif // DIALOGCLIENT_H

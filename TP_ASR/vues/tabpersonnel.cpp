@@ -73,6 +73,7 @@ void TabPersonnel::on_btnModifier_clicked()
     dialogPersonnel.exec();
 
     initPersonnel();
+    emit(changeStatus("Personnel modifié"));
 }
 
 void TabPersonnel::on_btnSupprimer_clicked()
@@ -91,4 +92,5 @@ void TabPersonnel::on_btnSupprimer_clicked()
     bdManagerPlanification->removeRdv(idPersonnel);
 
     initPersonnel();
+    emit(changeStatus("Personnel supprimé"));
 }

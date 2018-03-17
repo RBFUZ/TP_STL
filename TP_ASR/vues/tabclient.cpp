@@ -88,6 +88,7 @@ void TabClient::on_tableView_activated(const QModelIndex &index)
 
             // Refresh tableView
             model->selectRow(index.row());
+            emit(changeStatus("Client modifié"));
         }
         else
         {
@@ -95,6 +96,7 @@ void TabClient::on_tableView_activated(const QModelIndex &index)
             model->submitAll(); // Push modification to the database
             model->select(); // Refresh entries
             addModifAndRemoveOption();
+            emit(changeStatus("Client supprimé"));
         }
     }
 }

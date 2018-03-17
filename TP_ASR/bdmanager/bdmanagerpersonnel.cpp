@@ -49,61 +49,56 @@ void BDManagerPersonnel::removePersonnel(int idPersonnel)
 
 QList<Personnel *> BDManagerPersonnel::selectAllPersonnel()
 {
-    model = new QSqlQueryModel();
     query->exec("SELECT * FROM TRessource");
-    model->setQuery(*query);
 
-    return convertSqlToPersonnel(model);
+    return convertSqlToPersonnel(query);
 }
 
 QList<Personnel *> BDManagerPersonnel::selectPersonnelSpecificType(int idType)
 {
-    model = new QSqlQueryModel();
     query->prepare("SELECT * FROM TRessource WHERE idType = :idType");
     query->bindValue(":idType", idType);
     query->exec();
-    model->setQuery(*query);
 
-    return convertSqlToPersonnel(model);
+    return convertSqlToPersonnel(query);
 }
 
 Personnel * BDManagerPersonnel::selectPersonnelSpecificId(int idPersonnel)
 {
-    model = new QSqlQueryModel();
+    QSqlQuery * query = new QSqlQuery(*db); // Local variable because query is already used.
+
     query->prepare("SELECT * FROM TRessource WHERE id = :idPersonnel");
     query->bindValue(":idPersonnel", idPersonnel);
     query->exec();
-    model->setQuery(*query);
 
-    return convertSqlToPersonnel(model).at(0);
+    return convertSqlToPersonnel(query).at(0);
 }
 
 QList<Personnel *> BDManagerPersonnel::selectPersonnelSpecificClient(int idClient)
 {
     QList<Personnel *> listPersonnel;
 
-    QSqlQueryModel * model = new QSqlQueryModel();
     query->prepare("SELECT * FROM TRdv WHERE idClient = :idClient");
     query->bindValue(":idClient", idClient);
     query->exec();
-    model->setQuery(*query);
 
-    for (int i = 0; i < model->rowCount(); ++i)
-        listPersonnel.push_back(selectPersonnelSpecificId(model->record(i).value(2).toInt())); // Add each Personnel object to the QList for a specific client
+    while (query->next())
+        listPersonnel.push_back(selectPersonnelSpecificId(query->record().value(2).toInt())); // Add each Personnel object to the QList for a specific client
 
     return listPersonnel;
 }
 
-QList<Personnel *> BDManagerPersonnel::convertSqlToPersonnel(QSqlQueryModel * model)
+QList<Personnel *> BDManagerPersonnel::convertSqlToPersonnel(QSqlQuery * query)
 {
     QList<Personnel *> listPersonnel;
 
-    for (int i = 0; i < model->rowCount(); ++i) // For line of the query result
+    while (query->next())
     {
         Personnel * personnel = new Personnel();
-        personnel->convertRecordToPersonnel(model->record(i));
+        personnel->convertRecordToPersonnel(query->record());
         listPersonnel.push_back(personnel);
     }
+
     return listPersonnel;
 }
 
@@ -126,12 +121,14 @@ QSqlQueryModel * BDManagerPersonnel::selectAllType()
 
 QString BDManagerPersonnel::selectTypeSpecificId(int id)
 {
-    model = new QSqlQueryModel();
     query->prepare("SELECT label FROM TType WHERE id = :id");
     query->bindValue(":id", id);
     query->exec();
-    model->setQuery(*query);
-    return model->record(0).value(0).toString();
+
+    if (!query->next())
+        return NULL;
+    else
+        return query->record().value(0).toString();
 }
 
 void BDManagerPersonnel::addCompte(Compte * compte)
@@ -158,31 +155,26 @@ void BDManagerPersonnel::removeCompte(int idPersonnel)
 Compte * BDManagerPersonnel::selectCompteSpecificIdPersonnel(int idPersonnel)
 {
     Compte * compte = new Compte();
-    model = new QSqlQueryModel();
+
     query->prepare("SELECT * FROM TCompte WHERE idRessource = :idPersonnel");
     query->bindValue(":idPersonnel", idPersonnel);
     query->exec();
-    model->setQuery(*query);
 
-    compte->convertRecordToCompte(model->record(0));
+    query->next();
+
+    compte->convertRecordToCompte(query->record());
     return compte;
 }
 
-QList<Compte *> BDManagerPersonnel::selectAllCompte()
+bool BDManagerPersonnel::verifyConnection(QString login, QString password)
 {
-    QList<Compte *> listAllCompte;
-
-    QSqlQueryModel * model = new QSqlQueryModel();
-    query->prepare("SELECT * FROM TCompte");
+    query->prepare("SELECT * FROM TCompte WHERE Login LIKE :login AND mdp LIKE :password");
+    query->bindValue(":login", login);
+    query->bindValue(":password", password);
     query->exec();
-    model->setQuery(*query);
 
-    for (int i = 0; i < model->rowCount(); ++i)
-    {
-        Compte * compte = new Compte();
-        compte->convertRecordToCompte(model->record(i));
-        listAllCompte.push_back(compte);
-    }
-
-    return listAllCompte;
+    if (query->next())
+        return true;
+    else
+        return false;
 }

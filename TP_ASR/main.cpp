@@ -8,19 +8,19 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    C_INIT_BD::Creation_BD();
+    //C_INIT_BD::Creation_BD();
     BDManager::getInstance();
 
     MainWindow w;
 
     // Authentification
-    DialogConnexion dlgConnexion;
+    /*DialogConnexion dlgConnexion;
     int dialogCode = dlgConnexion.exec();
 
     if (dialogCode == QDialog::Accepted)
         w.show();
     else
-        return 0;
+        return 0;*/
 
     w.show();
 

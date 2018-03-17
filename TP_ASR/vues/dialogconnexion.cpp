@@ -17,29 +17,10 @@ DialogConnexion::~DialogConnexion()
     delete bdManagerPersonnel;
 }
 
-// Vérification du login et de mot de passe
-bool DialogConnexion::verifyConnexion(QString qsLogin, QString qsMotdepasse)
-{
-    QList<Compte* > listAllCompte = bdManagerPersonnel->selectAllCompte();
-    bool result = false;
-
-    for (int indexList = 0; indexList < listAllCompte.size(); indexList++) // For each element of the list
-    {
-        if (qsLogin.compare(listAllCompte.at(indexList)->getLogin()) == 0 && qsMotdepasse.compare(listAllCompte.at(indexList)->getMotdepasse()) == 0)
-        {
-            result = true;
-        }
-    }
-
-    qDeleteAll(listAllCompte);
-
-    return result;
-}
-
 // Vérification du login et du mot de passe
 void DialogConnexion::on_btnConnecter_clicked()
 {
-    if (verifyConnexion(ui->leLogin->text(), ui->leMotdepasse->text()))
+    if (bdManagerPersonnel->verifyConnection(ui->leLogin->text(), ui->leMotdepasse->text()))
     {
         accept();
     }

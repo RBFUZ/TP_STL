@@ -133,6 +133,8 @@ void DialogClient::clientIsValid()
         for (int i = 0; i < ui->lwRessources->count(); ++i)
             if (ui->lwRessources->item(i)->checkState())
                 bdManagerPlanification->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(i)->getId()));
+
+        emit(changeStatus("Client ajouté"));
     }
     else
     {
@@ -144,7 +146,7 @@ void DialogClient::clientIsValid()
         {
             if (ui->lwRessources->item(i)->checkState()) // Checked
             {
-                for (int j = 0; j < listSpecificPersonnel.size(); j++) // Make difference between own list and item checked.
+                for (int j = 0; j < listSpecificPersonnel.size(); ++j) // Make difference between own list and item checked.
                     if (*(listSpecificPersonnel.at(j)) == *(listAllPersonnel.at(i)))
                         newRdv = false;
 
@@ -155,7 +157,7 @@ void DialogClient::clientIsValid()
             }
             else
             {
-                for (int j = 0; j < listSpecificPersonnel.size(); j++) // Make difference between own list and item checked.
+                for (int j = 0; j < listSpecificPersonnel.size(); ++j) // Make difference between own list and item checked.
                     if (*(listSpecificPersonnel.at(j)) == *(listAllPersonnel.at(i)))
                         removeRdv = true;
 

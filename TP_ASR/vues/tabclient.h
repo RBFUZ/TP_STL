@@ -29,6 +29,9 @@ private:
 
     void addModifAndRemoveOption();
     void setPropertyTableView();
+
+signals:
+    void changeStatus(QString message);
 };
 
 #endif // TABCLIENT_H

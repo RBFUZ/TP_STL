@@ -34,6 +34,9 @@ private:
     BDManagerPersonnel * bdManagerPersonnel;
     BDManagerPlanification * bdManagerPlanification;
     QMap<QString, QList<Personnel *>> mapPersonnel;
+
+signals:
+    void changeStatus(QString message);
 };
 
 #endif // TABPERSONNEL_H

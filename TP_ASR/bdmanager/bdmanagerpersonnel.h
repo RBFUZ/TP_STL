@@ -21,7 +21,7 @@ public:
     QList<Personnel *> selectPersonnelSpecificType(int idType);
     Personnel * selectPersonnelSpecificId(int idPersonnel);
     QList<Personnel *> selectPersonnelSpecificClient(int idClient);
-    QList<Personnel *> convertSqlToPersonnel(QSqlQueryModel *model);
+    QList<Personnel *> convertSqlToPersonnel(QSqlQuery *model);
     bool isInformaticien(int idPersonnel);
 
     QSqlQueryModel * selectAllType();
@@ -30,7 +30,7 @@ public:
     void addCompte(Compte * compte);
     void removeCompte(int idPersonnel);
     Compte * selectCompteSpecificIdPersonnel(int idPersonnel);
-    QList<Compte *> selectAllCompte();
+    bool verifyConnection(QString login, QString password);
 
 private:
     static QSqlDatabase * db;

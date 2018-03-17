@@ -27,6 +27,10 @@ DialogPersonnel::DialogPersonnel(QWidget *parent) :
 DialogPersonnel::~DialogPersonnel()
 {
     delete ui;
+
+    delete bdManagerPersonnel;
+    delete personnel;
+
 }
 
 void DialogPersonnel::initType()
@@ -102,7 +106,7 @@ void DialogPersonnel::on_cbType_activated(const QString &arg1)
 
 void DialogPersonnel::personnelIsValid()
 {
-    int idPersonnel = this->personnel->getId();
+    int idPersonnel;
 
     if (create)
         this->personnel = new Personnel();
@@ -112,9 +116,15 @@ void DialogPersonnel::personnelIsValid()
     this->personnel->setIdType(ui->cbType->currentIndex() + 1);
 
     if (create)
+    {
         idPersonnel = bdManagerPersonnel->addPersonnel(personnel); // Add personnel to the database. Return the lastInsertId.
+        emit(changeStatus("Personnel ajouté"));
+    }
     else
+    {
         bdManagerPersonnel->modifyPersonnel(personnel); // Modify personnel to the database
+        idPersonnel = this->personnel->getId();
+    }
 
     if (bdManagerPersonnel->isInformaticien(personnel->getId())) // Need to remove the account link the the personnel if he changes of Type.
         bdManagerPersonnel->removeCompte(personnel->getId()); // Remove account thanks to the personnel id.
