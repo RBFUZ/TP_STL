@@ -24,6 +24,7 @@ private slots:
 
 private:
     Ui::TabClient *ui;
+
     BDManagerClient * bdManagerClient;
     QSqlTableModel * model;
 

@@ -21,6 +21,7 @@ public:
     explicit TabPersonnel(QWidget *parent = 0);
     ~TabPersonnel();
     void initPersonnel();
+    void freeOldTree();
 
 private slots:
     void on_treeView_clicked(const QModelIndex &index);
@@ -31,9 +32,12 @@ private slots:
 
 private:
     Ui::TabPersonnel *ui;
+
     BDManagerPersonnel * bdManagerPersonnel;
     BDManagerPlanification * bdManagerPlanification;
     QMap<QString, QList<Personnel *>> mapPersonnel;
+
+    QStandardItemModel * allItem;
 
 signals:
     void changeStatus(QString message);

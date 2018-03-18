@@ -47,10 +47,10 @@ void DialogClient::initRessources()
     listAllPersonnel = bdManagerPersonnel->selectAllPersonnel();
 
     QListWidgetItem * pItem = 0;
-    for (int i = 0; i < listAllPersonnel.size(); ++i)
+    for (int boucle = 0; boucle < listAllPersonnel.size(); ++boucle)
     {
-        ui->lwRessources->addItem(listAllPersonnel.at(i)->getNom());
-        pItem = ui->lwRessources->item(i);
+        ui->lwRessources->addItem(listAllPersonnel.at(boucle)->getNom());
+        pItem = ui->lwRessources->item(boucle);
         pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
         pItem->setCheckState(Qt::Unchecked);
     }
@@ -86,9 +86,9 @@ void DialogClient::on_btnOk_clicked()
         leacceptable=false;
     }else ui->leTel->setStyleSheet("");
 
-    for(int i=0;i<ui->lwRessources->count(); ++i)
+    for(int boucle=0;boucle<ui->lwRessources->count(); ++boucle)
     {
-        QListWidgetItem* item = ui->lwRessources->item(i);
+        QListWidgetItem* item = ui->lwRessources->item(boucle);
         if (item->checkState()==2)//TODO : constante check state true for checked ressources
             lwCompleted=true;
     }
@@ -130,9 +130,9 @@ void DialogClient::clientIsValid()
         idClientAdded = bdManagerClient->addClient(client); // Add the client to the database
 
         // Create each RDV. Depend on personnel selected
-        for (int i = 0; i < ui->lwRessources->count(); ++i)
-            if (ui->lwRessources->item(i)->checkState())
-                bdManagerPlanification->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(i)->getId()));
+        for (int boucle = 0; boucle < ui->lwRessources->count(); ++boucle)
+            if (ui->lwRessources->item(boucle)->checkState())
+                bdManagerPlanification->createRdv(new Rdv(idClientAdded, listAllPersonnel.at(boucle)->getId()));
 
         emit(changeStatus("Client ajouté"));
     }
@@ -142,28 +142,28 @@ void DialogClient::clientIsValid()
 
         listSpecificPersonnel = bdManagerPersonnel->selectPersonnelSpecificClient(client->getId()); // All personnel linked to the client (old version)
 
-        for (int i = 0; i < ui->lwRessources->count(); ++i)
+        for (int numRowRessource = 0; numRowRessource < ui->lwRessources->count(); ++numRowRessource)
         {
-            if (ui->lwRessources->item(i)->checkState()) // Checked
+            if (ui->lwRessources->item(numRowRessource)->checkState()) // Checked
             {
-                for (int j = 0; j < listSpecificPersonnel.size(); ++j) // Make difference between own list and item checked.
-                    if (*(listSpecificPersonnel.at(j)) == *(listAllPersonnel.at(i)))
+                for (int indexList = 0; indexList < listSpecificPersonnel.size(); ++indexList) // Make difference between own list and item checked.
+                    if (*(listSpecificPersonnel.at(indexList)) == *(listAllPersonnel.at(numRowRessource)))
                         newRdv = false;
 
                 if (newRdv)
-                    bdManagerPlanification->createRdv(new Rdv(client->getId(), listAllPersonnel.at(i)->getId())); // new item checked so add rdv
+                    bdManagerPlanification->createRdv(new Rdv(client->getId(), listAllPersonnel.at(numRowRessource)->getId())); // new item checked so add rdv
 
                 newRdv = true;
             }
             else
             {
-                for (int j = 0; j < listSpecificPersonnel.size(); ++j) // Make difference between own list and item checked.
-                    if (*(listSpecificPersonnel.at(j)) == *(listAllPersonnel.at(i)))
+                for (int indexList = 0; indexList < listSpecificPersonnel.size(); ++indexList) // Make difference between own list and item checked.
+                    if (*(listSpecificPersonnel.at(indexList)) == *(listAllPersonnel.at(numRowRessource)))
                         removeRdv = true;
 
                 if (removeRdv)
                 {
-                    bdManagerPlanification->removeRdv(client, listAllPersonnel.at(i)); // Item unchecked so remove rdv
+                    bdManagerPlanification->removeRdv(client, listAllPersonnel.at(numRowRessource)); // Item unchecked so remove rdv
                     removeRdv = false;
                 }
             }

@@ -36,6 +36,7 @@ private:
     Personnel * personnel;
 
     bool create;
+    QSqlQueryModel * model;
 
     void initType();
     void personnelIsValid();

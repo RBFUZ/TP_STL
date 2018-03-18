@@ -11,11 +11,11 @@ TabClient::TabClient(QWidget *parent) :
     // Init BD connexion
     bdManagerClient = new BDManagerClient();
 
-    model = nullptr;
-
     //Init Date
     ui->deRendezvousDebut->setMinimumDate(QDate::currentDate());
     ui->deRendezvousFin->setMinimumDate(QDate::currentDate().addDays(1));
+
+    model = NULL;
 
     // Fill TableView (client)
     initClient();
@@ -24,10 +24,15 @@ TabClient::TabClient(QWidget *parent) :
 TabClient::~TabClient()
 {
     delete ui;
+    delete bdManagerClient;
+    delete model;
 }
 
 void TabClient::on_btnRechercherclient_clicked()
 {
+    if (model != NULL)
+        delete model; // Free old model
+
     model = bdManagerClient->searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
     setPropertyTableView();
     addModifAndRemoveOption();
@@ -55,10 +60,10 @@ void TabClient::addModifAndRemoveOption()
     model->setHeaderData(12, Qt::Horizontal, QObject::tr("Suppression"));
 
     // Add labels for each rows
-    for (int i = 0; i < model->rowCount(); i++)
+    for (int indexRow = 0; indexRow < model->rowCount(); indexRow++)
     {
-        ui->tableView->setIndexWidget(model->index(i,11), new QLabel("<font color='red'>Modifier</font>")); // Add label to the cell modification
-        ui->tableView->setIndexWidget(model->index(i,12), new QLabel("<font color='red'>Supprimer</font>")); // Add label to the cell suppression
+        ui->tableView->setIndexWidget(model->index(indexRow,11), new QLabel("<font color='red'>Modifier</font>")); // Add label to the cell modification
+        ui->tableView->setIndexWidget(model->index(indexRow,12), new QLabel("<font color='red'>Supprimer</font>")); // Add label to the cell suppression
     }
 }
 
@@ -89,6 +94,8 @@ void TabClient::on_tableView_activated(const QModelIndex &index)
             // Refresh tableView
             model->selectRow(index.row());
             emit(changeStatus("Client modifié"));
+
+            delete client;
         }
         else
         {
@@ -103,6 +110,9 @@ void TabClient::on_tableView_activated(const QModelIndex &index)
 
 void TabClient::initClient()
 {
+    if (model != NULL)
+        delete model; // Free old model
+
     model = bdManagerClient->selectAllClient();
     setPropertyTableView();
     addModifAndRemoveOption();

@@ -1,5 +1,4 @@
 #include "client.h"
-#include "c_init_bd.h"
 
 Client::Client()
 {
@@ -45,10 +44,6 @@ int Client::formatCp(QString cp){
     else
         return 0;
 }//Return 0 if invalid conversion or more/less than 5 number
-
-Client::~Client()
-{
-}
 
 void Client::display(){
     qDebug()<<"New client created :"

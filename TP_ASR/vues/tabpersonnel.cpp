@@ -10,6 +10,8 @@ TabPersonnel::TabPersonnel(QWidget *parent) :
     bdManagerPersonnel = new BDManagerPersonnel();
     bdManagerPlanification = new BDManagerPlanification();
 
+    allItem = NULL;
+
     // Fill TreeView (personnel)
     initPersonnel();
 }
@@ -17,6 +19,10 @@ TabPersonnel::TabPersonnel(QWidget *parent) :
 TabPersonnel::~TabPersonnel()
 {
     delete ui;
+    delete bdManagerPersonnel;
+    delete bdManagerPlanification;
+
+    freeOldTree();
 }
 
 void TabPersonnel::initPersonnel()
@@ -24,7 +30,9 @@ void TabPersonnel::initPersonnel()
     QSqlQueryModel * listType = bdManagerPersonnel->selectAllType();
     QList<Personnel *> listPersonnel;
 
-    QStandardItemModel * allItem = new QStandardItemModel(listType->rowCount(), 1); //  Contains all items
+    freeOldTree();
+
+    allItem = new QStandardItemModel(listType->rowCount(), 1); //  Contains all items
 
     for (int nodeNumber = 0; nodeNumber < listType->rowCount(); ++nodeNumber) // Iteration on each node
     {
@@ -45,6 +53,14 @@ void TabPersonnel::initPersonnel()
     ui->treeView->show();
     ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Disable edit mode
     allItem->setHeaderData(0, Qt::Horizontal, "", Qt::DisplayRole); // Set empty title to the column because print "1" by default
+
+    delete listType;
+}
+
+void TabPersonnel::freeOldTree()
+{
+    if (allItem != NULL)
+        delete allItem; // Old tree view
 }
 
 void TabPersonnel::on_treeView_clicked(const QModelIndex &index)
@@ -73,6 +89,7 @@ void TabPersonnel::on_btnModifier_clicked()
     dialogPersonnel.exec();
 
     initPersonnel();
+    delete model;
     emit(changeStatus("Personnel modifié"));
 }
 
@@ -92,5 +109,6 @@ void TabPersonnel::on_btnSupprimer_clicked()
     bdManagerPlanification->removeRdv(idPersonnel);
 
     initPersonnel();
+    delete model;
     emit(changeStatus("Personnel supprimé"));
 }

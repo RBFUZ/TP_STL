@@ -30,12 +30,13 @@ DialogPersonnel::~DialogPersonnel()
 
     delete bdManagerPersonnel;
     delete personnel;
+    delete model;
 
 }
 
 void DialogPersonnel::initType()
 {
-    QSqlQueryModel * model = bdManagerPersonnel->selectAllType();
+    model = bdManagerPersonnel->selectAllType();
     model->removeColumn(0); // Remove id column. Just keep label column for printing
     ui->cbType->setModel(model);
     ui->cbType->show();
@@ -137,7 +138,10 @@ void DialogPersonnel::personnelIsValid()
                     ui->leLogin->text(),
                     ui->leMotdepasse->text()
         );
-            bdManagerPersonnel->addCompte(compte); // Add compte to the database
+
+        bdManagerPersonnel->addCompte(compte); // Add compte to the database
+
+        delete compte;
     }
 }
 
@@ -160,5 +164,7 @@ void DialogPersonnel::setPersonnel(Personnel * personnel)
 
         ui->leLogin->setText(compte->getLogin());
         ui->leMotdepasse->setText(compte->getMotdepasse());
+
+        delete compte;
     }
 }

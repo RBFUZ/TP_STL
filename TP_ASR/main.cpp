@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    //C_INIT_BD::Creation_BD();
+    C_INIT_BD::Creation_BD();
     BDManager::getInstance();
 
     MainWindow w;
