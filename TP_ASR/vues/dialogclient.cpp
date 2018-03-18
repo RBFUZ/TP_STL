@@ -19,6 +19,13 @@ DialogClient::DialogClient(QWidget *parent) :
     // Set dialog to creation mode
     create = true;
 
+    // Set validator to CP
+    ui->leCp->setValidator(new QIntValidator(0,99999));
+
+    // Set validator to Tel
+    QRegExp regx("[1-9]\\d{0,9}");
+    ui->leTel->setValidator(new QRegExpValidator(regx, NULL));
+
     //Init Date
     ui->deJourRdv->setMinimumDate(QDate::currentDate());
 
@@ -76,12 +83,12 @@ void DialogClient::on_btnOk_clicked()
         };
     }
 
-    if (!ui->leCp->hasAcceptableInput()){
+    if (ui->leCp->text().size() != 5){
         ui->leCp->setStyleSheet(ssRedBorder);
         leacceptable=false;
     }else ui->leCp->setStyleSheet("");
 
-    if (!(ui->leTel->text().isEmpty())&&!(ui->leTel->hasAcceptableInput())){
+    if (!(ui->leTel->text().isEmpty())&&(ui->leTel->text().size() != 10)){
         ui->leTel->setStyleSheet(ssRedBorder);
         leacceptable=false;
     }else ui->leTel->setStyleSheet("");
