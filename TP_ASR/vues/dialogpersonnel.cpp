@@ -16,6 +16,9 @@ DialogPersonnel::DialogPersonnel(QWidget *parent) :
     // Set dialog to creation mode
     create = true;
 
+    personnel = NULL;
+    model = NULL;
+
     // Recover label of TType table
     initType();
 
@@ -29,9 +32,8 @@ DialogPersonnel::~DialogPersonnel()
     delete ui;
 
     delete bdManagerPersonnel;
-    delete personnel;
     delete model;
-
+    delete personnel;
 }
 
 void DialogPersonnel::initType()
@@ -167,4 +169,9 @@ void DialogPersonnel::setPersonnel(Personnel * personnel)
 
         delete compte;
     }
+}
+
+void DialogPersonnel::on_btnAnnuler_clicked()
+{
+    reject();
 }

@@ -35,6 +35,8 @@ public:
 private slots:
     void on_btnOk_clicked();
 
+    void on_btnAnnuler_clicked();
+
 private:
     Ui::DialogClient *ui;
 

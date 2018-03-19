@@ -28,6 +28,8 @@ private slots:
     void on_btnOk_clicked();
     void on_cbType_activated(const QString &arg1);
 
+    void on_btnAnnuler_clicked();
+
 private:
     Ui::DialogPersonnel *ui;
 

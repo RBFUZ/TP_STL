@@ -202,3 +202,8 @@ void DialogClient::setClient(Client * client)
             if (listAllPersonnel.at(loopAll)->getId() == listSpecificPersonnel.at(loopSpecific)->getId())
                 ui->lwRessources->item(loopAll)->setCheckState(Qt::Checked);
 }
+
+void DialogClient::on_btnAnnuler_clicked()
+{
+    reject();
+}
