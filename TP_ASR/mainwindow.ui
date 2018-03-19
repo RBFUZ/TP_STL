@@ -81,7 +81,7 @@
      <x>0</x>
      <y>0</y>
      <width>730</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -169,13 +169,13 @@
   <customwidget>
    <class>TabClient</class>
    <extends>QWidget</extends>
-   <header>tabclient.h</header>
+   <header>vues/tabclient.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>TabPersonnel</class>
    <extends>QWidget</extends>
-   <header>tabpersonnel.h</header>
+   <header>vues/tabpersonnel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

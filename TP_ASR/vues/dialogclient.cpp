@@ -23,7 +23,7 @@ DialogClient::DialogClient(QWidget *parent) :
     ui->leCp->setValidator(new QIntValidator(0,99999));
 
     // Set validator to Tel
-    QRegExp regx("[1-9]\\d{0,9}");
+    QRegExp regx("0[1-9]\\d{8}");
     ui->leTel->setValidator(new QRegExpValidator(regx, NULL));
 
     //Init Date
@@ -88,7 +88,7 @@ void DialogClient::on_btnOk_clicked()
         leacceptable=false;
     }else ui->leCp->setStyleSheet("");
 
-    if (!(ui->leTel->text().isEmpty())&&(ui->leTel->text().size() != 10)){
+    if (!(ui->leTel->text().isEmpty())&&!(ui->leTel->hasAcceptableInput())){
         ui->leTel->setStyleSheet(ssRedBorder);
         leacceptable=false;
     }else ui->leTel->setStyleSheet("");
@@ -186,7 +186,11 @@ void DialogClient::setClient(Client * client)
     ui->leVille->setText(client->getVille());
     ui->leCp->setText(QString::number(client->getCp()));
     ui->teCommentaires->setText(client->getCommentaires());
-    ui->leTel->setText(QString::number(client->getnumTel()));
+
+    if (client->getnumTel()!=0){
+        ui->leTel->setText("0"+QString::number(client->getnumTel()));
+    }
+
     ui->deJourRdv->setDate(client->getJourPassage());
     ui->sbDuree->setValue(client->getDureeEstime());
     ui->sbPriorite->setValue(client->getPriorite());

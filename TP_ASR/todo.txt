@@ -17,3 +17,8 @@ POUR REMY :
 - Eclater le BDManager en plusieurs classes
 - Mettre à jour l'affichage quand ajout d'un client ou d'un personnel
 - Revoir la connexion avec la BD. Singleton ou fermer les connexions après chaque requete
+
+
+
+
+SEGFAULT SI ON FERME LA FENETRE AJOUT RESSOURCE SANS RIEN SAISIR DEDANS !
