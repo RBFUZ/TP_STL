@@ -3,6 +3,8 @@
 #include "dialogclient.h"
 #include "dialogpersonnel.h"
 #include "dialogapropos.h"
+#include "vues/tabclient.h"
+#include "vues/tabpersonnel.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

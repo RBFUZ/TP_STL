@@ -14,7 +14,7 @@ DialogClient::DialogClient(QWidget *parent) :
     bdManagerPersonnel = new BDManagerPersonnel();
     bdManagerPlanification = new BDManagerPlanification();
 
-    client = nullptr;
+    client = NULL;
 
     // Set dialog to creation mode
     create = true;
