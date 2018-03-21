@@ -49,8 +49,8 @@ HEADERS += \
     vues/dialogclient.h \
     vues/dialogpersonnel.h \
     vues/dialogapropos.h \
-    vues/tabclient.h \
-    vues/tabpersonnel.h \
+    tabclient.h \
+    tabpersonnel.h \
     modeles/client.h \
     modeles/type.h \
     modeles/rdv.h \

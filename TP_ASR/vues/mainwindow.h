@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 #include <QMap>
-#include "vues/tabclient.h"
-#include "vues/tabpersonnel.h"
+#include "tabclient.h"
+#include "tabpersonnel.h"
 
 namespace Ui {
 class MainWindow;

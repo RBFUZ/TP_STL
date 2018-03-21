@@ -51,13 +51,13 @@ DialogClient::~DialogClient()
 
 void DialogClient::initRessources()
 {
-    listAllPersonnel = bdManagerPersonnel->selectAllPersonnel();
+    listAllPersonnel = bdManagerPersonnel->selectAllPersonnel(); // Get all personnel
 
     QListWidgetItem * pItem = 0;
-    for (int boucle = 0; boucle < listAllPersonnel.size(); ++boucle)
+    for (int boucle = 0; boucle < listAllPersonnel.size(); ++boucle) // For each personnel
     {
         ui->lwRessources->addItem(listAllPersonnel.at(boucle)->getNom());
-        pItem = ui->lwRessources->item(boucle);
+        pItem = ui->lwRessources->item(boucle); // Add the personnel name to the box
         pItem->setFlags(pItem->flags() | Qt::ItemIsUserCheckable);
         pItem->setCheckState(Qt::Unchecked);
     }
@@ -201,6 +201,7 @@ void DialogClient::setClient(Client * client)
     // Check personnel checkbox associated to the client
     listSpecificPersonnel = bdManagerPersonnel->selectPersonnelSpecificClient(this->client->getId());
 
+    // Check ressources linked to the client
     for (int loopSpecific = 0; loopSpecific < listSpecificPersonnel.size(); ++loopSpecific)
         for (int loopAll = 0; loopAll < listAllPersonnel.size(); ++loopAll)
             if (listAllPersonnel.at(loopAll)->getId() == listSpecificPersonnel.at(loopSpecific)->getId())

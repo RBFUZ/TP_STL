@@ -3,8 +3,6 @@
 #include "dialogclient.h"
 #include "dialogpersonnel.h"
 #include "dialogapropos.h"
-#include "vues/tabclient.h"
-#include "vues/tabpersonnel.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,7 +38,7 @@ void MainWindow::on_actionClient_triggered()
     DialogClient * dlgClient = new DialogClient();
     connect(dlgClient, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); // For status bar
     dlgClient->exec();
-    ui->tabClient->initClient();
+    ui->tabClient->initClient(); // Refresh the view to display new information
 
     delete dlgClient;
 }
@@ -50,7 +48,7 @@ void MainWindow::on_actionPersonnel_triggered()
     DialogPersonnel * dlgPersonnel = new DialogPersonnel();
     connect(dlgPersonnel, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); // For status bar
     dlgPersonnel->exec();
-    ui->tabPersonnel->initPersonnel();
+    ui->tabPersonnel->initPersonnel(); // Refresh the view to display new information
 
     delete dlgPersonnel;
 }

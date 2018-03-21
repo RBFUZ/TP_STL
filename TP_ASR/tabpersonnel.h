@@ -35,7 +35,7 @@ private:
 
     BDManagerPersonnel * bdManagerPersonnel;
     BDManagerPlanification * bdManagerPlanification;
-    QMap<QString, QList<Personnel *>> mapPersonnel;
+    QMap<QString, QList<Personnel *> > mapPersonnel;
 
     QStandardItemModel * allItem;
 
