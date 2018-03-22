@@ -45,8 +45,6 @@ DialogClient::~DialogClient()
     // Delete List
     qDeleteAll(listAllPersonnel);
     qDeleteAll(listSpecificPersonnel);
-
-    delete client;
 }
 
 void DialogClient::initRessources()
