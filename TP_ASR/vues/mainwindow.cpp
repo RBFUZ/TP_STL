@@ -58,3 +58,13 @@ void MainWindow::setStatus(QString message)
 {
     ui->statusBar->showMessage(message);
 }
+
+void MainWindow::on_actionDivers_triggered()
+{
+    DialogClient * dlgClient = new DialogClient();
+    connect(dlgClient, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); // For status bar
+    dlgClient->exec();
+    ui->tabClient->initClient(); // Refresh the view to display new information
+
+    delete dlgClient;
+}

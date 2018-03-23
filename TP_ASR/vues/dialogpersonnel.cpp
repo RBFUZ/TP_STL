@@ -121,7 +121,7 @@ void DialogPersonnel::personnelIsValid()
     if (create)
     {
         idPersonnel = bdManagerPersonnel->addPersonnel(personnel); // Add personnel to the database. Return the lastInsertId.
-        emit(changeStatus("Personnel ajouté"));
+        emit(changeStatus("Ajout de personne terminé"));
     }
     else
     {

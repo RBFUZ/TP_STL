@@ -32,6 +32,8 @@ void DialogConnexion::on_btnConnecter_clicked()
         mbIncorrectLogin.exec();
         ui->leMotdepasse->clear();
     }
+
+    accept();
 }
 
 // Femeture de l'application quand clique sur annuler

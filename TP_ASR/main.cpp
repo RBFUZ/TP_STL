@@ -22,14 +22,21 @@ int main(int argc, char *argv[])
 
     w.show();
 
-    QMultiMap<int, string> myMap = new QMultiMap<int,string>();
-    myMap.insert(1, "titi");
-    myMap.insert(4, "toto");
-    myMap.insert(3, "tutu");
-    myMap.insert(4, "tata");
+    multimap<int, string> myMap ;
+    myMap.insert(pair<int, string> (1, "titi"));
+    myMap.insert(pair<int, string> (4, "toto"));
+    myMap.insert(pair<int, string> (3, "tutu"));
+    myMap.insert(pair<int, string> (4, "tata"));
 
-    myMap.remove(3);
-    myMap.insert(0, "tete");
+    for (multimap<int,string>::iterator it=myMap.begin(); it!=myMap.end(); ++it)
+       if ( (*it).first == 3)
+           myMap.erase(it);
+
+    myMap.insert(pair<int,string> (0, "tete"));
+
+
+     for (multimap<int,string>::iterator it=myMap.begin(); it!=myMap.end(); ++it)
+        std::cout << (*it).first << " => " << (*it).second << '\n';
 
     return a.exec();
 }
