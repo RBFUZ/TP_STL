@@ -19,6 +19,8 @@ int BDManagerPersonnel::addPersonnel(Personnel * personnel)
 
     query->exec();
 
+    BDManager::COUNTER_INSERT++;
+
     return query->lastInsertId().toInt();
 }
 
@@ -141,6 +143,8 @@ void BDManagerPersonnel::addCompte(Compte * compte)
     query->bindValue(":mdp", compte->getMotdepasse());
 
     query->exec();
+
+    BDManager::COUNTER_INSERT++;
 }
 
 void BDManagerPersonnel::removeCompte(int idPersonnel)

@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    BDManager::close();
     delete ui;
 }
 

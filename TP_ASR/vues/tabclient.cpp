@@ -1,6 +1,7 @@
 #include "tabclient.h"
 #include "ui_tabclient.h"
 #include "vues/dialogclient.h"
+#include <QSortFilterProxyModel>
 
 TabClient::TabClient(QWidget *parent) :
     QWidget(parent),
@@ -14,6 +15,8 @@ TabClient::TabClient(QWidget *parent) :
     //Init Date
     ui->deRendezvousDebut->setMinimumDate(QDate::currentDate());
     ui->deRendezvousFin->setMinimumDate(QDate::currentDate().addDays(1));
+
+    ui->lePrenom->setPlaceholderText("son prénom");
 
     model = NULL;
 
@@ -34,6 +37,7 @@ void TabClient::on_btnRechercherclient_clicked()
         delete model; // Free old model
 
     model = bdManagerClient->searchClient(ui->leNom, ui->lePrenom, ui->leIdentifiant, ui->deRendezvousDebut, ui->deRendezvousFin);
+
     setPropertyTableView();
     addModifAndRemoveOption();
 }

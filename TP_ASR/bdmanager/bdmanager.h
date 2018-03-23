@@ -5,19 +5,20 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+#include <iostream>
 
 class BDManager
 {
 public:
     static BDManager * getInstance();
     static QSqlDatabase * getConnection();
+    static void close();
+    static int COUNTER_INSERT;
 
 private:
     BDManager();
-    ~BDManager();
 
     void open();
-    void close();
 
     static BDManager * instance;
     static QSqlDatabase * db;

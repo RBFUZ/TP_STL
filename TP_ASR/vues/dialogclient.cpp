@@ -28,6 +28,7 @@ DialogClient::DialogClient(QWidget *parent) :
 
     //Init Date
     ui->deJourRdv->setMinimumDate(QDate::currentDate());
+    ui->deJourRdv->setMaximumDate(QDate::currentDate().addDays(30));
 
     //Init Ressources
     initRessources();

@@ -17,6 +17,8 @@ int BDManagerClient::addClient(Client * client)
 
     query->exec();
 
+   BDManager::COUNTER_INSERT = BDManager::COUNTER_INSERT + 1;
+
     return query->lastInsertId().toInt();
 }
 

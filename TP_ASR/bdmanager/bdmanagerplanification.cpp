@@ -17,6 +17,8 @@ void BDManagerPlanification::createRdv(Rdv * rdv)
     query->bindValue(":idRessource", rdv->getIdPersonnel());
 
     query->exec();
+
+    BDManager::COUNTER_INSERT++;
 }
 
 void BDManagerPlanification::removeRdv(Client * client, Personnel * personnel)
