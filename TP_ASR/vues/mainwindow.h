@@ -24,8 +24,6 @@ private slots:
     void on_actionPersonnel_triggered();
     void on_actionA_propos_triggered();
 
-    void on_actionDivers_triggered();
-
 public slots:
     void setStatus(QString message);
 

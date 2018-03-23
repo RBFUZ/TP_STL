@@ -40,10 +40,21 @@ void TabClient::on_btnRechercherclient_clicked()
 
     setPropertyTableView();
     addModifAndRemoveOption();
+
 }
 
 void TabClient::setPropertyTableView()
 {
+    /*
+    QSortFilterProxyModel *m=new QSortFilterProxyModel(this);
+    m->setDynamicSortFilter(true);
+    m->setSourceModel(model);
+    ui->tableView->setModel(m);
+    ui->tableView->setSortingEnabled(false);
+    */
+    //Cette portion de code permet le tri par ordre alphabethique des client dans le zone de resultat de
+    //recherche mais pour une raison obscure cela empeche l'affichage de nos boutons de suppresion/modification
+
     ui->tableView->setModel(model);
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Not allow user to edit cell
 
@@ -58,6 +69,7 @@ void TabClient::setPropertyTableView()
 
 void TabClient::addModifAndRemoveOption()
 {
+
     // Add two columns (modification, suppression)
     model->insertColumns(11, 2);
     model->setHeaderData(11, Qt::Horizontal, QObject::tr("Modification"));

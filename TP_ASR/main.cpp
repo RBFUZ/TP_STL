@@ -12,13 +12,13 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     // Authentification
-    /*DialogConnexion dlgConnexion;
+    DialogConnexion dlgConnexion;
     int dialogCode = dlgConnexion.exec();
 
     if (dialogCode == QDialog::Accepted)
         w.show();
     else
-        return 0;*/
+        return 0;
 
     w.show();
 

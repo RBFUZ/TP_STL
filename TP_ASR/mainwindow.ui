@@ -100,7 +100,6 @@
      </property>
      <addaction name="actionClient"/>
      <addaction name="actionPersonnel"/>
-     <addaction name="actionDivers"/>
     </widget>
     <addaction name="menuAjouter"/>
     <addaction name="actionQuitter"/>
@@ -154,7 +153,7 @@
   </action>
   <action name="actionClient">
    <property name="icon">
-    <iconset>
+    <iconset resource="logo.qrc">
      <normaloff>:/myLogo/images/logo_client.jpg</normaloff>:/myLogo/images/logo_client.jpg</iconset>
    </property>
    <property name="text">
@@ -163,16 +162,11 @@
   </action>
   <action name="actionPersonnel">
    <property name="icon">
-    <iconset>
+    <iconset resource="logo.qrc">
      <normaloff>:/myLogo/images/logo_personnel.png</normaloff>:/myLogo/images/logo_personnel.png</iconset>
    </property>
    <property name="text">
     <string>Personnel</string>
-   </property>
-  </action>
-  <action name="actionDivers">
-   <property name="text">
-    <string>Divers</string>
    </property>
   </action>
  </widget>
@@ -191,6 +185,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="logo.qrc"/>
+ </resources>
  <connections/>
 </ui>
